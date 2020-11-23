@@ -1,0 +1,17 @@
+
+begin	
+
+  BlockBegin(tmpCountBlock,-,"");
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Item,M4Str,60,0);
+  ArrayField(Pos,M4Str,60,0);
+  ArrayField(SerialNr,M4Str,60,0);
+  ArrayField(Loc,M4Str,60,0);
+  ArrayField(Quant,M4Val,0,0);
+  ArrayField(SalesMan,M4Str,60,0);
+  ArrayField(TotSum,M4Val,0,0);
+  EndArray;
+  EndBlock;
+
+end;

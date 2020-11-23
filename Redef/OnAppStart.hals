@@ -1,0 +1,14 @@
+external procedure StartSWGTasks;
+
+global
+updating procedure OnApplicationStartupComplete()
+begin
+
+  inner.OnApplicationStartupComplete;
+
+  if (ServerMode or SingleUserMode) then begin
+    StartSWGTasks;
+  end;
+
+  return;
+end;

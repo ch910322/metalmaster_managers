@@ -1,0 +1,224 @@
+
+SOURCEFILE("halcust\\OBS_BankImport",3);
+
+begin
+
+  //== Maksājumu ievades
+  RecordBegin(PayInputVc,-,"");
+    RecordField(SerNr,M4Long,0,0);
+    RecordField(TransDate,M4Date,0,0);
+    RecordField(PayMode,M4Code,2,0);
+    RecordField(Sum,M4Val,0,0);
+    RecordField(OKFlag,M4Mark,0,0);
+    RecordField(Closed,M4Mark,0,0);
+    RecordField(Comment,M4Str,200,0);
+    RecordField(Math,M4Matrix,0,0);
+    ArrayBegin(Math,-,1);
+    ArrayField(Type,M4Set,15010,0);
+    ArrayField(CustCode,M4Code,20,CUVc);
+    ArrayField(InvoiceList,M4UStr,60,0);
+    ArrayField(Amount,M4Val,0,0);
+    ArrayField(Name,M4Str,100,0);
+    ArrayField(IBANCode,M4Str,64,0);
+    ArrayField(RegNr,M4Code,20,0);
+    ArrayField(Currency,M4Code,5,0);
+    ArrayField(IPNr,M4Long,0,0);
+    ArrayField(RowComment,M4Str,255,0);
+    ArrayField(PayType,M4Set,15011,0);
+    ArrayField(DCType,M4Set,15012,0);
+    ArrayField(AccNumber,M4Code,10,AccVc);
+    ArrayField(UnpayedSum,M4Val,0,0);
+    ArrayField(Objects,M4Str,60,0);
+    ArrayField(Person,M4Str,60,0);
+    EndArray;
+    MainKeyBegin(SerNr,0);
+    KeySegment(SerNr);
+    KeyBegin(TransDate);
+    KeySegment(TransDate);
+    KeySegment(SerNr);
+    KeyBegin(OKFlag);
+    KeySegment(OKFlag);
+    KeySegment(SerNr);
+    KeyBegin(Closed);
+    KeySegment(Closed);
+    KeySegment(SerNr);
+    KeyBegin(PayMode);
+    KeySegment(PayMode);
+    KeySegment(SerNr);
+    KeyBegin(Comment);
+    KeySegment(Comment);
+    KeySegment(SerNr);
+  EndRecord;
+  
+  BlockBegin(PayDataLinkBlock,-,"");
+    RecordField(Math,M4Matrix,0,0);
+    ArrayBegin(Math,-,1);
+    ArrayField(BankAcc,M4Str,30,0);
+    ArrayField(PayComment,M4Str,100,0);
+    ArrayField(AccNumber,M4Str,20,0);
+    ArrayField(Objects,M4Str,60,0);
+    ArrayField(DCType,M4Set,15013,0);
+    ArrayField(Person,M4Str,20,0);
+    ArrayField(Comment,M4Str,100,0);
+    ArrayField(TypeName,M4Str,100,0);
+    EndArray;
+  EndBlock;
+    
+  RecordBegin(PayInputLogVc,-,"");
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(BankRef,M4Code,60,0);
+  RecordField(TypeCode,M4Str,5,0);
+  RecordField(TypeName,M4Str,100,0);
+  RecordField(RegDate,M4Date,0,0);
+  RecordField(BookDate,M4Date,0,0);
+  RecordField(ValueDate,M4Date,0,0);
+  RecordField(ExtId,M4Str,10,0);
+  RecordField(BenExtId,M4Str,5,0);
+  RecordField(DocNo,M4Str,60,0);
+  RecordField(CorD,M4Str,5,0);
+  RecordField(AccAmt,M4Val,0,0);
+  RecordField(FeeAmt,M4Val,0,0);
+  RecordField(PmtInfo,M4Str,200,0);
+  RecordField(CPSAccNo,M4Str,60,0);
+  RecordField(CPSSubAccNo,M4Str,60,0);
+  RecordField(CPSAHName,M4Str,200,0);
+  RecordField(CPSAHLegalId,M4Str,20,0);
+  RecordField(CPSAHAddress,M4Str,70,0);
+  RecordField(CPSAHExtension,M4Str,255,0);
+  RecordField(CPSBankCode,M4Str,20,0);
+  RecordField(CPSBankName,M4Str,200,0);
+  RecordField(CPSCcy,M4Str,5,0);
+  RecordField(CPSAmt,M4Val,0,0);
+  RecordField(CPSCurRate,M4Val,0,0);
+  RecordField(CPSGiro,M4Str,5,0);
+  RecordField(CPSExtension,M4Str,255,0);
+  RecordField(Extension,M4Str,255,0);
+  RecordField(ImportDate,M4Date,0,0);
+  RecordField(ImportTime,M4Time,0,0);
+  RecordField(ImportUser,M4Code,10,UserVc);
+  RecordField(ImportStatus,M4Int,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(CUCode,M4Code,20,CUVc);
+  RecordField(DoneFlag,M4Mark,0,0);
+  RecordField(Ccy,M4Str,5,0);
+  RecordField(FileName,M4Str,20,0);
+  RecordField(TransNr,M4Long,0,0);
+  RecordField(AccNo,M4Str,60,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(LogDate,M4Date,0,0);
+  ArrayField(LogTime,M4Time,0,0);
+  ArrayField(LogMessage,M4Str,200,0);
+  EndArray;
+  
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  
+  KeyBegin(BankRef);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(CorD);
+  KeySegment(CorD);
+  KeySegment(RegDate);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(RegDate);
+  KeySegment(RegDate);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(CPSAHLegalId);
+  KeySegment(CPSAHLegalId);
+  KeySegment(RegDate);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(SerNr);
+  
+  KeyBegin(CPSBankCode);
+  KeySegment(CPSBankCode);
+  KeySegment(RegDate);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(TypeCodeLegalId);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(RegDate);
+  KeySegment(BankRef);
+  KeySegment(SerNr);
+  
+  KeyBegin(TypeCodeDate);
+  KeySegment(TypeCode);
+  KeySegment(RegDate);
+  KeySegment(BankRef);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(CPSCcy); // -- //
+  KeySegment(CPSCcy);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CorD);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(CUCode); // -- //
+  KeySegment(CUCode);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CorD);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(BookDate); // -- //
+  KeySegment(BookDate);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CorD);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(CPSAHName); // -- //
+  KeySegment(CPSAHName);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CorD);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(ImportDate); // -- //
+  KeySegment(ImportDate);
+  KeySegment(ImportTime);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(FileName);
+  KeySegment(FileName);
+  KeySegment(TransNr);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  
+  KeyBegin(DoneFlag);
+  KeySegment(DoneFlag);
+  KeySegment(BankRef);
+  KeySegment(TypeCode);
+  KeySegment(CPSAHLegalId);
+  KeySegment(SerNr);
+  EndRecord;
+  
+return;
+end;

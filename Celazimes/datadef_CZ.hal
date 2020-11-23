@@ -1,0 +1,388 @@
+#ifdef HAL
+
+begin
+
+//------------ Ceïazîmes ---------------------------------------------------------------------------------------------
+
+  RecordBegin(CZ1Vc,-,"cz1");//Ceïazîme
+  RecordField(SerNr,M4Long,0,0);
+  SerialNoBlock(CZ1SerBlock);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(CarNo,M4UStr,20,ObjVc);
+  RecordField(CarName,M4Str,60,0);
+  RecordField(TrailerNo,M4UStr,20,ObjVc);
+  RecordField(Driver1,M4Code,5,0);
+  RecordField(Driver1Name,M4Str,60,0);
+  RecordField(Driver2,M4Code,5,0);
+  RecordField(Driver2Name,M4Str,60,0);
+  RecordField(StartDate,M4Date,0,0);
+  RecordField(ReturnDate,M4Date,0,0);
+  RecordField(StartTime,M4Time,0,0);
+  RecordField(ReturnTime,M4Time,0,0);
+  RecordField(KmStart,M4Val,0,0);
+  RecordField(KmEnd,M4Val,0,0);
+  RecordField(KmDiff,M4Val,0,0);
+  RecordField(KmEmpty,M4Val,0,0);
+  RecordField(StartLiters,M4Val,0,0);
+  RecordField(EndLiters,M4Val,0,0);
+  RecordField(PurchLiters,M4Val,0,0);
+  RecordField(UsedLiters,M4Val,0,0);
+  RecordField(Used2Liters,M4Val,0,0);
+  RecordField(LimitLiters,M4Val,0,0);
+  RecordField(PetrolCode,M4Code,5,0);
+  RecordField(Driver1Km,M4Val,0,0);
+  RecordField(Driver1M3,M423Val,0,0);
+  RecordField(Driver1Time,M4Time,0,0);
+  RecordField(Driver2Km,M4Val,0,0);
+  RecordField(Driver2M3,M423Val,0,0);
+  RecordField(Driver2Time,M4Time,0,0);
+  RecordField(TotDistance,M4UVal,0,0);
+  RecordField(TotQuant,M423Val,0,0);
+  RecordField(Norma,M4Val,0,0);//pa pilsçtu
+  RecordField(Norma0,M4Val,0,0);//pa ðoseju
+  RecordField(Norma2,M4Val,0,0);//apsilde
+  RecordField(SezonasKoef,M4Val,0,0);
+  RecordField(Pasizmaksa,M4Val,0,0);//pasizmaksa uz 1 km
+  RecordField(AprekVeids,M4Int,0,0);//normas aprçíina veids
+  RecordField(MstStart,M4Val,0,0);
+  RecordField(MstEnd,M4Val,0,0);
+  RecordField(MstDiff,M4Val,0,0);
+  RecordField(KlPasNr,M4Long,0,0);
+  RecordField(AddLiters,M4Val,0,0);//pielietie vai nolietie degvielas litri
+  RecordField(Reiss,M4Long,0,0);
+  RecordField(Objects,M4UStr,60,ObjVc);
+  RecordField(CustCode3,M4Code,20,0);
+  RecordField(CustName3,M4Str,60,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(CustCode,M4Code,20,CUVc);
+  ArrayField(CustName,M4Str,60,0);
+  ArrayField(BeginDate,M4Date,0,0);
+  ArrayField(EndDate,M4Date,0,0);
+  ArrayField(FromPlace,M4Code,10,SourceVc);
+  ArrayField(ToPlace,M4Code,10,SourceVc);
+  ArrayField(Distance,M4UVal,0,0);
+  ArrayField(SumDistance,M4UVal,0,0);
+  ArrayField(ArtCode,M4Code,20,INVc);
+  ArrayField(Quant,M423Val,0,0);
+  ArrayField(ArtName,M4Str,60,0);
+  ArrayField(UnloadPlace,M4UStr,20,ObjVc);
+  ArrayField(RunTimes,M4UVal,0,0);
+  ArrayField(Salesman,M4Code,5,UserVc);
+  ArrayField(IVSerNr,M4Long,0,0);
+  ArrayField(ArriveTime,M4Time,0,0);
+  ArrayField(LeaveTime,M4Time,0,0);
+  ArrayField(Svars,M423Val,0,0);
+  ArrayField(Motorst,M41Val,0,0);
+  ArrayField(Driver3,M4Code,5,UserVc);
+  ArrayField(DarbaLaiks,M4Time,0,0);
+  ArrayField(RowObjects,M4UStr,60,ObjVc);
+  ArrayField(CustCode2,M4Code,20,CUVc);
+  ArrayField(CustName2,M4Str,60,0);
+  ArrayField(Stundas,M4Val,0,0);
+  ArrayField(FraktsSumma,M4Val,0,0);
+  ArrayField(Currency,M4Code,5,CurncyCodeVc);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  KeyBegin(TransDate);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(OKFlag);
+  KeySegment(OKFlag);
+  KeySegment(SerNr);
+  KeyBegin(Driver1);
+  KeySegment(Driver1);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(CarNo);
+  KeySegment(CarNo);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  KeyBegin(TrailerNo);
+  KeySegment(TrailerNo);
+  KeySegment(SerNr);
+  KeyBegin(StartDate);
+  KeySegment(StartDate);
+  KeySegment(SerNr);
+  KeyBegin(ReturnDate);
+  KeySegment(ReturnDate);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(CZ1aVc,-,"cz1a");//Ceïazîmju arhîvs
+  RecordField(SerNr,M4Long,0,0);
+  SerialNoBlock(CZ1SerBlock);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(CarNo,M4UStr,20,ObjVc);
+  RecordField(CarName,M4Str,60,0);
+  RecordField(TrailerNo,M4UStr,20,ObjVc);
+  RecordField(Driver1,M4Code,5,0);
+  RecordField(Driver1Name,M4Str,60,0);
+  RecordField(Driver2,M4Code,5,0);
+  RecordField(Driver2Name,M4Str,60,0);
+  RecordField(StartDate,M4Date,0,0);
+  RecordField(ReturnDate,M4Date,0,0);
+  RecordField(StartTime,M4Time,0,0);
+  RecordField(ReturnTime,M4Time,0,0);
+  RecordField(KmStart,M4Val,0,0);
+  RecordField(KmEnd,M4Val,0,0);
+  RecordField(KmDiff,M4Val,0,0);
+  RecordField(KmEmpty,M4Val,0,0);
+  RecordField(StartLiters,M4Val,0,0);
+  RecordField(EndLiters,M4Val,0,0);
+  RecordField(PurchLiters,M4Val,0,0);
+  RecordField(UsedLiters,M4Val,0,0);
+  RecordField(Used2Liters,M4Val,0,0);
+  RecordField(LimitLiters,M4Val,0,0);
+  RecordField(PetrolCode,M4Code,5,0);
+  RecordField(Driver1Km,M4Val,0,0);
+  RecordField(Driver1M3,M423Val,0,0);
+  RecordField(Driver1Time,M4Time,0,0);
+  RecordField(Driver2Km,M4Val,0,0);
+  RecordField(Driver2M3,M423Val,0,0);
+  RecordField(Driver2Time,M4Time,0,0);
+  RecordField(TotDistance,M4UVal,0,0);
+  RecordField(TotQuant,M423Val,0,0);
+  RecordField(Norma,M4Val,0,0);//pa pilsçtu
+  RecordField(Norma0,M4Val,0,0);//pa ðoseju
+  RecordField(Norma2,M4Val,0,0);//apsilde
+  RecordField(SezonasKoef,M4Val,0,0);
+  RecordField(Pasizmaksa,M4Val,0,0);//pasizmaksa uz 1 km
+  RecordField(AprekVeids,M4Int,0,0);//normas aprçíina veids
+  RecordField(MstStart,M4Val,0,0);
+  RecordField(MstEnd,M4Val,0,0);
+  RecordField(MstDiff,M4Val,0,0);
+  RecordField(KlPasNr,M4Long,0,0);
+  RecordField(AddLiters,M4Val,0,0);//pielietie vai nolietie degvielas litri
+  RecordField(Reiss,M4Long,0,0);
+  RecordField(Objects,M4UStr,20,ObjVc);
+  RecordField(CustCode3,M4Code,20,0);
+  RecordField(CustName3,M4Str,60,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(CustCode,M4Code,20,CUVc);
+  ArrayField(CustName,M4Str,60,0);
+  ArrayField(BeginDate,M4Date,0,0);
+  ArrayField(EndDate,M4Date,0,0);
+  ArrayField(FromPlace,M4Code,10,SourceVc);
+  ArrayField(ToPlace,M4Code,10,SourceVc);
+  ArrayField(Distance,M4UVal,0,0);
+  ArrayField(SumDistance,M4UVal,0,0);
+  ArrayField(ArtCode,M4Code,20,INVc);
+  ArrayField(Quant,M423Val,0,0);
+  ArrayField(ArtName,M4Str,60,0);
+  ArrayField(UnloadPlace,M4UStr,20,ObjVc);
+  ArrayField(RunTimes,M4UVal,0,0);
+  ArrayField(Salesman,M4Code,5,UserVc);
+  ArrayField(IVSerNr,M4Long,0,0);
+  ArrayField(ArriveTime,M4Time,0,0);
+  ArrayField(LeaveTime,M4Time,0,0);
+  ArrayField(Svars,M423Val,0,0);
+  ArrayField(Motorst,M41Val,0,0);
+  ArrayField(Driver3,M4Code,5,UserVc);
+  ArrayField(DarbaLaiks,M4Time,0,0);
+  ArrayField(RowObjects,M4UStr,60,ObjVc);
+  ArrayField(CustCode2,M4Code,20,CUVc);
+  ArrayField(CustName2,M4Str,60,0);
+  ArrayField(Stundas,M4Val,0,0);
+  ArrayField(FraktsSumma,M4Val,0,0);
+  ArrayField(Currency,M4Code,5,CurncyCodeVc);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(CZ2Vc,-,"cz2");//Degvielas èeki
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(TotQuant,M4Val,0,0);
+  RecordField(TotEndSum,M4Val,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(CardCode,M4Code,20,0);
+  ArrayField(CheckNr,M4Code,60,0);
+  ArrayField(CheckDate,M4Date,0,0);
+  ArrayField(Quant,M4Val,0,0);
+  ArrayField(Sum,M4Val,0,0);
+  ArrayField(Discount,M4Val,0,0);
+  ArrayField(EndSum,M4Val,0,0);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(CZ2aVc,-,"cz2a");//Degvielas èeku arhîvs
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(TotQuant,M4Val,0,0);
+  RecordField(TotEndSum,M4Val,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(CardCode,M4Code,20,0);
+  ArrayField(CheckNr,M4Code,60,0);
+  ArrayField(CheckDate,M4Date,0,0);
+  ArrayField(Quant,M4Val,0,0);
+  ArrayField(Sum,M4Val,0,0);
+  ArrayField(Discount,M4Val,0,0);
+  ArrayField(EndSum,M4Val,0,0);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(CZ3Vc,-,"cz3");////Degvielas kartes
+  RecordField(CardCode,M4Str,20,0);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(Tips,M4Code,20,CZ7Vc);
+  MainKeyBegin(CardCode,0);
+  KeySegment(CardCode);
+   KeyBegin(Tips);
+   KeySegment(Tips);
+   KeySegment(CardCode);
+  EndRecord;
+
+  RecordBegin(CZ4Vc,-,"cz4");//Attâlumi starp vietâm
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(FromPlace,M4Code,10,SourceVc);
+  RecordField(Comment1,M4Str,60,0);
+  RecordField(ToPlace,M4Code,10,SourceVc);
+  RecordField(Comment2,M4Str,60,0);
+  RecordField(Distance,M4Val,0,0);
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  KeyBegin(FromPlace);
+  KeySegment(FromPlace);
+  KeySegment(ToPlace);
+  KeySegment(SerNr);
+  KeyBegin(ToPlace);
+  KeySegment(ToPlace);
+  KeySegment(FromPlace);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(CZ5Vc,-,""); //Automaðînas
+  RecordField(CarCode,M4Code,20,ObjVc);
+  RecordField(CarName,M4Str,60,0);
+  RecordField(CarNumber,M4Str,20,0);//Valsts numurs
+  RecordField(Driver1,M4Code,5,UserVc);
+  RecordField(Driver2,M4Code,5,UserVc);
+  RecordField(Degviela,M4Code,10,0);
+  RecordField(Norma,M45Val,0,0);// bez piekabes pa pilsçtu
+  RecordField(Norma2,M45Val,0,0);//apsilde
+  RecordField(SezonasKoef,M45Val,0,0);
+  RecordField(Pasizmaksa,M45Val,0,0);
+  RecordField(Comment,M4Str,100,0);
+  RecordField(Norma0,M45Val,0,0);// bez piekabes pa ðoseju
+  RecordField(NormaP,M45Val,0,0);//P - ar piekabi pa pilsçtu
+  RecordField(Norma0P,M45Val,0,0);//ar piekabi pa ðoseju
+  RecordField(Norma2P,M45Val,0,0);//apsilde ar piekabi
+  RecordField(SezonasKoefP,M45Val,0,0);
+  RecordField(PasizmaksaP,M45Val,0,0);
+  RecordField(AprekVeids,M4Int,0,0);//0 - rçíinât pçc patçriòa no ceïazîmes; 1 - rçíinât pçc normas no ðîs kartiòas
+  RecordField(ShipDeal,M4Code,5,ShipDealVc);
+  RecordField(SasijasNr,M4Code,17,0);//Ðasijas numurs
+  RecordField(CenaKM,M45Val,0,0);
+  RecordField(CenaST,M45Val,0,0);
+  RecordField(TrailerNo,M4Code,20,ObjVc);//Piekabe
+  MainKeyBegin(CarCode,0);
+  KeySegment(CarCode);
+   KeyBegin(SasijasNr);
+   KeySegment(SasijasNr);
+   KeySegment(CarCode);
+  KeyBegin(CarNumber);
+  KeySegment(CarNumber);
+  KeySegment(CarCode);
+  EndRecord;
+
+  RecordBegin(CZ6Vc,-,""); //Piekabes
+  RecordField(TrailerNo,M4Code,20,ObjVc);
+  RecordField(TrailerName,M4Str,60,0);
+  RecordField(TrailerStartKM,M4UVal,0,0);
+  RecordField(SasijasNr,M4Code,17,0);//Ðasijas numurs
+  RecordField(TrailerNumber,M4Str,20,0);//Valsts numurs
+  MainKeyBegin(TrailerNo,0);
+  KeySegment(TrailerNo);
+   KeyBegin(SasijasNr);
+   KeySegment(SasijasNr);
+   KeySegment(TrailerNo);
+  KeyBegin(TrailerNumber);
+  KeySegment(TrailerNumber);
+  KeySegment(TrailerNo);
+  EndRecord;
+
+  RecordBegin(CZ7Vc,-,""); //degvielas karðu tipi
+  RecordField(Tips,M4Code,20,0);
+  RecordField(Komentars,M4Str,60,0);
+  MainKeyBegin(Tips,0);
+  KeySegment(Tips);
+  EndRecord;
+
+  BlockBegin(CZAutoCostBlock,-,"");
+  ImpExpLevel(1);
+  RecordField(Konti1,M4Str,255,0);
+  RecordField(Konti2,M4Str,255,0);
+  RecordField(Konti3,M4Str,255,0);
+  RecordField(Konti4,M4Str,255,0);
+  RecordField(Konti5,M4Str,255,0);
+  EndBlock;
+
+  BlockBegin(CZAutoCost2Block,-,"");
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Konts,M4Code,10,AccVc);
+  ArrayField(KontaPuse,M4Set,-514,0);
+  ArrayField(IzmTips,M4Set,-515,0);
+  ArrayField(Komentars,M4Str,60,0);
+  EndArray;
+  EndBlock;
+  
+  BlockBegin(CZ1SerBlock,-,"CZ1SerBlock");
+  ImpExpLevel(1);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(TSerStart,M4Long,0,0);
+  ArrayField(TSerEnd,M4Long,0,0);
+  ArrayField(StartDate,M4Date,0,0);
+  ArrayField(EndDate,M4Date,0,0);
+  ArrayField(TSerCom,M4Str,20,0);
+  ArrayField(DonotGenTrans,M4Set,32,0);
+  EndArray;
+  EndBlock;
+
+  BlockBegin(CelazimeDok4DefBlock,-,"");
+  ImpExpLevel(1);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(LangCode,M4Code,5,0);
+  ArrayField(UserGroup,M4Code,5,0);
+  ArrayField(SerNr,M4Long,0,0);
+  ArrayField(FPCode,M4Str,20,0);
+  ArrayField(PrintGroupCode,M4Code,20,0);
+  ArrayField(intdocnr,M4Long,0,0);
+  ArrayField(EformCode,M4Str,20,0);
+  EndArray;
+  EndBlock;
+
+  BlockBegin(CelazimeDok5DefBlock,-,"");
+  ImpExpLevel(1);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(LangCode,M4Code,5,0);
+  ArrayField(UserGroup,M4Code,5,0);
+  ArrayField(SerNr,M4Long,0,0);
+  ArrayField(FPCode,M4Str,20,0);
+  ArrayField(PrintGroupCode,M4Code,20,0);
+  ArrayField(intdocnr,M4Long,0,0);
+  ArrayField(EformCode,M4Str,20,0);
+  EndArray;
+  EndBlock;
+
+end;
+
+#endif
+

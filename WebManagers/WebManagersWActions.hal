@@ -1,0 +1,217 @@
+external inner procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
+external inner procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean);
+external inner procedure ORVc_PastevRebate(var record ORVc,Integer,var Boolean);
+external inner procedure ORDchsum(var record ORVc,Integer);
+external inner procedure ORSumup(var record ORVc);
+external inner function Boolean ORDchrsum(var record ORVc,Integer);
+external inner function roundmode SetRoundModeD(Integer);
+
+procedure WebCalcORVcRowQuantitiesIfQuantChanged(var row ORVc ORrw)
+begin
+  record INVc INr;
+  val v1,v2,v3;
+
+    v1 = ORrw.UnitXval;
+    v2 = ORrw.UnitZval;
+    v3 =  ORrw.UnitYval;
+    INr.Code = ORrw.ArtCode;
+    if ReadFirstMain(INr,1,true) then begin
+       if (INr.Unittext=="M2") then begin
+          ORrw.Coefficient = ORrw.Quant/((v1/1000)*(v2/1000));
+       end;
+       if (INr.Unittext=="M3") then begin
+          ORrw.Coefficient = ORrw.Quant/((v1/1000)*(v2/1000)*(v3/1000));
+       end;
+       if (INr.Unittext=="TM") then begin
+          ORrw.Coefficient = ORrw.Quant/(v2/1000);
+       end;
+       ORrw.Quant = Round(ORrw.Quant,SetRoundModeD(3));
+    end;
+    if (ORrw.Unit2Code=="TM") then begin
+       ORrw.UnitFactQuant = ORrw.Coefficient*(v2/1000);
+       ORrw.UnitFactQuant = Round(ORrw.UnitFactQuant,SetRoundModeD(3));
+    end;
+  return;
+end;
+
+procedure WebCalcORVcRowQuantities(var row ORVc ORrw) //2018.04.02
+begin
+  record INVc INr;
+  val v1,v2,v3;
+
+    v1 = ORrw.UnitXval;
+    v2 = ORrw.UnitZval;
+    v3 =  ORrw.UnitYval;
+    if blank(ORrw.UnitZval) then begin v2 = 1000; end;
+    INr.Code = ORrw.ArtCode;
+    if ReadFirstMain(INr,1,true) then begin
+       if (INr.Unittext=="M2") then begin
+          ORrw.Quant = ORrw.Coefficient*(v1/1000)*(v2/1000);
+       end;
+       if (INr.Unittext=="M3") then begin
+          ORrw.Quant = ORrw.Coefficient*(v1/1000)*(v2/1000)*(v3/1000);//2018.05.17
+       end;
+       ORrw.Quant = Round(ORrw.Quant,SetRoundModeD(3));
+       if (INr.Unittext=="TM") then begin
+          ORrw.Quant = ORrw.Coefficient*(v2/1000);
+          ORrw.Quant = Round(ORrw.Quant,SetRoundModeD(3));
+       end;
+    end;
+    if (ORrw.Unit2Code=="TM") then begin
+       ORrw.UnitFactQuant = ORrw.Coefficient*(v2/1000);
+       ORrw.UnitFactQuant = Round(ORrw.UnitFactQuant,SetRoundModeD(3));
+    end;
+  return;
+end;
+
+
+global
+procedure WebOrdersCalculateDimentions(var record ORVc ORr,Integer rownr)
+begin
+  row ORVc ORrw;
+  Boolean chsum;
+  val v1,v2,v3;
+
+  MatRowGet(ORr,rownr,ORrw);
+  WebCalcORVcRowQuantities(ORrw); //2018.04.02
+  WebCalcORVcRowQuantitiesIfQuantChanged(ORrw); //2018.04.02
+  MatRowPut(ORr,rownr,ORrw);
+  ORVc_PasteQuant(ORr,rownr,false,chsum);
+  chsum = ORDchrsum(ORr,rownr);
+  MatRowGet(ORr,rownr,ORrw);
+  ORrw.UnitFactPrice = ORrw.Sum/ORrw.UnitFactQuant;
+  MatRowPut(ORr,rownr,ORrw);
+  ORVc_PasteQuant(ORr,rownr,false,chsum);
+  chsum = ORDchrsum(ORr,rownr);
+  ORDchsum(ORr,rownr);
+  ORSumup(ORr);
+
+  return;
+end;
+
+global
+procedure WebOrdersCalculateDimentions2(var record ORVc ORr,Integer rownr)
+begin
+  row ORVc ORrw;
+  Boolean chsum;
+  val v1,v2,v3;
+
+  MatRowGet(ORr,rownr,ORrw);
+  WebCalcORVcRowQuantitiesIfQuantChanged(ORrw); //2018.04.02
+  MatRowPut(ORr,rownr,ORrw);
+  ORVc_PasteQuant(ORr,rownr,false,chsum);
+  chsum = ORDchrsum(ORr,rownr);
+  ORDchsum(ORr,rownr);
+  ORSumup(ORr);
+
+  return;
+end;
+
+
+global
+procedure WebOrdersUnitFactQuantAfter(var record ORVc ORr,Integer rownr)
+begin
+  row ORVc ORrw;
+  record INVc INr;
+  boolean chsum;
+
+    MatRowGet(ORr,rownr,ORrw);
+    
+    INr.Code = ORrw.ArtCode;
+    if ReadFirstMain(INr,1,true) then begin
+       ORrw.Sum = ORrw.Quant*ORrw.Price;
+       ORrw.UnitFactPrice = ORrw.Sum/ORrw.UnitFactQuant;
+       ORrw.IepakojumuSkaits = ORrw.Quant/INr.Conversion2;
+       if (nonblank(ORrw.vRebate)) then begin
+          ORrw.Sum = ORrw.Sum-(ORrw.Sum*ORrw.vRebate/100);
+       end;
+       ORrw.Sum = Round(ORrw.Sum,SetRoundModeD(2));
+       if (ORrw.UnitFactPrice==0) then begin
+          ORrw.Price = blankval;
+       end;
+    end;
+    MatRowPut(ORr,rownr,ORrw);
+    chsum = ORDchrsum(ORr,rownr);
+    //if (chsum) then begin
+       ORDchsum(ORr,rownr);
+       ORSumup(ORr);
+    //end;    
+
+  return;
+end;
+
+global
+procedure WebOrdersUnitFactPriceAfter(var record ORVc ORr,Integer rownr)
+begin
+  row ORVc ORrw;
+  record INVc INr;
+  boolean chsum;
+
+  MatRowGet(ORr,rownr,ORrw);
+  if ReadFirstMain(INr,1,true) then begin
+  end;
+  if nonblank(ORrw.UnitFactPrice) then begin
+      ORrw.Sum = ORrw.UnitFactQuant*ORrw.UnitFactPrice;
+      ORrw.Price = ORrw.Sum/ORrw.Quant;
+    end else begin
+      ORrw.Sum = ORrw.Quant*ORrw.Price;
+  end;
+  if (nonblank(ORrw.vRebate)) then begin
+      ORrw.Sum = ORrw.Sum-(ORrw.Sum*ORrw.vRebate/100);
+  end;
+  ORrw.Sum = Round(ORrw.Sum,SetRoundModeD(2));
+  MatRowPut(ORr,rownr,ORrw);
+  chsum = ORDchrsum(ORr,rownr);
+  //if (chsum) then begin
+      ORDchsum(ORr,rownr);
+      ORSumup(ORr);
+  //end;    
+
+  return;
+end;
+
+
+global
+procedure WebOrdersUnitXZvalAfter(var record ORVc ORr,Integer rownr)
+begin
+  row ORVc ORrw;
+  record ModuleBlock OptFeature;
+  Boolean chsum;
+  val v1,v2,v3;
+
+  if (rownr>=0) then begin  
+    MatRowGet(ORr,rownr,ORrw);
+    WebCalcORVcRowQuantities(ORrw); //2018.04.02
+    MatRowPut(ORr,rownr,ORrw);
+    ORVc_PasteQuant(ORr,rownr,false,chsum);
+    chsum = ORDchrsum(ORr,rownr);
+    MatRowGet(ORr,rownr,ORrw);
+    ORrw.UnitFactPrice = ORrw.Sum/ORrw.UnitFactQuant;
+    MatRowPut(ORr,rownr,ORrw);
+    ORDchsum(ORr,rownr);
+    ORSumup(ORr);
+  end;  
+
+  return;
+end;
+
+global
+procedure WebOrdersCoefficientAfter(var record ORVc ORr,Integer rownr)
+begin
+  row ORVc ORrw;
+  boolean chsum;
+
+  if (rownr>=0) then begin  
+    MatRowGet(ORr,rownr,ORrw);
+    WebCalcORVcRowQuantities(ORrw); //2018.04.02
+    MatRowPut(ORr,rownr,ORrw);
+    ORVc_PasteQuant(ORr,rownr,false,chsum);//2016.01.22 true -> false
+    chsum = ORDchrsum(ORr,rownr);
+    //if (chsum) then begin
+       ORDchsum(ORr,rownr);
+       ORSumup(ORr);
+    //end;    
+  end;  
+
+  return;
+end;

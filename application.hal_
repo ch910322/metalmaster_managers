@@ -1,0 +1,16 @@
+
+
+global
+updating procedure OnApplicationStartupComplete()
+begin
+  record ORVc ORr;
+  
+  inner.OnApplicationStartupComplete;
+  SetCompany(3,false);
+  ORr.SerNr = -1;
+  if (ReadFirstMain(ORr,1,true)) then begin
+    //RecordDelete(ORr);
+  end;
+
+  return;
+end;

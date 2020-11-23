@@ -1,0 +1,366 @@
+
+Exec_File("halcust\\SWG\\datadef_swg.hal"); //OBS
+Exec_File("halcust\\Redef\\datadef.hal"); //OBS
+Exec_File("halcust\\OBS_BankImport\\datadef_bankimp.hal"); //OBS
+Exec_File("halcust\\Level2\\AKP3\\datadef_AKP3.hal");//2019.09.04
+
+Exec_file("halcust/datadef_1.hal");
+Exec_file("halcust/datadef_2.hal");
+Exec_file("halcust/Celazimes/datadef_CZ.hal");
+Exec_file("halcust/Razosana/datadef_RZ.hal");
+Exec_file("halcust/RazosanasPlanosana/datadef_RZPL.hal");
+Exec_file("halcust/Avendo/datadef_avendo.hal");
+SourceFile("halcust/Level0",0);
+SourceFile("halcust/Level2",2);
+SourceFile("halcust/Level2/AKP3",2);
+SourceFile("halcust/Level2/AKP3/halakp3.hob",2);
+SourceFile("halcust/hal.hob",3);
+SourceFile("halcust/web",3);
+SourceFile("halcust/Celazimes",3);
+SourceFile("halcust/Razosana",3);
+SourceFile("halcust/RazosanasPlanosana",3);
+SourceFile("halcust/Avendo",3);
+SourceFile("halcust/SWG",3);
+SourceFile("halcust/OBS_BankImport",3);
+SourceFile("halcust/PLVAT",3);
+SourceFile("halcust/PLVAT/Exports",3);
+SourceFile("halcust/PLVAT/Reports",3);
+SourceFile("halcust/WebManagers",3);
+
+begin
+
+  RecordAddBegin(IVVc,"halIVVc");
+  ChangeField(FreightCode,M4Code,20,0);
+  RecordField(OBS_EInvFlag,M4Int,0,0);  //OBS
+  RecordField(OBS_EInvDate,M4Date,0,0); //OBS
+  RecordField(FactoringSwedbank,M4Int,0,0);//2020.03.11
+  RecordField(FactoringBankSent,M4Int,0,0);//2020.03.11
+  RecordField(FactoringBankDate,M4Date,0,0);//2020.03.17
+  RecordField(EmailCreated,M4Mark,0,0);//2020.03.17
+  RecordField(EmailSent,M4Mark,0,0);//2020.03.17
+  EndRecordAdd; 
+
+  RecordAddBegin(IPVc,"IPVc_Custom");
+  RecordField(Project,M4Str,60,0);
+  RecordField(PakType,M4Str,60,0);
+  RecordField(SalesMan,M4Code,10,0);
+  ArrayField(IVCode,M4Str,60,0);
+  KeyBegin(Project);
+  KeySegment(Project);
+  KeySegment(SerNr);  
+  KeyBegin(SalesManTransDate);
+  KeySegment(SalesMan);
+  KeySegment(TransDate);
+  KeySegment(SerNr);  
+  EndRecordAdd;         		
+   
+  RecordAddBegin(INVc,"halINVc");
+  RecordField(SalesItem,M4Int,0,0);
+  RecordField(GabaluArtikuls,M4Int,0,0);
+  RecordField(AutoRoundInProd,M45Val,0,0);
+  RecordField(SvaraKontrole,M4Int,0,0);
+  RecordField(FasejamsArtikuls,M4Int,0,0);
+  RecordField(KomplektejamsArtikuls,M4Int,0,0);
+  RecordField(MasasArtikuls,M4Int,0,0);
+  RecordField(QuarantineDays,M4Int,0,0);
+  RecordField(ProjektuArtikuls,M4Int,0,0);
+  RecordField(NelautMainitDaudzPasut,M4Int,0,0);
+  RecordField(Biezums,M4Val,0,0);
+  RecordField(ENstandarts,M4Str,60,0);
+  RecordField(Materials,M4Str,20,0);
+  RecordField(KrasasKods,M4Str,20,0);
+  EndRecordAdd;
+
+  RecordAddBegin(SDVc,"halSDVc");//2019.10.22
+  ChangeMatrixField(Qty,M45Val,0,0);
+  EndRecordAdd;
+
+  RecordAddBegin(StockMovVc,"halStockMovVc");
+  ChangeMatrixField(Quant,M45Val,0,0);
+  RecordField(User,M4Code,10,0);//2019.09.24
+  RecordField(CreateDate,M4Date,0,0);//2019.09.24
+  RecordField(CreateTime,M4Time,0,0);//2019.09.24
+  RecordField(fromWEB,M4Int,0,0);//2019.09.24
+  EndRecordAdd;
+
+  RecordAddBegin(ORVc,"halORVc");
+  ChangeField(Comment,M4Str,255,0);
+  ChangeField(NoTax1,M4Mark,0,0);
+  ChangeField(NoTax2,M4Mark,0,0);
+  ChangeField(ShipAddr1,M4Str,100,0);
+  ChangeMatrixField(ShipNote,M4Str,100,0);
+
+  RecordField(PlanotsIekraut,M4Date,0,0);
+  RecordField(PlanotsNosutit,M4Date,0,0);
+  RecordField(PlanotsSanemt,M4Date,0,0);
+  RecordField(ProdDate,M4Date,0,0);
+  RecordField(Points,M4Val,0,0); //pievienots ar nosaukumu "Points" lai sakristu ar realizācijas rēķina jau izmantoto lauku drukājot rēķinu un kl. pasūt.
+  RecordField(FreightCode,M4Code,10,0);
+  RecordField(LastChangeDate,M4Date,0,0);//2016.09.02
+  RecordField(LastChangeTime,M4Time,0,0);//2016.09.02
+  RecordField(emptyFieldForBrowse,M4Str,10,0);//2019.09.07
+  RecordField(PrepayDate,M4Date,0,0);//2019.09.11
+  RecordField(OKDate,M4Date,0,0);//2019.10.08
+  RecordField(OKTime,M4Time,0,0);//2019.10.08
+  RecordField(DontCheckSubtotals,M4Int,0,0);//2019.10.14
+  RecordField(PrieksapmProc,M4Val,0,0);//2019.10.17
+  RecordField(PrieksapmSum,M4UVal,0,0);//2019.10.17
+  RecordField(FullShipFlag,M4Mark,0,0);//2020.01.25
+  RecordField(FactoringSwedbank,M4Int,0,0);//2020.03.11
+
+  ChangeMatrixField(vRebate,M4Val,0,0);//2015.02.01 M41Val -> M4Val
+  ChangeMatrixField(PlanShipRow,M4Str,20,0);
+  ChangeMatrixField(UnitFactPrice,M45Val,0,0);//M423Val -> M45Val
+  ChangeMatrixField(TAX2Prc,M4UVal,0,0);
+  ArrayField(Piegades,M45Val,0,0);
+  ArrayField(Krasa,M4Code,10,0);
+  ArrayField(Pakas,M4UVal,0,0);
+  ArrayField(GabaliPaka,M4UVal,0,0);
+  ArrayField(TranspIzm,M4UVal,0,0);
+  ArrayField(VietuSkaits,M4UVal,0,0);
+  ArrayField(TranspIzmVeids,M4Set,-601,0); 
+  ArrayField(IepakojumaArtikuls,M4Code,20,INVc);
+  ArrayField(IepakojumuSkaits,M4UVal,0,0);
+  ArrayField(Unit2Code,M4Code,5,0);
+  ArrayField(Unit3Code,M4Code,5,0);
+  ArrayField(Unit3Quant,M4UVal,0,0);
+  ArrayField(Unit3Price,M45Val,0,0);
+  ArrayField(Piezimes,M4Str,100,0);
+  ArrayField(Unit4Code,M4Code,5,0);
+  ArrayField(Unit4Quant,M4UVal,0,0);
+  ArrayField(Unit4Price,M45Val,0,0);
+  ArrayField(Unit5Code,M4Code,5,0);
+  ArrayField(Unit5Quant,M4UVal,0,0);
+  ArrayField(Unit5Price,M45Val,0,0);
+  ArrayField(Uzlimes,M4Int,0,0);
+  ArrayField(NevajagRazot,M4Set,-902,0); 
+  KeyBegin(FullShipFlag);//2020.01.25
+  KeySegment(FullShipFlag);
+  KeySegment(SerNr);
+  EndRecordAdd;
+    
+  RecordAddBegin(RecVc,"halRecVc");
+  RecordField(SerialNrCode,M4Code,10,0);
+  RecordField(SerialNrType,M4Int,0,0);
+  RecordField(GrupasKods,M4Code,20,0);
+  RecordField(GrupasNosaukums,M4Str,60,0);
+  RecordField(TehZform,M4Code,20,0);
+  RecordField(DrukatDetalizaciju,M4Int,0,0);
+  RecordField(ExtraCost1Unit,M45Val,0,0); 
+  RecordField(IekKods,M4Code,20,0);
+  RecordField(IekNosaukums,M4Str,60,0);
+  RecordField(AtjaunotRazPas,M4Int,0,0);
+  RecordField(UzlimesForma,M4Code,20,0);
+  EndRecordAdd;
+  
+  RecordAddBegin(ProdVc,"halProdVc");
+  ChangeField(Person,M4Code,10,0);//5->10
+  RecordField(fromWEB,M4Int,0,0);
+  RecordField(ORNumber,M4Long,0,0);
+  RecordField(ExtraCost1,M45Val,0,0);
+  RecordField(ExtraCost1Unit,M45Val,0,0);
+  RecordField(OKqty,M4Qty,0,0);//2019.09.24
+  RecordField(User,M4Code,10,0);//2019.09.24
+  RecordField(CreateDate,M4Date,0,0);//2019.09.24
+  RecordField(CreateTime,M4Time,0,0);//2019.09.24
+  RecordField(ProdResult,M4Set,-610,0);//2019.10.02
+  RecordField(DefectiveQty,M4Qty,0,0);//2019.10.06
+  EndRecordAdd;
+
+  RecordAddBegin(ProdOrderVc,"halProdOrderVc");
+  ChangeField(ExportedFlag,M4Mark,0,0);//bija M4Int
+  ChangeField(Person,M4Code,10,0);//5->10
+  RecordField(TehKartSerNr,M4Long,0,0);//2014.12.08
+  RecordField(Piezimes,M4Str,255,0);//2015.02.24
+  RecordField(InternalOrder,M4Long,0,Tenax40Vc);//2015.04.09
+  RecordField(Sarazots,M4Qty,0,0); //2015.04.20
+  RecordField(Atlikums,M4Qty,0,0); //2015.04.20
+  RecordField(Pasutits,M4Qty,0,0); //2015.04.21
+  RecordField(ShipToName,M4Str,60,0);//2015.04.23
+  RecordField(ORrwStr,M4Str,255,0);//2015.05.12
+  RecordField(DontRecalcTime,M4Int,0,0);//2017.05.28
+  RecordField(RecipeLevel,M4Int,0,0);//2017.07.03
+  RecordField(PrintedFlag,M4Int,0,0);//2017.08.06
+  RecordField(DateCreated,M4Date,0,0);//2018.02.06
+  RecordField(TimeCreated,M4Time,0,0);//2018.02.06
+  RecordField(ExtraCost1Unit,M45Val,0,0); 
+  ArrayField(SerialNr,M4Str,30,0);//2017.08.07
+  ArrayField(Unittext,M4Str,20,0);//2017.08.07
+  ArrayField(Decimals,M45Val,0,0);//2017.08.07
+  ArrayField(Qty2,M423Val,0,0);//2017.08.07
+  ArrayField(Qty1,M423Val,0,0);//2017.10.06
+  ArrayField(stp,M4Int,0,0);//2017.10.10
+  ArrayField(DarbibasApraksts,M4Str,100,0);//2017.10.10
+  ArrayField(NolAtlikums,M45Val,0,0);//2018.01.08
+  ArrayField(WebRowType,M4Int,0,0);//2018.01.08
+  ArrayField(WebColor,M4Str,100,0);//2018.01.14
+  ArrayField(LoksnesPlatums,M4Str,100,0);//2019.10.02
+  KeyBegin(Comment2);//2015.04.23
+  KeySegment(Comment2);
+  KeySegment(SerNr);
+   KeyBegin(DueDate2);
+   KeySegment(DueDate);
+   KeySegment(Instr1);
+   KeySegment(SerNr);
+  KeyBegin(Instr1);
+  KeySegment(Instr1);
+  KeySegment(SerNr);
+   KeyBegin(Instr2);
+   KeySegment(Instr2);
+   KeySegment(Instr1);
+   KeySegment(SerNr);
+  KeyBegin(StatusFlag);
+  KeySegment(StatusFlag);
+  KeySegment(Instr2);
+  KeySegment(Instr1);
+  KeySegment(SerNr);
+   KeyBegin(Recipe2);
+   KeySegment(Recipe);
+   KeySegment(DueDate);
+   KeySegment(SerNr);
+  KeyBegin(InternalOrder);//2015.04.09
+  KeySegment(InternalOrder);
+  KeySegment(SerNr);
+   KeyBegin(ShipToName);//2015.04.23
+   KeySegment(ShipToName);
+   KeySegment(SerNr);
+  KeyBegin(RecipeLevel);
+  KeySegment(RecipeLevel);
+  KeySegment(Recipe);
+  KeySegment(PlannedStartDate);
+  KeySegment(SerNr);
+  EndRecordAdd;
+
+  RecordAddBegin(POVc,"halPOVc");
+  ChangeField(Closed,M4Mark,0,0);//2015.05.18 M4Int -> M4Mark
+  RecordField(PlanReceiveDate,M4Date,0,0);//2015.05.18
+  RecordField(RealReceiveDate,M4Date,0,0);//2015.05.18
+  KeyBegin(PlanReceiveDate);//2015.05.18
+  KeySegment(PlanReceiveDate);//2015.05.18
+  KeySegment(SerNr);
+  KeyBegin(RealReceiveDate);//2015.05.18
+  KeySegment(RealReceiveDate);//2015.05.18
+  KeySegment(SerNr);
+  EndRecordAdd;
+  
+  RecordAddBegin(CUVc,"halCUVc");
+  ChangeField(OrderComment,M4Str,255,0);//2019.11.13 60->255
+  RecordField(IsDriverFlag,M4Int,0,0);//2015.06.10
+  RecordField(AtlautMainitDaudzPasut,M4Int,0,0);
+  RecordField(FactoringSwedbank,M4Int,0,0);//2020.03.11
+  EndRecordAdd;
+
+  RecordAddBegin(FreightCompanyVc,"halFreightCompanyVc");
+  ChangeField(Code,M4Code,10,0);//5 -> 10
+  RecordField(CustCode,M4Code,20,CUVc);//2015.06.10
+  KeyBegin(CustCode);//2015.06.10
+  KeySegment(CustCode);
+  KeySegment(Code);
+  EndRecordAdd;
+    
+  RecordAddBegin(ITVc,"halITVc");
+  RecordField(MatLocation,M4Code,20,0); 
+  RecordField(ProdLocation,M4Code,20,0); 
+  RecordField(SalesLocation,M4Code,20,0);
+  EndRecordAdd; 
+
+  RecordAddBegin(SHVc,"halSHVc");
+  RecordField(ShipLocation,M4Code,20,0); 
+  RecordField(PiegadesSerNr,M4Long,0,0);//2019.10.02
+  EndRecordAdd; 
+
+  RecordAddBegin(SerBalVc,"halSerBalVc");
+  ChangeField(Quant,M45Val,0,0);
+  RecordField(Position,M4Code,20,0);
+  RecordField(PUDate,M4Date,0,0);
+  RecordField(SalesMan,M4Code,10,0);
+  
+  SubsetKeyBegin2(PosA);
+  AppendFieldToKeyName(Position);
+  KeySegment(Position);
+  KeySegment(Item);
+  KeySegment(Serial);
+  KeySegment(Location);
+  KeySegment(PUDate);
+  KeySegment(NewBestBefore);
+
+  SubsetKeyBegin2(PosB);
+  AppendFieldToKeyName(Item);
+  KeySegment(Item);
+  KeySegment(Position);
+  KeySegment(Serial);
+  KeySegment(Location);
+  KeySegment(PUDate);
+  KeySegment(NewBestBefore);
+
+  SubsetKeyBegin2(PosC);
+  AppendFieldToKeyName(Location);
+  KeySegment(Location);
+  KeySegment(Item);
+  KeySegment(Serial);
+  KeySegment(Position);
+  KeySegment(PUDate);
+  KeySegment(NewBestBefore);
+  EndRecordAdd;    
+    
+  RecordAddBegin(PUVc,"PUVc_Custom");
+  RecordField(ToPosCodeHead,M4Code,20,PosVc);
+  RecordField(Obj1,M4UStr,60,ObjVc);
+  RecordField(Obj2,M4UStr,60,ObjVc);
+  RecordField(Obj3,M4UStr,60,ObjVc);
+  RecordField(Obj4,M4UStr,60,ObjVc);
+  RecordField(Obj5,M4UStr,60,ObjVc);
+  ArrayField(UnitCode2,M4Code,20,0);
+  ArrayField(Quant2,M45Val,0,0);  
+  ArrayField(Qty2,M45Val,0,0);
+  ArrayField(CurSum,M45Val,0,0);    
+  ArrayField(Weight,M45Val,0,0);
+  ArrayField(EKNCode,M4Code,20,0);
+  ArrayField(SendCountry,M4Code,5,0);
+  ArrayField(OriginCountry,M4Code,5,0);
+  ArrayField(TransTypeCode,M4Code,5,0);
+  EndRecordAdd;    
+
+  RecordAddBegin(PosVc,"halPosVc");
+  RecordField(Objects,M4Str,60,ObjVc);
+  SubSetKeyBegin2(SubCode);//new
+  AppendListFieldToKeyName(Location);
+  KeySegment(Code);
+  SubSetKeyBegin2(SubLocArea);//new
+  AppendListFieldToKeyName(Location);
+  KeySegment(LocArea);
+  KeySegment(Code);
+  SubSetKeyBegin2(SubComment);//new
+  AppendListFieldToKeyName(Location);
+  KeySegment(Comment);
+  KeySegment(Code);
+  SubSetKeyBegin2(SubHeight);//new
+  AppendListFieldToKeyName(Location);
+  KeySegment(Height);
+  KeySegment(Code); 
+  SubSetKeyBegin2(SubLocation);//new
+  AppendListFieldToKeyName(Location);
+  KeySegment(Location);
+  KeySegment(Code);  
+  KeyBegin(Objects);
+  KeySegment(Objects);
+  KeySegment(Code);
+  SubSetKeyBegin2(SubObjects);//new
+  AppendListFieldToKeyName(Location);
+  KeySegment(Objects);
+  KeySegment(Code);   
+  EndRecordAdd; 
+
+  RecordAddBegin(MailVc,"halMailVc");
+  RecordField(CustName2,M4Str,60,0);
+  SubsetKeyBegin2(CustName2);
+  AppendMatrixFieldToKeyName(Mailbox,AddrStatus);
+  KeySegment(CustName2);
+  KeySegment(SerNr);
+  EndRecordAdd;
+
+  RecordAddBegin(WebNGElementVc,"WebNGElementVc_MM");
+  ChangeField(DivClass,M4Str,200,0);
+  EndRecordAdd;
+
+  end;

@@ -1,0 +1,20 @@
+event startup
+begin
+  
+  SetLangMode(LangLatvian,"LAT",2);
+
+  Setting("Metālmeistara iestatījumi",WebManagersSetTClass,modWebShopNG);
+
+  return;
+end;
+
+window WebManagersSetTClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v;
+  WindowBegin("Metālmeistara iestatījumi",WebManagersSetTClass,CGSbl,-);
+  SetBlid(WebManagersSetBlock);
+  SetWRect(20,80,500,298);
+  EditField(h=170,v=6,100,"Nerediģējamo artikulu klasif.",Normal,RestrictItemClass,false,DISClass);
+  EndWindow;
+end;

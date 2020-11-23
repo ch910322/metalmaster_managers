@@ -1,0 +1,20 @@
+
+SourceFile("halcust\\Redef",3);
+SourceFile("halcust\\Redef\\Documents",3);
+SourceFile("halcust\\Redef\\Exports",3);
+SourceFile("halcust\\Redef\\Maint",3);
+SourceFile("halcust\\Redef\\RActions",3);
+SourceFile("halcust\\Redef\\Reports",3);
+SourceFile("halcust\\Redef\\Tools",3);
+SourceFile("halcust\\Redef\\WActions",3);
+SourceFile("halcust\\Redef\\Windows",3);
+
+begin
+
+  // RecordAddBegin(IVVc,"SWG_IVVc");
+  // RecordField(OBS_EInvFlag,M4Int,0,0);
+  // RecordField(OBS_EInvDate,M4Date,0,0);
+  // EndRecordAdd;
+
+  return;
+end;

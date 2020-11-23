@@ -1,0 +1,696 @@
+#ifdef HAL
+
+begin
+
+//------------ Raþoðanas paðizmaksa ---------------------------------------------------------------------------------------------
+
+  RecordBegin(RZ1Vc,RZ1View,"rz1");//Darbinieku laika tabula
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Person,M4UStr,5,UserVc);
+  RecordField(Comment,M4Str,255,0);
+  RecordField(TimeSum,M4Time,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(stp,M4Int,0,0);
+  ArrayField(ovst,M4Int,0,0);
+  ArrayField(WorkTime,M4Time,0,0);
+  ArrayField(ArtCode,M4Code,20,INVc);
+  ArrayField(ArtName,M4Str,60,0);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  KeyBegin(TransDate);
+  KeySegment(TransDate);
+  KeySegment(Person);
+  KeySegment(SerNr);
+  KeyBegin(OKFlag);
+  KeySegment(OKFlag);
+  KeySegment(SerNr);
+  KeyBegin(Person);
+  KeySegment(Person);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ2Vc,RZ2View,"rz2");//Agregâta laika tabula
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Agregats,M4UStr,30,RZ3Vc);
+  RecordField(Comment,M4Str,255,0);
+  RecordField(TimeSum,M4Time,0,0);
+  RecordField(TotQuant,M4Val,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(stp,M4Int,0,0);
+  ArrayField(ovst,M4Int,0,0);
+  ArrayField(WorkTime,M4Time,0,0);
+  ArrayField(ArtCode,M4Code,20,INVc);
+  ArrayField(ArtName,M4Str,60,0);
+  ArrayField(Quant,M4Val,0,0);
+  ArrayField(ProdSerNr,M4Long,0,0);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  KeyBegin(TransDate);
+  KeySegment(TransDate);
+  KeySegment(Agregats);
+  KeySegment(SerNr);
+  KeyBegin(OKFlag);
+  KeySegment(OKFlag);
+  KeySegment(SerNr);
+  KeyBegin(Agregats);
+  KeySegment(Agregats);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ3Vc,RZ3View,"rz3");//Agregâta parametri
+  RecordField(Agregats,M4UStr,30,AT2UnitVc);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(Object,M4Code,20,ObjVc);
+  RecordField(Elektriba,M4Val,0,0);
+  RecordField(ElCena,M45Val,0,0);
+  RecordField(Degviela,M4Val,0,0);
+  RecordField(DegvCena,M45Val,0,0);
+  RecordField(Kurinamais,M4Val,0,0);
+  RecordField(KurinCena,M45Val,0,0);
+  RecordField(Gaze,M4Val,0,0);
+  RecordField(GazCena,M45Val,0,0);
+  RecordField(Norma,M4Val,0,0);
+  MainKeyBegin(Agregats,0);
+  KeySegment(Agregats);
+  EndRecord;
+
+  RecordBegin(RZ4Vc,RZ4View,"rz4");//Raþoðanas izmaksu konti
+  RecordField(Code,M4Code,10,0);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(Active,M4Mark,0,0);
+  RecordField(Type,M4Int,0,0);
+  RecordField(TypeMark,M4Mark,0,0);
+  RecordField(Variants,M4Code,1,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(DataImportCode,M4Code,10,0);//2014.09.23
+  ArrayBegin(Math,-,1);
+  ArrayField(Account,M4Code,10,AccVc);
+  ArrayField(Object,M4UStr,20,ObjVc);//05.08.2002
+  ArrayField(Agregats,M4UStr,10,AT2UnitVc);
+  ArrayField(Person,M4UStr,5,UserVc);
+  ArrayField(Item,M4UStr,20,INVc);
+  ArrayField(ItemGr,M4UStr,5,ITVc);
+  ArrayField(DispGroup,M4UStr,5,DIVc);
+  ArrayField(CostType,M4Code,5,0);//D,A,N,P,O
+  ArrayField(Procents,M4Val,0,0);//11.12.2002
+  ArrayField(Veids,M4Code,1,0);//M vai P (mainîgâs vai pastâvîgâs izmaksas)  <- neizmanto
+  ArrayField(Market,M4UStr,20,ObjVc);//01.12.2008
+  ArrayField(Izmaksas1,M4Set,-512,0);//30.08.2009
+  ArrayField(Izmaksas2,M4Set,-513,0);//30.08.2009
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ5Vc,RZ5View,"rz5");//Raþoðanas izmaksu plânoðana
+  RecordField(Code,M4Code,10,0);
+  RecordField(FromDate,M4Date,0,0);
+  RecordField(ToDate,M4Date,0,0);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(Active,M4Mark,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(ArtCode,M4UStr,20,INVc);
+  ArrayField(Name,M4Str,60,0);
+  ArrayField(Quant,M4Val,0,0);
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  KeyBegin(FromDate);
+  KeySegment(FromDate);
+  KeySegment(Code);
+  KeyBegin(ToDate);
+  KeySegment(ToDate);
+  KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ6Vc,RZ6View,"rz6");//Artikulu raþoðanas laiku normas
+  RecordField(Code,M4Code,10,0);
+  RecordField(Komentars,M4Str,100,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(ArtCode,M4UStr,20,INVc);
+  ArrayField(Name,M4Str,60,0);
+  ArrayField(Quant,M4Val,0,0);
+  ArrayField(Stundas,M41Val,0,0);
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ7Vc,RZ7View,"rz7");//Darbinieku laika tabula - artikulu grupas
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Person,M4UStr,5,UserVc);
+  RecordField(Comment,M4Str,255,0);
+  RecordField(TimeSum,M4Time,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(stp,M4Int,0,0);
+  ArrayField(ovst,M4Int,0,0);
+  ArrayField(WorkTime,M4Time,0,0);
+  ArrayField(ArtGroup,M4Code,5,ITVc);
+  ArrayField(GroupName,M4Str,60,0);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  KeyBegin(TransDate);
+  KeySegment(TransDate);
+  KeySegment(Person);
+  KeySegment(SerNr);
+  KeyBegin(OKFlag);
+  KeySegment(OKFlag);
+  KeySegment(SerNr);
+  KeyBegin(Person);
+  KeySegment(Person);
+  KeySegment(TransDate);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ8Vc,RZ8View,"rz8");//Specifikâcija/Agregâtu normas
+  RecordField(RecepyCode,M4Code,20,RecVc);
+  RecordField(Comment,M4Str,255,0);
+  RecordField(ArtCode,M4Code,20,INVc);
+  RecordField(ArtName,M4Str,60,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Agregats,M4UStr,30,AT2UnitVc);
+  ArrayField(Name,M4Str,60,0);
+  ArrayField(Quant,M4Val,0,0);
+  ArrayField(Stundas,M41Val,0,0);
+  EndArray;
+  MainKeyBegin(RecepyCode,0);
+  KeySegment(RecepyCode);
+  KeyBegin(OKFlag);
+  KeySegment(OKFlag);
+  KeySegment(RecepyCode);
+  KeyBegin(Comment);
+  KeySegment(Comment);
+  KeySegment(RecepyCode);
+  EndRecord;
+
+  RecordBegin(RZ9Vc,RZ9View,"rz9");//Receptûras
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,255,0);
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+  
+  RecordBegin(RZ10Vc,RZ10View,"rz10");//produktu nosaukumi
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,255,0);
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ11Vc,RZ11View,"rz11");//produktu apzîmçjumi
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,255,0);
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ12Vc,RZ12View,"rz12");//produktu markas
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,255,0);
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ13Vc,RZ13View,"rz13");//produktu veidi
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,255,0);
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ14Vc,RZ14View,"rz14");//produktu grupas
+  RecordField(Code,M4Code,20,0);
+  RecordField(Comment,M4Str,255,0);
+  RecordField(QuarantineDays,M4Int,0,0);//2018.07.05
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+  EndRecord;
+  
+  RecordBegin(RZ90rsVc,RZ90rsView,"rz90");
+  ImpExpLevel(0);
+  RecordField(ProdSerNr,M4Long,0,0);
+  RecordField(LocOKNr,M4Long,0,0);
+  RecordField(RecordCode,M4Str,10,0);
+  MainKeyBegin(LocOKNr,0);
+  KeySegment(LocOKNr);
+   KeyBegin(ProdSerNr);
+   KeySegment(ProdSerNr);
+   KeySegment(LocOKNr);
+  KeyBegin(RecordCode);
+  KeySegment(RecordCode);
+  KeySegment(LocOKNr);
+  EndRecord;
+
+  RecordBegin(RZ91rsVc,RZ91rsView,"rz91");
+  //ImpExpLevel(0);
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,0);
+  RecordField(Sarazots,M4Val,0,0);
+  RecordField(Pasizmaksa,M45Val,0,0);
+  RecordField(Darbs,M45Val,0,0);
+  RecordField(Agregati,M45Val,0,0);
+  RecordField(Netiesas,M45Val,0,0);
+  RecordField(Darbs2,M45Val,0,0);
+  RecordField(Agregati2,M45Val,0,0);
+  RecordField(Netiesas2,M45Val,0,0);
+  RecordField(SakumaAtlikums,M4Val,0,0);//04.10.2009
+  RecordField(TekosaisAtlikums,M4Val,0,0);//26.10.2009
+  RecordField(Agregati_main,M45Val,0,0);
+  RecordField(Agregati_past,M45Val,0,0);
+  RecordField(Agregati_nol,M45Val,0,0);
+  RecordField(Izpakots,M4Val,0,0);//02.02.2010
+  RecordField(Agregati_proc,M45Val,0,0);
+  RecordField(Izpakots2,M4Val,0,0);//03.11.2011
+  RecordField(Pardots,M4Val,0,0);//03.11.2011
+  RecordField(Netiesas_main,M45Val,0,0);
+  RecordField(Netiesas_past,M45Val,0,0);
+  RecordField(Netiesas_nol,M45Val,0,0);
+  RecordField(Netiesas_proc,M45Val,0,0);
+  RecordField(Darbs_main,M45Val,0,0);
+  RecordField(Darbs_past,M45Val,0,0);
+  RecordField(Darbs_nol,M45Val,0,0);
+  RecordField(Darbs_proc,M45Val,0,0);
+   MainKeyBegin(Main,0);
+   KeySegment(SerNr);
+  KeyBegin(Artikuls);
+  KeySegment(Artikuls);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Artikuls);
+   KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ91xrsVc,RZ91xrsView,"rz91x");//izpakotâ daudzuma atlikumi
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,0);
+  RecordField(Izpakots,M4Val,0,0);
+  RecordField(Pasizmaksa,M45Val,0,0);
+  RecordField(Darbs,M45Val,0,0);
+  RecordField(Agregati,M45Val,0,0);
+  RecordField(Netiesas,M45Val,0,0);
+   MainKeyBegin(Main,0);
+   KeySegment(SerNr);
+  KeyBegin(Artikuls);
+  KeySegment(Artikuls);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Artikuls);
+   KeySegment(SerNr);
+  EndRecord;
+  
+  RecordBegin(RZ92rsVc,RZ92rsView,"rz92");
+  //ImpExpLevel(0);
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,0);
+  RecordField(Izejviela,M4Code,20,0);
+  RecordField(Daudzums,M423Val,0,0);//  izejvielas atlikums saraþotajâ Artikulâ aprçíina perioda beigâs
+  RecordField(Pasizmaksa,M45Val,0,0);
+  RecordField(Starpprodukts,M4Mark,0,0);
+  RecordField(SakumaAtlikums,M423Val,0,0);//04.10.2009   izejvielas atlikums saraþotajâ Artikulâ aprçíina perioda sâkumâ
+  RecordField(Pasizmaksa2,M45Val,0,0);//04.10.2009
+  RecordField(Sarazots,M423Val,0,0);//06.11.2009  kopçjais izejvielas daudzums, kas iegâjis saraþotajâ Artikulâ noteiktâ periodâ
+  RecordField(Pasizmaksa3,M45Val,0,0);//06.11.2009
+  RecordField(Izpakots,M423Val,0,0);//  starprodukta daudzums, kurð bijis izpakots un atkârtoti gâjis raþoðanâ
+  RecordField(Pasizmaksa4,M45Val,0,0);//2012.12.03  izpakotâ daudzuma paðizmaksa
+  RecordField(SakumaAtlikums9,M423Val,0,0);//04.10.2009   izejvielas atlikums saraþotajâ Artikulâ aprçíina perioda sâkumâ
+   MainKeyBegin(Main,0);
+   KeySegment(SerNr);
+  KeyBegin(Artikuls);
+  KeySegment(Artikuls);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Artikuls);
+   KeySegment(Izejviela);
+   KeySegment(Starpprodukts);
+   KeySegment(SerNr);
+  KeyBegin(Izejviela);
+  KeySegment(Izejviela);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ92xrsVc,RZ92xrsView,"rz92x");//izpakotâ daudzuma izejvielas
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,0);
+  RecordField(Izejviela,M4Code,20,0);
+  RecordField(Daudzums,M423Val,0,0);//izejvielas daudzums izpakotajâ artikulâ
+  RecordField(Pasizmaksa,M45Val,0,0);
+   MainKeyBegin(Main,0);
+   KeySegment(SerNr);
+  KeyBegin(Artikuls);
+  KeySegment(Artikuls);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Artikuls);
+   KeySegment(Izejviela);
+   KeySegment(SerNr);
+  KeyBegin(Izejviela);
+  KeySegment(Izejviela);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+  EndRecord;
+  
+  RecordBegin(RZ93Vc,RZ93View,"rz93");//Specifikâciju lîmeòi
+  RecordField(Code,M4Code,20,0);
+  RecordField(Level,M4Int,0,0);
+  RecordField(Comment,M4Str,100,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Recepy,M4Code,20,RecVc);
+  ArrayField(Name,M4Str,60,0);
+  ArrayField(SortKey,M4Code,30,0);
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+   KeyBegin(Level);
+   KeySegment(Level);
+   KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ93rsVc,RZ93rsView,"rz93rs");
+  ImpExpLevel(0);
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(Recepy,M4Code,20,RecVc);
+  RecordField(Level,M4Int,0,0);
+  RecordField(TableRZ93Code,M4Code,20,0);
+  RecordField(TableRZ93row,M4Int,0,0);
+  RecordField(ItemClass,M4Code,20,0);//2015.06.11
+  RecordField(SortKey,M4Code,30,0);//2015.08.03
+   MainKeyBegin(Main,0);
+   KeySegment(SerNr);
+  KeyBegin(Recepy);
+  KeySegment(Recepy);
+  KeySegment(SerNr);
+   KeyBegin(Level);
+   KeySegment(Level);
+   KeySegment(ItemClass);//2015.06.11
+   KeySegment(SerNr);
+  KeyBegin(LevelRecepy);//2015.07.30
+  KeySegment(Level);
+  KeySegment(Recepy);
+  KeySegment(SerNr);
+   KeyBegin(LevelSortKey);
+   KeySegment(Level);
+   KeySegment(SortKey);//2015.08.03
+   KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ94Vc,RZ94View,"rz94");//koeficientu tabulas
+  RecordField(Code,M4Code,20,0);
+  RecordField(OKFlag,M4Mark,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(CostType,M4Code,5,0);
+  RecordField(Comment,M4Str,100,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Artikuls,M4Code,20,INVc);
+  ArrayField(Nosaukums,M4Str,60,0);
+  ArrayField(Koeficients,M45Val,0,0);
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ94rsVc,RZ94rsView,"rz94rs");
+  ImpExpLevel(0);
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,INVc);
+  RecordField(CostType,M4Code,5,0);
+  RecordField(Koeficients,M45Val,0,0);
+  RecordField(TableRZ94Code,M4Code,20,0);
+  RecordField(TableRZ94row,M4Int,0,0);
+   MainKeyBegin(Main,0);
+   KeySegment(SerNr);
+  KeyBegin(PeriodCode);
+  KeySegment(PeriodCode);
+  KeySegment(CostType);
+  KeySegment(Artikuls);
+  KeySegment(SerNr);
+   KeyBegin(Artikuls);
+   KeySegment(Artikuls);
+   KeySegment(PeriodCode);
+   KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ95Vc,RZ95View,"rz95");//paðizmaksas aprçíina procenti administrâcijas un pârdoðanas izmaksâm
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(CostType,M4Code,5,0);
+  RecordField(Agents,M4Code,5,UserVc);
+  RecordField(Procents,M45Val,0,0);
+  RecordField(Izmaksas1,M4Set,-512,0);//2010.12.30
+  RecordField(Uz1Kg,M45Val,0,0);//2013.05.21
+  MainKeyBegin(Main,0);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(CostType);
+   KeySegment(Agents);
+   KeySegment(SerNr);
+  KeyBegin(Izmaksas1);
+  KeySegment(PeriodCode);
+  KeySegment(CostType);
+  KeySegment(Izmaksas1);
+  KeySegment(Agents);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ96Vc,RZ96View,"rz96");//saraþotie daudzumi agregâts/artikuls
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,0);
+  RecordField(Agregats,M4Code,10,0);
+  RecordField(Daudzums,M423Val,0,0);
+  MainKeyBegin(Main,0);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Artikuls);
+   KeySegment(Agregats);
+   KeySegment(SerNr);
+  KeyBegin(Agregats);
+  KeySegment(Agregats);
+  KeySegment(Artikuls);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+   KeyBegin(Artikuls);
+   KeySegment(Artikuls);
+   KeySegment(PeriodCode);
+   KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ97Vc,RZ97View,"rz97");//saraþotie daudzumi uz viena agregâta
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Agregats,M4Code,10,0);
+  RecordField(Daudzums,M423Val,0,0);
+  MainKeyBegin(Main,0);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Agregats);
+   KeySegment(SerNr);
+  KeyBegin(Agregats);
+  KeySegment(Agregats);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ98Vc,RZ98View,"rz98");//aìentu pârdotie daudzumi
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(PeriodCode,M4Code,20,0);
+  RecordField(Artikuls,M4Code,20,0);
+  RecordField(Agents,M4Code,10,0);
+  RecordField(Daudzums,M423Val,0,0);
+  MainKeyBegin(Main,0);
+  KeySegment(SerNr);
+   KeyBegin(PeriodCode);
+   KeySegment(PeriodCode);
+   KeySegment(Artikuls);
+   KeySegment(Agents);
+   KeySegment(SerNr);
+  KeyBegin(Agents);
+  KeySegment(Agents);
+  KeySegment(PeriodCode);
+  KeySegment(SerNr);
+   KeyBegin(Artikuls);
+   KeySegment(Artikuls);
+   KeySegment(PeriodCode);
+   KeySegment(Agents);
+   KeySegment(SerNr);
+  EndRecord;
+
+  RecordBegin(RZ99Vc,-,"rz99");
+  ImpExpLevel(1);
+  RecordField(Code,M4Code,20,RecVc);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Item,M4Code,20,INVc);
+  ArrayField(Comment,M4Str,60,0);
+  ArrayField(InQty,M45Val,0,0);
+  ArrayField(OutQty,M45Val,0,0);
+  ArrayField(ItemCost,M45Val,0,0);
+  ArrayField(ExtraCost,M45Val,0,0);
+  ArrayField(RelVal,M4UVal,0,0);
+  ArrayField(Desc,M4Str,60,0);
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+   KeyBegin(Comment);
+   KeySegment(Comment);
+   KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ99xVc,-,"rz99x");
+  ImpExpLevel(1);
+  RecordField(Code,M4Code,20,RecVc);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Item,M4Code,20,INVc);
+  ArrayField(Comment,M4Str,60,0);
+  ArrayField(InQty,M45Val,0,0);
+  ArrayField(OutQty,M45Val,0,0);
+  ArrayField(ItemCost,M45Val,0,0);
+  ArrayField(ExtraCost,M45Val,0,0);
+  ArrayField(RelVal,M4UVal,0,0);
+  ArrayField(Desc,M4Str,60,0);
+  EndArray;
+  MainKeyBegin(Code,0);
+  KeySegment(Code);
+   KeyBegin(Comment);
+   KeySegment(Comment);
+   KeySegment(Code);
+  EndRecord;
+
+  RecordBegin(RZ99eVc,RZ99eView,"");
+  ImpExpLevel(0);
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(Agregati_main,M45Val,0,0);
+  RecordField(Agregati_past,M45Val,0,0);
+  RecordField(Agregati_nol,M45Val,0,0);
+  RecordField(Agregati_proc,M45Val,0,0);
+  RecordField(Agregati3_main,M45Val,0,0);
+  RecordField(Agregati3_past,M45Val,0,0);
+  RecordField(Agregati3_nol,M45Val,0,0);
+  RecordField(Agregati3_proc,M45Val,0,0);
+  RecordField(Netiesas_main,M45Val,0,0);
+  RecordField(Netiesas_past,M45Val,0,0);
+  RecordField(Netiesas_nol,M45Val,0,0);
+  RecordField(Netiesas_proc,M45Val,0,0);
+  RecordField(Netiesas3_main,M45Val,0,0);
+  RecordField(Netiesas3_past,M45Val,0,0);
+  RecordField(Netiesas3_nol,M45Val,0,0);
+  RecordField(Netiesas3_proc,M45Val,0,0);
+  RecordField(Darbs_main,M45Val,0,0);
+  RecordField(Darbs_past,M45Val,0,0);
+  RecordField(Darbs_nol,M45Val,0,0);
+  RecordField(Darbs_proc,M45Val,0,0);
+  RecordField(Darbs3_main,M45Val,0,0);
+  RecordField(Darbs3_past,M45Val,0,0);
+  RecordField(Darbs3_nol,M45Val,0,0);
+  RecordField(Darbs3_proc,M45Val,0,0);
+  MainKeyBegin(Main,0);
+  KeySegment(SerNr);
+  EndRecord;
+
+  BlockBegin(RZPeriodBlock,RZPeriodType,"");
+  ImpExpLevel(1);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(PeriodCode,M4Code,20,0);
+  ArrayField(DatNo,M4Date,0,0);
+  ArrayField(DatLidz,M4Date,0,0);
+  ArrayField(Komentars,M4Str,100,0);
+  EndArray;
+  EndBlock;
+
+  BlockBegin(RZCostBlock,RZCostType,"");
+  ImpExpLevel(1);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Code,M4Code,10,0);
+  ArrayField(Comment,M4Str,20,0);
+  EndArray;
+  EndBlock;
+
+  BlockBegin(RZIepakGrupasBlock,-,"");
+  ImpExpLevel(1);
+  RecordField(ItemGroups,M4UStr,60,0);
+  EndBlock;
+  
+  RecordBegin(RecepyArchiveVc,-,"recarh");
+  ImpExpLevel(1);
+  RecordField(Code,M4Code,20,RecVc);
+  RecordField(Comment,M4Str,60,0);
+  RecordField(NormProdQty,M4UVal,0,0);
+  RecordField(DatNo,M4Date,0,0);
+  RecordField(DatLidz,M4Date,0,0);
+  RecordField(SerNr,M4Long,0,0);
+  RecordField(Math,M4Matrix,0,0);
+  ArrayBegin(Math,-,1);
+  ArrayField(Item,M4Code,20,INVc);
+  ArrayField(Comment,M4Str,60,0);
+  ArrayField(InQty,M45Val,0,0);
+  ArrayField(OutQty,M45Val,0,0);
+  ArrayField(ItemCost,M45Val,0,0);
+  ArrayField(ExtraCost,M45Val,0,0);
+  ArrayField(RelVal,M4UVal,0,0);
+  ArrayField(stp,M4Int,0,0);
+  ArrayField(DarbibasApraksts,M4Str,100,0);
+  EndArray;
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+   KeyBegin(Comment);
+   KeySegment(Comment);
+   KeySegment(Code);
+   KeySegment(SerNr);
+  KeyBegin(Code);
+  KeySegment(Code);
+  KeySegment(SerNr);
+  EndRecord;
+  
+end;
+
+#endif
+

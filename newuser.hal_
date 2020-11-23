@@ -1,0 +1,26 @@
+
+
+global
+updating procedure OnApplicationStartupComplete()
+begin
+  record UserVc GUr,oldGUr;
+  
+  inner.OnApplicationStartupComplete;
+  SetCompany(3,false);
+  GUr.Code = "IRIN";
+  if (ReadFirstMain(GUr,1,true)==false) then begin
+    RecordNew(GUr);
+    GUr.Code = "KSZ2";
+    //GUr.NewPassWord = CalcPassword("123",GUr.Code,0);
+    //GUr.LoginEmailAddr = "kristaps@hansaworld.com";
+    RecordStore(GUr,true);
+    LogText(0,"Izveidots lietot‚js MSA");
+  end else begin
+    LogText(0,"Lietot‚js eksist• MSA");
+    RecordCopy(oldGUr,GUr);
+    GUr.NewPassWord = CalcPassword("123",GUr.Code,0);
+    RecordUpdate(oldGUr,GUr,true);
+  end;
+
+  return;
+end;

@@ -1,0 +1,77 @@
+
+begin
+  
+  BlockBegin(HronologyBlock,-,"");
+  RecordField(HronCheck,M4Int,0,0);
+  RecordField(HronCheck2,M4Int,0,0);
+  RecordField(DisallowFutureStock,M4Int,0,0);
+  RecordField(BlockedItem1,M4Code,20,0);
+  RecordField(BlockedItem2,M4Code,20,0);
+  RecordField(BlockedItem3,M4Code,20,0);
+  RecordField(HronCheckSerial,M4Int,0,0);//2018.02.11
+  EndBlock;
+  
+  //-------------- Artikulu kustîbas pârskats (3) ----------------------------------------------------------------------------------------------
+  
+  RecordBegin(IN99rsVc,-,"");
+  ImpExpLevel(0);
+  RecordField(ItemCode,M4Code,20,INVc);
+  RecordField(SerialNr,M4Str,30,0);
+  RecordField(Location,M4Code,10,0);
+  FieldIsLocation(Location);
+  RecordField(FileName,M4Str,20,0);
+  RecordField(TransNr,M4Long,0,0);
+  RecordField(TransDate,M4Date,0,0);
+  RecordField(Qty,M4Val,0,0);
+  RecordField(Qty2,M45Val,0,0);
+  RecordField(Row,M4Int,0,0);
+  RecordField(LocOKNr,M4Long,0,0);
+  RecordField(FIFO,M4Int,0,0);//0 - iziet no noliktavas, 1 - ienâk noliktavâ
+  RecordField(FIFOVal,M45Val,0,0);
+  RecordField(FIFORowVal,M45Val,0,0);
+  RecordField(Price,M45Val,0,0);
+  RecordField(Klients,M4Code,20,0);
+  MainKeyBegin(MainKey,0);
+  KeySegment(ItemCode);
+  KeySegment(TransDate);
+  KeySegment(LocOKNr);
+  KeySegment(FileName);
+  KeySegment(TransNr);
+  KeySegment(FIFO);
+  KeySegment(Row);
+   KeyBegin(FileName);
+   KeySegment(FileName);
+   KeySegment(ItemCode);
+   KeySegment(TransDate);
+   KeySegment(LocOKNr);
+   KeySegment(TransNr);
+   KeySegment(FIFO);
+   KeySegment(Row);
+  KeyBegin(TransDate);
+  KeySegment(TransDate);
+  KeySegment(ItemCode);
+  KeySegment(FileName);
+  KeySegment(LocOKNr);
+  KeySegment(TransNr);
+  KeySegment(FIFO);
+  KeySegment(Row);
+   KeyBegin(ItemSerialNr);
+   KeySegment(ItemCode);
+   KeySegment(SerialNr);
+   KeySegment(TransDate);
+   KeySegment(LocOKNr);
+   KeySegment(FileName);
+   KeySegment(TransNr);
+   KeySegment(FIFO);
+   KeySegment(Row);
+  KeyBegin(ItemLocOKNr);
+  KeySegment(ItemCode);
+  KeySegment(LocOKNr);
+  KeySegment(FileName);
+  KeySegment(TransNr);
+  KeySegment(FIFO);
+  KeySegment(Row);
+  KeySegment(TransDate);
+  EndRecord;
+
+end;

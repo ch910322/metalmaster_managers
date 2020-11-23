@@ -1,0 +1,3499 @@
+external procedure JSONBeginElement(string,var area);
+external procedure JSONEndElement(Boolean,var area);
+external procedure JSONBeginArray(string,var area);
+external procedure JSONEndArray(Boolean,var area);
+external procedure JSONField(string,string,Boolean,Boolean,var area);//name,value,quoted,last,area
+external inner procedure RedirectToLoginPage();
+external inner function string 255 ToolWebNGTranslateText2(Longint);
+external inner function Date DateFromString(string,string);
+external inner procedure RememberRequestURL(string);
+external inner function string 60 AddObjectToObjectList(string,string);
+external inner function Boolean GetNextCustNr(var string);
+external inner procedure ORVc_PasteQuant(var record ORVc,Integer,Boolean,var Boolean);
+external inner procedure ORVc_PastePrice(var record ORVc,Integer,var Boolean);
+external inner procedure ORVc_PastevRebate(var record ORVc,Integer,var Boolean);
+external inner procedure ORDchsum(var record ORVc,Integer);
+external inner procedure ORSumup(var record ORVc);
+external inner procedure RecalcORSubtotal(var record ORVc);
+external inner function Boolean ORVc_PasteArtCode(var record ORVc,Integer,var string,var string,Boolean);
+external inner function Boolean PasteCustInOrder(var record ORVc,string,string,var string,var string);
+external inner function LongInt CUVcRecordCheck(var record CUVc,record CUVc,LongInt,LongInt);
+external procedure WebOrdersCalculateDimentions(var record ORVc,Integer);
+external procedure WebOrdersCalculateDimentions2(var record ORVc,Integer);
+external procedure WebOrdersUnitFactQuantAfter(var record ORVc,Integer);
+external procedure WebOrdersUnitFactPriceAfter(var record ORVc,Integer);
+external inner function LongInt ORVcRecordDuplicate(var record ORVc,record ORVc,LongInt,LongInt);
+external procedure WebOrdersUnitXZvalAfter(var record ORVc,Integer);
+external procedure WebOrdersCoefficientAfter(var record ORVc,Integer);
+external inner function val GetStockQty(string,string,Date,Boolean);
+external inner function Boolean ReadFirstItem(string,var record INVc,Boolean,Boolean);
+external inner function LongInt DateDiff(Date,Date);
+external function string 255 FormatJSONString(string);
+external inner function string 255 StrReplace(string,string,string);
+external inner function LongInt ORVcRecordRemoveTest(var record ORVc,record ORVc,LongInt,LongInt);
+external inner procedure ORVc_PasteSum(var record ORVc,Integer,var Boolean);
+external inner procedure ORVc_PasteVATCode(var record ORVc,Integer,var Boolean);
+external inner procedure FindStockValue(string,string,var record ItemStatusVc);
+external inner procedure QTVc_PasteQuant(var record QTVc,Integer,Boolean,var Boolean);
+external inner function Boolean QTVc_PasteArtCode(var record QTVc,Integer,var string,var string);
+external inner procedure QTVc_PastePrice(var record QTVc,Integer,var Boolean);
+external inner procedure QTSumup(var record QTVc);
+external inner procedure QTDchsum(record QTr,Integer);
+external inner procedure QTVc_PastevRebate(var record QTVc,Integer,var Boolean);
+external inner procedure CalcSum(val,val,val,val,var val,Integer);
+external inner procedure RoundRowSum(string,string,string,var val);
+external inner procedure RowCalculateTaxMatrix_QTVc(var record QTVc,Integer,row QTVc);
+external inner function Boolean PasteCustInQT(var record QTVc,string,string,var string,Boolean);
+external inner function LongInt QTVcRecordRemoveTest(var record QTVc,record QTVc,LongInt,LongInt);
+external inner function roundmode SetRoundModeD(Integer);
+external inner updating function Integer RecordAction_raPasteQTInOrder(var record ORVc,var record QTVc,Boolean);
+external inner function LongInt QTVcRecordDuplicate(var record QTVc,record QTVc,LongInt,LongInt);
+
+
+procedure DisplayManagersLabels()
+begin
+
+  WebOutString("<script>");
+  WebOutString("var man_lab = [];");
+  WebOutString("man_lab['SerNr'] = '" &          ToolWebNGTranslateText2(88001) & "';");
+  WebOutString("man_lab['OKFlag'] = '" &         ToolWebNGTranslateText2(88002) & "';");
+  WebOutString("man_lab['Customer'] = '" &       ToolWebNGTranslateText2(88003) & "';");
+  WebOutString("man_lab['Date'] = '" &           ToolWebNGTranslateText2(88004) & "';");
+  WebOutString("man_lab['ConfDate'] = '" &       ToolWebNGTranslateText2(88005) & "';");
+  WebOutString("man_lab['DelDate'] = '" &        ToolWebNGTranslateText2(88006) & "';");
+  WebOutString("man_lab['Delivered'] = '" &      ToolWebNGTranslateText2(88007) & "';");
+  WebOutString("man_lab['Invoiced'] = '" &       ToolWebNGTranslateText2(88008) & "';");
+  WebOutString("man_lab['ItemCode'] = '" &       ToolWebNGTranslateText2(88009) & "';");
+  WebOutString("man_lab['TotalQty'] = '" &       ToolWebNGTranslateText2(88010) & "';");
+  WebOutString("man_lab['Name'] = '" &           ToolWebNGTranslateText2(88011) & "';");
+  WebOutString("man_lab['Width'] = '" &          ToolWebNGTranslateText2(88012) & "';");
+  WebOutString("man_lab['Length'] = '" &         ToolWebNGTranslateText2(88013) & "';");
+  WebOutString("man_lab['Qty'] = '" &            ToolWebNGTranslateText2(88014) & "';");
+  WebOutString("man_lab['Unit'] = '" &           ToolWebNGTranslateText2(88015) & "';");
+  WebOutString("man_lab['Price'] = '" &          ToolWebNGTranslateText2(88016) & "';");
+  WebOutString("man_lab['Discount'] = '" &       ToolWebNGTranslateText2(88017) & "';");
+  WebOutString("man_lab['Sum'] = '" &            ToolWebNGTranslateText2(88018) & "';");
+  WebOutString("man_lab['InProduction'] = '" &   ToolWebNGTranslateText2(88019) & "';");
+  WebOutString("man_lab['Produced'] = '" &       ToolWebNGTranslateText2(88020) & "';");
+  WebOutString("man_lab['StartDate'] = '" &      ToolWebNGTranslateText2(88021) & "';");
+  WebOutString("man_lab['EndDate'] = '" &        ToolWebNGTranslateText2(88022) & "';");
+//88023-88030 taken
+  WebOutString("man_lab['CustName'] = '" &       ToolWebNGTranslateText2(88031) & "';");
+  WebOutString("man_lab['InvDate'] = '" &        ToolWebNGTranslateText2(88032) & "';");
+  WebOutString("man_lab['Sum'] = '" &            ToolWebNGTranslateText2(88033) & "';");
+  WebOutString("man_lab['Total'] = '" &          ToolWebNGTranslateText2(88034) & "';");
+  WebOutString("man_lab['VATSum'] = '" &         ToolWebNGTranslateText2(88035) & "';");
+  WebOutString("man_lab['VATNr'] = '" &          ToolWebNGTranslateText2(88036) & "';");
+  WebOutString("man_lab['RegNr'] = '" &          ToolWebNGTranslateText2(88037) & "';");
+  WebOutString("man_lab['Mobile'] = '" &         ToolWebNGTranslateText2(88038) & "';");
+  WebOutString("man_lab['Phone'] = '" &          ToolWebNGTranslateText2(88039) & "';");
+  WebOutString("man_lab['Code'] = '" &           ToolWebNGTranslateText2(88040) & "';");
+  WebOutString("man_lab['InvoiceAddress'] = '" & ToolWebNGTranslateText2(88041) & "';");
+  WebOutString("man_lab['DeliveryAddress'] = '" &ToolWebNGTranslateText2(88042) & "';");
+  WebOutString("man_lab['InvAddr0'] = '" &       ToolWebNGTranslateText2(88043) & "';");
+  WebOutString("man_lab['InvAddr1'] = '" &       ToolWebNGTranslateText2(88044) & "';");
+  WebOutString("man_lab['InvAddr2'] = '" &       ToolWebNGTranslateText2(88045) & "';");
+  WebOutString("man_lab['InvAddr3'] = '" &       ToolWebNGTranslateText2(88046) & "';");
+  WebOutString("man_lab['InvAddr4'] = '" &       ToolWebNGTranslateText2(88047) & "';");
+  WebOutString("man_lab['DelAddr0'] = '" &       ToolWebNGTranslateText2(88048) & "';");
+  WebOutString("man_lab['DelAddr1'] = '" &       ToolWebNGTranslateText2(88049) & "';");
+  WebOutString("man_lab['DelAddr2'] = '" &       ToolWebNGTranslateText2(88050) & "';");
+  WebOutString("man_lab['DelAddr3'] = '" &       ToolWebNGTranslateText2(88051) & "';");
+  WebOutString("man_lab['DelAddr4'] = '" &       ToolWebNGTranslateText2(88052) & "';");
+  WebOutString("man_lab['Order'] = '" &          ToolWebNGTranslateText2(88053) & "';");
+  WebOutString("man_lab['Customer'] = '" &       ToolWebNGTranslateText2(88054) & "';");
+  WebOutString("man_lab['Email'] = '" &          ToolWebNGTranslateText2(88055) & "';");
+  WebOutString("man_lab['Contact'] = '" &        ToolWebNGTranslateText2(88056) & "';");
+  WebOutString("man_lab['Language'] = '" &       ToolWebNGTranslateText2(88057) & "';");
+  WebOutString("man_lab['Currency'] = '" &       ToolWebNGTranslateText2(88058) & "';");
+  WebOutString("man_lab['DueDate'] = '" &        ToolWebNGTranslateText2(88059) & "';");
+  WebOutString("man_lab['CountryCode'] = '" &    ToolWebNGTranslateText2(88060) & "';");
+  WebOutString("man_lab['DelCountry'] = '" &     ToolWebNGTranslateText2(88061) & "';");
+  WebOutString("man_lab['PayTerm'] = '" &        ToolWebNGTranslateText2(88062) & "';");
+  WebOutString("man_lab['CreditLimit'] = '" &    ToolWebNGTranslateText2(88063) & "';");
+  WebOutString("man_lab['VATCode'] = '" &        ToolWebNGTranslateText2(88064) & "';");
+  WebOutString("man_lab['AccountInfo'] = '" &    ToolWebNGTranslateText2(88065) & "';");
+  WebOutString("man_lab['IBANCode'] = '" &       ToolWebNGTranslateText2(88066) & "';");
+  WebOutString("man_lab['AccOperator'] = '" &    ToolWebNGTranslateText2(88067) & "';");
+  WebOutString("man_lab['BankAccount'] = '" &    ToolWebNGTranslateText2(88068) & "';");
+  WebOutString("man_lab['Bank'] = '" &           ToolWebNGTranslateText2(88069) & "';");
+  WebOutString("man_lab['Faktoring'] = '" &      ToolWebNGTranslateText2(88070) & "';");
+  WebOutString("man_lab['OrderComment'] = '" &   ToolWebNGTranslateText2(88071) & "';");
+  WebOutString("man_lab['WarningOnSales'] = '" & ToolWebNGTranslateText2(88072) & "';");
+//88073-88080 taken for paste special
+  WebOutString("man_lab['VATZone'] = '" &        ToolWebNGTranslateText2(88081) & "';");
+  WebOutString("man_lab['CustType'] = '" &       ToolWebNGTranslateText2(88082) & "';");
+  WebOutString("man_lab['Save'] = '" &           ToolWebNGTranslateText2(88083) & "';");
+  WebOutString("man_lab['CloseNoSave'] = '" &    ToolWebNGTranslateText2(88084) & "';");
+  WebOutString("man_lab['PlanotsSanemt'] = '" &  ToolWebNGTranslateText2(88085) & "';");
+  WebOutString("man_lab['PlanotsNosutit'] = '" & ToolWebNGTranslateText2(88086) & "';");
+  WebOutString("man_lab['DespatchDate'] = '" &   ToolWebNGTranslateText2(88087) & "';");
+  WebOutString("man_lab['SalesMan'] = '" &       ToolWebNGTranslateText2(88088) & "';");
+  WebOutString("man_lab['Objects'] = '" &        ToolWebNGTranslateText2(88089) & "';");
+  WebOutString("man_lab['ShipMode'] = '" &       ToolWebNGTranslateText2(88090) & "';");
+  WebOutString("man_lab['Comment'] = '" &        ToolWebNGTranslateText2(88091) & "';");
+  WebOutString("man_lab['Confirmed'] = '" &      ToolWebNGTranslateText2(88092) & "';");
+  WebOutString("man_lab['Closed'] = '" &         ToolWebNGTranslateText2(88093) & "';");
+  WebOutString("man_lab['AddRow'] = '" &         ToolWebNGTranslateText2(88094) & "';");
+  WebOutString("man_lab['AddSubtotal'] = '" &    ToolWebNGTranslateText2(88095) & "';");
+  WebOutString("man_lab['CopyRow'] = '" &        ToolWebNGTranslateText2(88096) & "';");
+  WebOutString("man_lab['DeleteRow'] = '" &      ToolWebNGTranslateText2(88097) & "';");
+  WebOutString("man_lab['AddRowBelow'] = '" &    ToolWebNGTranslateText2(88098) & "';");
+  WebOutString("man_lab['Subtotal'] = '" &       ToolWebNGTranslateText2(88099) & "';");
+  WebOutString("man_lab['SerialNr'] = '" &       ToolWebNGTranslateText2(88100) & "';");
+  WebOutString("man_lab['ShipNote'] = '" &       ToolWebNGTranslateText2(88101) & "';");
+  WebOutString("man_lab['NewRecord'] = '" &      ToolWebNGTranslateText2(88102) & "';");
+  WebOutString("man_lab['Run'] = '" &            ToolWebNGTranslateText2(88103) & "';");
+  WebOutString("man_lab['Period'] = '" &         ToolWebNGTranslateText2(88104) & "';");
+  WebOutString("man_lab['Agent'] = '" &          ToolWebNGTranslateText2(88105) & "';");
+  WebOutString("man_lab['Function'] = '" &       ToolWebNGTranslateText2(88106) & "';");
+  WebOutString("man_lab['SalesLedger'] = '" &    ToolWebNGTranslateText2(88027) & "';");
+  WebOutString("man_lab['AgentPayments'] = '" &  ToolWebNGTranslateText2(88026) & "';");
+//88107-88110 taken for paste special
+  WebOutString("man_lab['ShipDeal'] = '" &       ToolWebNGTranslateText2(88111) & "';");
+  WebOutString("man_lab['LogoutMsg'] = '" &      ToolWebNGTranslateText2(88112) & "';");
+  WebOutString("man_lab['LoginBtn'] = '" &       ToolWebNGTranslateText2(88113) & "';");
+  WebOutString("man_lab['Duplicate'] = '" &      ToolWebNGTranslateText2(88114) & "';");
+  WebOutString("man_lab['AllOrders'] = '" &      ToolWebNGTranslateText2(88115) & "';");
+  WebOutString("man_lab['MyOrders'] = '" &       ToolWebNGTranslateText2(88116) & "';");
+  WebOutString("man_lab['Search'] = '" &         ToolWebNGTranslateText2(88117) & "';");
+  WebOutString("man_lab['Subtotal2'] = '" &      ToolWebNGTranslateText2(88118) & "';");
+  WebOutString("man_lab['Print'] = '" &          ToolWebNGTranslateText2(88119) & "';");
+  WebOutString("man_lab['DeleteMessage'] = '" &  ToolWebNGTranslateText2(88120) & "';");
+  WebOutString("man_lab['Closed'] = '" &         ToolWebNGTranslateText2(88121) & "';");
+  WebOutString("man_lab['DueDays'] = '" &        ToolWebNGTranslateText2(88122) & "';");
+  WebOutString("man_lab['Text'] = '" &           ToolWebNGTranslateText2(88123) & "';");
+  WebOutString("man_lab['PasteExcel'] = '" &     ToolWebNGTranslateText2(88124) & "';");
+  WebOutString("man_lab['VATCode'] = '" &        ToolWebNGTranslateText2(88125) & "';");
+
+//88126-88130 taken for paste special
+  WebOutString("man_lab['Status'] = '" &         ToolWebNGTranslateText2(88131) & "';");
+  WebOutString("man_lab['Delete'] = '" &         ToolWebNGTranslateText2(88132) & "';");
+  WebOutString("man_lab['DeleteMessage2'] = '" & ToolWebNGTranslateText2(88133) & "';");
+  WebOutString("man_lab['CreatePrep'] = '" &     ToolWebNGTranslateText2(88134) & "';");
+//  88135-88140 taken
+  WebOutString("man_lab['Pieces'] = '" &         ToolWebNGTranslateText2(88141) & "';");
+  WebOutString("man_lab['ProdStatus'] = '" &     ToolWebNGTranslateText2(88142) & "';");
+//  88143-88145 taken
+  WebOutString("man_lab['Location'] = '" &       ToolWebNGTranslateText2(88146) & "';");
+  WebOutString("man_lab['CustCategory'] = '" &   ToolWebNGTranslateText2(88147) & "';");
+  WebOutString("man_lab['Prepayments'] = '" &    ToolWebNGTranslateText2(88148) & "';");
+  WebOutString("man_lab['VATNoCheck'] = '" &     ToolWebNGTranslateText2(88149) & "';");
+  WebOutString("man_lab['OrderNr'] = '" &        ToolWebNGTranslateText2(88150) & "';");
+  WebOutString("man_lab['Nr'] = '" &             ToolWebNGTranslateText2(88151) & "';");
+  WebOutString("man_lab['QTs'] = '" &            ToolWebNGTranslateText2(88029) & "';");
+  WebOutString("man_lab['QTOpen'] = '" &         ToolWebNGTranslateText2(88152) & "';");
+  WebOutString("man_lab['QTApproved'] = '" &     ToolWebNGTranslateText2(88153) & "';");
+  WebOutString("man_lab['QTDeclined'] = '" &     ToolWebNGTranslateText2(88154) & "';");
+  WebOutString("man_lab['CreateOrder'] = '" &    ToolWebNGTranslateText2(88155) & "';");
+  
+  WebOutString("</script>");
+
+  return;
+end;
+
+global webpublic//for now
+procedure WebManagers()
+begin
+  Boolean blankf;
+  string 255 ver;
+  
+  blankf = true;
+  
+  if (blank(CurrentUser)) then begin
+    RememberRequestURL("/WebManagers.hal");
+    RedirectToLoginPage;
+    goto LWebManagers;
+  end;
+  
+  if (blankf) then begin
+    WebOutString("<html><head>");
+  end;
+  DisplayManagersLabels;
+  ver = "?ver=201110";
+  
+  WebOutString("<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>");
+  WebOutString("<script src='/ajax-chosen-master/dist/chosen.jquery.js'></script>");
+  WebOutString("<script src='/ajax-chosen-master/lib/ajax-chosen.js'></script>");
+  WebOutString("<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>");
+  WebOutString("<script src='/managers.js" & ver & "'></script>");
+  WebOutString("<link rel='stylesheet' href='/managers.css" & ver & "'>");
+  WebOutString("<link rel='stylesheet' href='/ajax-chosen-master/dist/chosen.min.css'>");
+  WebOutString("<link rel='stylesheet' href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>");
+   
+  if (blankf) then begin
+    WebOutString("</head><body>");
+  end;
+  
+  WebOutString("<div id='managers_wrap'>");
+  //Some kind of menu
+  WebOutString("<div class='managers_nav'>");
+  WebOutString("<div class='managers_menu'>");
+  WebOutString("<div class='main_nav'>");
+  WebOutString("<div class='managers_menu_item' id='order_nav'>" & ToolWebNGTranslateText2(88023) & "</div>");
+  WebOutString("<div class='managers_menu_item' id='qt_nav'>" & ToolWebNGTranslateText2(88029) & "</div>");
+  WebOutString("<div class='managers_menu_item' id='customer_nav'>" & ToolWebNGTranslateText2(88024) & "</div>");
+  WebOutString("<div class='managers_menu_item' id='invoice_nav'>" & ToolWebNGTranslateText2(88025) & "</div>");
+  WebOutString("<div class='managers_menu_item' id='agentpayments_nav'>" & ToolWebNGTranslateText2(88026) & "</div>");
+  WebOutString("<div class='managers_menu_item' id='sl_nav'>" & ToolWebNGTranslateText2(88027) & "</div>");
+  WebOutString("</div>");
+  WebOutString("<div class='login_nav'>");
+  WebOutString("<div class='managers_menu_item' id='logout_nav'>" & ToolWebNGTranslateText2(88028) & "</div>");
+  WebOutString("</div>");
+  WebOutString("</div>");
+  WebOutString("</div>");
+  
+  WebOutString("<div class='managers_main_content'>");
+  WebOutString("<div class='managers_window'>");
+  
+  WebOutString("<div id='headers'><div class='filters'></div><div class='head_columns'></div></div>");//filters and column titles
+  WebOutString("<div id='list'></div>");
+  WebOutString("<div id='pagination'></div>");
+  
+  WebOutString("</div>");//managers_window
+  WebOutString("</div>");//managers_main_content
+  
+  WebOutString("</div>");//managers_wrap
+  
+  if (blankf) then begin
+    WebOutString("</body></html>");
+  end;  
+
+LWebManagers:;
+  return;
+end;
+
+procedure OutputWebText(area req)
+begin
+  Longint l,pos,m;
+
+  pos = 0;
+  l = GetAreaLength(req);
+  m = 255;
+  while (pos<l) begin
+    if (pos+255>l) then begin
+      m = l-pos;
+    end;
+    WebOutString(GetStringFromArea(req,pos,m));
+    pos = pos + 255;
+  end;
+
+  return;
+end;
+
+procedure ReturnErrorMessage(Longint err)
+begin
+  area req;
+  
+  JSONBeginElement("",req);
+  JSONField("error",ToolWebNGTranslateText2(err),true,true,req);
+  JSONEndElement(true,req);
+  
+  OutputWebText(req);
+  return;
+end;
+
+function Boolean UserShouldSeeOrder(record ORVc ORr,string user)
+begin
+  Boolean res;
+  
+  res = true;//for now
+
+  UserShouldSeeOrder = res;
+  return;
+end;
+
+function Boolean UserShouldSeeInvoice(record IVVc IVr,string user)
+begin
+  Boolean res;
+  
+  res = true;//for now
+
+  UserShouldSeeInvoice = res;
+  return;
+end;
+
+function Boolean UserShouldSeeDelivery(record SHVc SHr,string user)
+begin
+  Boolean res;
+  
+  res = true;//for now
+
+  UserShouldSeeDelivery = res;
+  return;
+end;
+
+function Boolean UserShouldSeeContact(record ORVc ORr,string user)
+begin
+  Boolean res;
+  
+  res = true;//for now
+
+  UserShouldSeeContact = res;
+  return;
+end;
+
+function Boolean UserShouldSeeQT(record QTVc QTr,string user)
+begin
+  Boolean res;
+  
+  res = true;//for now
+
+  UserShouldSeeQT = res;
+  return;
+end;
+
+
+function string 255 FixDate(Date td)
+begin
+  string 255 res;
+
+  res = DateToString(td,"YYYY-MM-DD");
+
+  FixDate = res;
+  return;
+end;
+
+
+function Boolean CustomerSearchMatches(record CUVc CUr,string search)
+begin
+  Boolean res;
+  Integer i,rwcnt;
+  row ORVc ORrw;
+
+  if (InString(CUr.Code,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.Name,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.VATNr,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.RegNr1,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.Phone,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.Mobile,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.eMail,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.Person,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.DelAddr0,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+  if (InString(CUr.InvAddr0,search)>0) then begin
+    res = true;
+    goto LCustomerSearchMatches;
+  end;
+
+LCustomerSearchMatches:;
+  CustomerSearchMatches = res;
+  return;
+end;
+
+procedure GetCustomerList(string code,string regnr,string search,string user,var array record CUVc arrCUr)
+begin
+  record CUVc CUr;
+  Boolean TrHs,testf;
+  string 255 key;
+  
+  key = "Code";
+  CUr.Code = code;
+  if (nonblank(regnr)) then begin
+    key = "RegNr1";
+    CUr.RegNr1 = regnr;
+  end;
+  TrHs = true;
+  while (LoopKey(key,CUr,1,TrHs)) begin
+    if (nonblank(regnr) and regnr!=CUr.RegNr1) then begin
+        TrHs = false;
+    end else begin
+      if (nonblank(code) and CUr.Code!=code) then begin
+        TrHs = false;
+      end;
+    end;
+    if (TrHs) then begin
+      testf = true;
+      if (user!="__ALL" and CUr.SalesMan!=user) then begin
+        testf = false;
+      end;
+      if (nonblank(search) and CustomerSearchMatches(CUr,search)==false) then begin
+        testf = false;
+      end;
+      if (UserShouldSeeContact(CUr,user)==false) then begin
+        testf = false;
+      end;
+      if (testf) then begin
+        arrCUr[arrCUr.length] = CUr;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+function string 255 GetMainContact(record CUVc CUr)
+begin
+  string 255 res;
+  record ContactRelVc CRr;
+  Boolean TrHs;
+  
+  res = CUr.Person;
+  if (nonblank(CUr.Person)) then begin
+    TrHs = true;
+    CRr.CustCode = CUr.Code;
+    while (LoopMain(CRr,1,TrHs)) begin
+      if (CRr.CustCode!=CUr.Code) then begin
+        TrHs = false;
+      end else begin
+        if (CRr.ContactName==CUr.Person) then begin
+          res = CRr.ContactCode & ":" & CRr.ContactName;
+        end;
+      end;
+    end;
+  end;
+
+  GetMainContact = res;
+  return;
+end;
+
+procedure GetManagerContacts()
+begin
+  Date sd,ed;
+  Integer pg,inpage,pos,endpos,i,pgcnt,j;
+  array record CUVc arrCUr;
+  record CUVc CUr;
+  area req;
+  string 255 code,regnr,search,user,tstr;
+
+  code = WebGetArg("code");
+  regnr = WebGetArg("regnr");
+  search = WebGetArg("search");
+  user = "__ALL";
+  if (WebGetArg("usertype")=="user") then begin
+    user = CurrentUser;
+  end;
+  GetCustomerList(code,regnr,search,user,arrCUr);
+  
+  pg = StringToInt(WebGetArg("pg"));
+  inpage = 20;
+  pos = pg*20;
+  endpos = pos + 20;
+  if (endpos>arrCUr.length) then begin
+    endpos = arrCUr.length;
+  end;
+  pgcnt = arrCUr.length/20;
+  
+  JSONBeginElement("",req);
+  JSONField("pageCnt",pgcnt,true,false,req);
+  JSONBeginArray("customers",req);
+  
+  for (i=pos;i<endpos;i=i+1) begin
+    CUr = arrCUr[i];
+    JSONBeginElement("",req);
+    
+    JSONField("code",CUr.Code,true,false,req);
+    JSONField("name",CUr.Name,true,false,req);
+    JSONField("regnr",CUr.RegNr1,true,false,req);
+    JSONField("vatnr",CUr.VATNr,true,false,req);
+    JSONField("phone",CUr.Phone,true,false,req);
+    JSONField("mobile",CUr.Mobile,true,false,req);
+    JSONField("email",CUr.eMail,true,false,req);
+    JSONField("contact",GetMainContact(CUr),true,false,req);
+
+    JSONField("language",CUr.LangCode,true,true,req);
+/*
+    JSONField("invaddr0",CUr.InvAddr0,true,false,req);
+    JSONField("invaddr1",CUr.InvAddr1,true,false,req);
+    JSONField("invaddr2",CUr.InvAddr2,true,false,req);
+    JSONField("invaddr3",CUr.InvAddr3,true,false,req);
+    JSONField("invaddr4",CUr.InvAddr4,true,false,req);
+    JSONField("deladdr0",CUr.DelAddr0,true,false,req);
+    JSONField("deladdr1",CUr.DelAddr1,true,false,req);
+    JSONField("deladdr2",CUr.DelAddr2,true,false,req);
+    JSONField("deladdr3",CUr.DelAddr3,true,false,req);
+    JSONField("deladdr4",CUr.DelAddr4,true,true,req);
+*/
+
+    JSONEndElement((i==(endpos-1)),req);
+  end;
+  
+  JSONEndArray(true,req);
+  JSONEndElement(true,req);
+  
+
+  OutputWebText(req);
+  return;
+end;
+
+
+procedure GetManagerCustomerRows()
+begin
+  record CUVc CUr;
+  record ContactRelVc CRr;
+  area req,tmpa;
+  Boolean foundf,TrHs;
+
+  CUr.Code = WebGetArg("code");
+  if (ReadFirstMain(CUr,1,true)) then begin   
+    if (UserShouldSeeContact(CUr,CurrentUser)) then begin 
+      JSONBeginElement("",req);
+      JSONBeginArray("rows",req);
+      CRr.CustCode = CUr.Code;
+      TrHs = true;
+      while (LoopMain(CRr,1,TrHs)) begin
+        if (CRr.CustCode!=CUr.Code) then begin
+          TrHs = false;
+        end else begin
+          JSONBeginElement("",req);
+          JSONField("contactname",CRr.ContactName,true,false,req);
+          JSONField("phone",CRr.ContactPhone,true,false,req);
+          JSONField("mobile",CRr.ContactMobile,true,false,req);
+          JSONField("email",CRr.ContacteMail,true,true,req);
+          JSONEndElement(false,req);
+          foundf = true;
+        end;
+      end;
+      if (foundf) then begin
+        GetAreaFromArea(req,0,GetAreaLength(req)-1,tmpa);
+        SetAreaZeroSize(req);
+        InsertAreaBeforeArea(tmpa,req);
+      end;
+      JSONEndArray(true,req);
+      JSONEndElement(true,req);
+    end;
+  end;
+
+  OutputWebText(req);
+  return;
+end;
+
+function Boolean OrderSearchMatches(record ORVc ORr,string search)
+begin
+  Boolean res;
+  Integer i,rwcnt;
+  row ORVc ORrw;
+  Date td;
+
+  if (InString(ORr.Addr0,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (InString(ORr.CustCode,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (InString(ORr.VATNr,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+
+  if (InString(ORr.SalesMan,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (InString(ORr.Sum4,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  td = DateFromString(search,"YYYY-MM-DD");
+
+  if (ORr.OrdDate==td) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (ORr.PlanotsNosutit==td) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (ORr.PlanotsSanemt==td) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+
+  rwcnt = MatRowCnt(ORr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(ORr,i,ORrw);
+    if (nonblank(ORrw.ArtCode) and InString(ORrw.ArtCode,search)>0) then begin
+      res = true;
+      goto LOrderSearchMatches;
+    end;
+    if (nonblank(ORrw.Spec) and InString(ORrw.Spec,search)>0) then begin
+      res = true;
+      goto LOrderSearchMatches;
+    end;
+  end;
+
+
+LOrderSearchMatches:;
+  OrderSearchMatches = res;
+  return;
+end;
+
+procedure GetOrderList(Date sd,Date ed,Longint sernr,string search,string user,var array record ORVc arrORr)
+begin
+  record ORVc ORr;
+  Boolean TrHs,testf;
+  string 255 key;
+  
+  key = "OrdDate";
+  if (sernr>0) then begin
+    key = "SerNr";
+    ORr.SerNr = sernr;
+  end;
+  TrHs = true;
+  ORr.OrdDate = ed;
+  while (LoopBackKey(key,ORr,1,TrHs)) begin
+    if (sernr>0) then begin
+      if (ORr.SerNr!=sernr) then begin
+        TrHs = false;
+      end;
+    end else begin
+      if (nonblank(sd) and sd>ORr.OrdDate) then begin
+        TrHs = false;
+      end;
+    end;
+    if (TrHs) then begin
+      testf = true;
+      if (user!="__ALL" and ORr.SalesMan!=user) then begin
+        testf = false;
+      end;
+      if (nonblank(search) and OrderSearchMatches(ORr,search)==false) then begin
+        testf = false;
+      end;
+      if (UserShouldSeeOrder(ORr,user)==false) then begin
+        testf = false;
+      end;
+      if (testf) then begin
+        arrORr[arrORr.length] = ORr;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+function string 255 GetListOfDeliveries(record ORVc ORr)
+begin
+  Boolean TrHs;
+  string 255 res;
+  record SHVc SHr;
+
+  TrHs = true;
+  SHr.OrderNr = ORr.SerNr;
+  while (LoopKey("OrderKey",SHr,1,TrHs)) begin
+    if (SHr.OrderNr!=ORr.SerNr) then begin
+      TrHs = false;
+    end else begin
+      if (SHr.OKFlag==1) then begin
+        res = AddObjectToObjectList(res,SHr.SerNr & ":" & FixDate(SHr.ShipDate));
+      end;
+    end;
+  end;
+
+  GetListOfDeliveries = res;
+  return;
+end;
+
+function string 255 GetListOfInvoices(record ORVc ORr,var Boolean emailsent)
+begin
+  Boolean TrHs;
+  string 255 res;
+  record IVVc IVr;
+
+  emailsent = false;
+  TrHs = true;
+  IVr.OrderNr = ORr.SerNr;
+  while (LoopKey("OrderNr",IVr,1,TrHs)) begin
+    if (IVr.OrderNr!=ORr.SerNr) then begin
+      TrHs = false;
+    end else begin
+      if (IVr.OKFlag==1) then begin
+        if (nonblank(res)) then begin
+          res = res & ",";
+        end;
+        if (IVr.EmailSent==1) then begin
+          emailsent = true;
+        end;
+        res = res & IVr.SerNr & ":" & FixDate(IVr.TransDate) & ":" & IVr.PayDeal;
+      end;
+    end;
+  end;
+
+  GetListOfInvoices = res;
+  return;
+end;
+
+
+procedure GetRowProdStatus(record ORVc ORr,row ORVc ORrw,var Integer inprod,var Integer produced)
+begin
+  record ProdOrderVc ProdOrder;
+  row ProdOrderVc ProdOrderw;
+  Integer i,rwcnt;
+  Boolean TrHs;
+  record INVc INr;
+  Boolean prodf,stockf;
+  record SerBalVc SBr;
+  val serqty;
+  string 255 sernr;
+  record ItemStatusVc ISr;
+
+  inprod = 0;
+  produced = 0;
+  if (ORrw.stp==1) then begin
+//LogText(0,"GetRowProdStatus " & ORr.SerNr & ":" & RecordsInIndex("ProdOrderVc","SalesOrder"));
+    if (ReadFirstItem(ORrw.ArtCode,INr,false,false)) then begin
+      stockf = false;
+      prodf = false;
+      if (INr.ItemType==kItemTypeStocked) then begin
+        stockf = true;
+      end;
+      if (INr.ProjektuArtikuls==1) then begin
+        prodf = true;
+      end;
+      if (!stockf and !prodf) then begin
+        produced = 1;
+      end;
+      if (stockf) then begin
+        if (nonblank(ORrw.SerialNr) and INr.SerNrf!=0) then begin
+          SBr.Item = INr.Code;
+          SBr.Serial = ORrw.SerialNr;
+          TrHs = true;
+          while (LoopKey("ItemSerial",SBr,2,TrHs)) begin
+            if (SBr.Item!=INr.Code or SBr.Serial!=ORrw.SerialNr) then begin
+              TrHs = false;
+            end else begin
+              serqty = serqty + SBr.Quant;
+            end;
+          end;
+          if (serqty>=ORrw.Quant) then begin
+            produced = 1;
+          end;
+        end else begin
+          /*
+          if (GetStockQty(INr.Code,"",CurrentDate,false)>=ORrw.Quant) then begin
+            produced = 1;
+          end;
+          */
+          FindStockValue(INr.Code,"",ISr);
+          if (ISr.Instock>=ISr.OrddOut) then begin
+            produced = 1;
+          end;
+        end;
+      end;
+      if (prodf and produced==0) then begin
+        sernr = ORr.SerNr;
+        ProdOrder.Instr2 = sernr;
+        TrHs = true;
+        while (LoopKey("Instr2",ProdOrder,1,TrHs)) begin
+          if (ProdOrder.Instr2!=sernr) then begin
+            TrHs = false;
+          end else begin
+            rwcnt = MatRowCnt(ProdOrder);
+            for (i=0;i<rwcnt;i=i+1) begin
+              MatRowGet(ProdOrder,i,ProdOrderw);
+              if (ProdOrderw.Item==ORrw.ArtCode and ProdOrderw.OutQty!=0) then begin
+                inprod = 1;
+                i = rwcnt;
+                TrHs = false;
+              end;
+            end;
+            if (inprod==1) then begin
+              if (ProdOrder.StatusFlag==3) then begin
+                produced = 1;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end else begin
+      if (blank(ORrw.ArtCode)) then begin
+        produced = 1;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+function Integer GetOrderProducedStatus(record ORVc ORr)
+begin
+  Integer res;
+  row ORVc ORrw;
+  Integer i,rwcnt,inprod,produced;
+  Boolean inprodf,producedf;
+
+  producedf = true;
+  inprodf = true;
+  res = 1;
+  rwcnt = MatRowCnt(ORr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(ORr,i,ORrw);
+    if (ORrw.stp==1) then begin
+      GetRowProdStatus(ORr,ORrw,inprod,produced);
+      if (produced!=1) then begin
+        producedf = false;
+        if (inprod!=1) then begin
+          inprodf = false;
+        end;
+      end;
+      if (inprod==0 and produced==0) then begin
+        i = rwcnt;
+      end;
+    end;
+  end;
+  if (inprodf) then begin
+    res = 2;
+  end;
+  if (producedf) then begin
+    res = 3;
+  end;
+
+  GetOrderProducedStatus = res;
+  return;
+end;
+
+procedure GetManagerOrders()
+begin
+  Date sd,ed;
+  Integer pg,inpage,pos,endpos,i,pgcnt;
+  array record ORVc arrORr;
+  record ORVc ORr;
+  area req;
+  Longint sernr;
+  string 255 search,user;
+  Boolean emailsent;
+
+  sd = DateFromString(WebGetArg("sd"),"YYYY-MM-DD");
+  ed = DateFromString(WebGetArg("ed"),"YYYY-MM-DD");
+  if (blank(WebGetArg("sd"))) then begin
+    sd = "";
+  end;
+  if (blank(WebGetArg("ed"))) then begin
+    ed = "";
+  end;
+  sernr = StringToLongint(WebGetArg("sernr"));
+  search = WebGetArg("search");
+  user = "__ALL";
+  if (WebGetArg("usertype")=="user") then begin
+    user = CurrentUser;
+  end;
+  GetOrderList(sd,ed,sernr,search,user,arrORr);
+
+  pg = StringToInt(WebGetArg("pg"));
+  inpage = 20;
+  pos = pg*20;
+  endpos = pos + 20;
+  if (endpos>arrORr.length) then begin
+    endpos = arrORr.length;
+  end;
+  pgcnt = arrORr.length/20;
+  
+  JSONBeginElement("",req);
+  JSONField("pageCnt",pgcnt,true,false,req);
+  JSONBeginArray("orders",req);
+  
+  for (i=pos;i<endpos;i=i+1) begin
+    ORr = arrORr[i];
+    JSONBeginElement("",req);
+    
+    JSONField("sernr",ORr.SerNr,true,false,req);
+    JSONField("okflag",ORr.OKFlag,true,false,req);
+    JSONField("custcode",ORr.CustCode,true,false,req);
+    JSONField("custname",ORr.Addr0,true,false,req);
+    JSONField("orddate",FixDate(ORr.OrdDate),true,false,req);
+    JSONField("confirmdate",FixDate(ORr.OKDate),true,false,req);//??TODO
+    JSONField("planship",FixDate(ORr.PlanShip),true,false,req);
+    JSONField("delivered",GetListOfDeliveries(ORr),true,false,req);//or ShipMark
+    JSONField("invoiced",GetListOfInvoices(ORr,emailsent),true,false,req);
+    JSONField("curncycode",ORr.CurncyCode,true,false,req);
+    JSONField("prodstat",GetOrderProducedStatus(ORr),true,false,req);
+    JSONField("emailsent",emailsent,true,false,req);
+    JSONField("Closed",ORr.Closed,true,false,req);
+    JSONField("Sum4",ORr.Sum4,true,false,req);
+    JSONField("ShipFlag",ORr.ShipFlag,true,true,req);
+    
+    JSONEndElement((i==(endpos-1)),req);
+  end;
+  
+  JSONEndArray(true,req);
+  JSONEndElement(true,req);
+  
+
+  OutputWebText(req);
+  return;
+end;
+
+procedure GetManagerOrderRows()
+begin
+  Date sd,ed;
+  Integer i,rwcnt;
+  array record ORVc arrORr;
+  record ORVc ORr;
+  row ORVc ORrw;
+  area req;
+  Integer inprod,produced;
+
+  ORr.SerNr = StringToLongint(WebGetArg("sernr"));
+  if (ReadFirstMain(ORr,1,true)) then begin   
+    if (UserShouldSeeOrder(ORr,CurrentUser)) then begin 
+      JSONBeginElement("",req);
+      JSONBeginArray("rows",req);
+      rwcnt = MatRowCnt(ORr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(ORr,i,ORrw);
+        JSONBeginElement("",req);
+        GetRowProdStatus(ORr,ORrw,inprod,produced);
+        JSONField("rownr",i,true,false,req);
+        JSONField("stp",ORrw.stp,true,false,req);
+        JSONField("itemcode",ORrw.ArtCode,true,false,req);
+        JSONField("itemname",ORrw.Spec,true,false,req);
+        JSONField("quant",ORrw.Quant,true,false,req);
+      
+        JSONField("width",ValToString(ORrw.UnitXval,M4Val,"",".",1),true,false,req);
+        JSONField("length",ValToString(ORrw.UnitZval,M4Val,"",".",1),true,false,req);
+        JSONField("qty2",ORrw.Coefficient,true,false,req);
+        JSONField("price",ORrw.Price,true,false,req);
+        JSONField("discount",ORrw.vRebate,true,false,req);
+        JSONField("sum",ORrw.Sum,true,false,req);
+        JSONField("inprod",inprod,true,false,req);
+        JSONField("ready",produced,true,false,req);
+        JSONField("vatcode",ORrw.VATCode,true,false,req);
+        JSONField("unit",ORrw.UnitCode,true,true,req);
+    
+        JSONEndElement(false,req);
+      end;
+      JSONBeginElement("",req);
+      GetRowProdStatus(ORr,ORrw,inprod,produced);
+      JSONField("rownr",i,true,false,req);
+      JSONField("stp",1001,true,false,req);
+      JSONField("sum1",ORr.Sum1,true,false,req);
+      JSONField("sum3",ORr.Sum3,true,false,req);
+      JSONField("sum4",ORr.Sum4,true,true,req);
+  
+      JSONEndElement(true,req);
+
+      JSONEndArray(true,req);
+      JSONEndElement(true,req);
+    end;
+  end;
+
+  OutputWebText(req);
+  return;
+end;
+
+
+function Boolean QTSearchMatches(record QTVc QTr,string search)
+begin
+  Boolean res;
+  Integer i,rwcnt;
+  row QTVc QTrw;
+  Date td;
+
+  if (InString(QTr.Addr0,search)>0) then begin
+    res = true;
+    goto LQTSearchMatches;
+  end;
+/*
+  if (InString(ORr.CustCode,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (InString(ORr.VATNr,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+
+  if (InString(ORr.SalesMan,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (InString(ORr.Sum4,search)>0) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  td = DateFromString(search,"YYYY-MM-DD");
+
+  if (ORr.OrdDate==td) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (ORr.PlanotsNosutit==td) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+  if (ORr.PlanotsSanemt==td) then begin
+    res = true;
+    goto LOrderSearchMatches;
+  end;
+
+  rwcnt = MatRowCnt(ORr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(ORr,i,ORrw);
+    if (nonblank(ORrw.ArtCode) and InString(ORrw.ArtCode,search)>0) then begin
+      res = true;
+      goto LOrderSearchMatches;
+    end;
+    if (nonblank(ORrw.Spec) and InString(ORrw.Spec,search)>0) then begin
+      res = true;
+      goto LOrderSearchMatches;
+    end;
+  end;
+*/
+
+LQTSearchMatches:;
+  QTSearchMatches = res;
+  return;
+end;
+
+procedure GetQTList(Date sd,Date ed,Longint sernr,Longint ordernr,string search,string user,var array record QTVc arrQTr)
+begin
+  record QTVc QTr;
+  Boolean TrHs,testf;
+  string 255 key;
+  
+  key = "QTDate";
+  if (sernr>0) then begin
+    key = "SerNr";
+    QTr.SerNr = sernr;
+  end;
+  TrHs = true;
+  QTr.QTDate = ed;
+  while (LoopBackKey(key,QTr,1,TrHs)) begin
+    if (sernr>0) then begin
+      if (QTr.SerNr!=sernr) then begin
+        TrHs = false;
+      end;
+    end else begin
+      if (nonblank(sd) and sd>QTr.QTDate) then begin
+        TrHs = false;
+      end;
+    end;
+    if (TrHs) then begin
+      testf = true;
+      if (user!="__ALL" and QTr.SalesMan!=user) then begin
+        testf = false;
+      end;
+      if (ordernr>-1 and ordernr!=QTr.OrderNr) then begin
+        testf = false;
+      end;
+      if (nonblank(search) and QTSearchMatches(QTr,search)==false) then begin
+        testf = false;
+      end;
+      if (UserShouldSeeQT(QTr,user)==false) then begin
+        testf = false;
+      end;
+      if (testf) then begin
+        arrQTr[arrQTr.length] = QTr;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+procedure GetManagerQT()
+begin
+  Date sd,ed;
+  Integer pg,inpage,pos,endpos,i,pgcnt;
+  array record QTVc arrQTr;
+  record QTVc QTr;
+  area req;
+  Longint sernr;
+  string 255 search,user;
+  Boolean emailsent;
+  Longint ordernr;
+
+  sd = DateFromString(WebGetArg("sd"),"YYYY-MM-DD");
+  ed = DateFromString(WebGetArg("ed"),"YYYY-MM-DD");
+  if (blank(WebGetArg("sd"))) then begin
+    sd = "";
+  end;
+  if (blank(WebGetArg("ed"))) then begin
+    ed = "";
+  end;
+  sernr = StringToLongint(WebGetArg("sernr"));
+  ordernr = StringToLongint(WebGetArg("ordernr"));
+  search = WebGetArg("search");
+  user = "__ALL";
+  if (WebGetArg("usertype")=="user") then begin
+    user = CurrentUser;
+  end;
+  GetQTList(sd,ed,sernr,ordernr,search,user,arrQTr);
+
+  pg = StringToInt(WebGetArg("pg"));
+  inpage = 20;
+  pos = pg*20;
+  endpos = pos + 20;
+  if (endpos>arrQTr.length) then begin
+    endpos = arrQTr.length;
+  end;
+  pgcnt = arrQTr.length/20;
+  
+  JSONBeginElement("",req);
+  JSONField("pageCnt",pgcnt,true,false,req);
+  JSONBeginArray("qts",req);
+  
+  for (i=pos;i<endpos;i=i+1) begin
+    QTr = arrQTr[i];
+    JSONBeginElement("",req);
+    
+    JSONField("sernr",QTr.SerNr,true,false,req);
+    JSONField("custcode",QTr.CustCode,true,false,req);
+    JSONField("custname",QTr.Addr0,true,false,req);
+    JSONField("salesman",QTr.SalesMan,true,false,req);
+    JSONField("qtdate",FixDate(QTr.QTDate),true,false,req);
+    if (QTr.OrderNr>0) then begin
+      JSONField("ordernr",QTr.OrderNr,true,false,req);
+    end else begin
+      JSONField("ordernr","",true,false,req);
+    end;
+    JSONField("Sum4",QTr.Sum4,true,true,req);
+    
+    JSONEndElement((i==(endpos-1)),req);
+  end;
+  
+  JSONEndArray(true,req);
+  JSONEndElement(true,req);
+  
+
+  OutputWebText(req);
+  return;
+end;
+
+procedure GetItemLocation(string item,var string res)
+begin
+  record INVc INr;
+  record LocationVc Locr;
+  record ITVc ITr;
+  
+  if (ReadFirstItem(item,INr,true,true)) then begin
+    ITr.Code = INr.Group;
+    if (ReadFirstMain(ITr,1,true)) then begin
+      if (nonblank(ITr.SalesLocation)) then begin
+        Locr.Code = ITr.SalesLocation;
+        if (ReadFirstMain(Locr,1,true)) then begin
+          res = Locr.Name;
+        end;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+procedure GetManagerQTRows()
+begin
+  Date sd,ed;
+  Integer i,rwcnt;
+  record QTVc QTr;
+  row QTVc QTrw;
+  area req;
+  Integer inprod,produced;
+  string 255 locname;
+
+  QTr.SerNr = StringToLongint(WebGetArg("sernr"));
+  if (ReadFirstMain(QTr,1,true)) then begin   
+    if (UserShouldSeeQT(QTr,CurrentUser)) then begin 
+      JSONBeginElement("",req);
+      JSONBeginArray("rows",req);
+      rwcnt = MatRowCnt(QTr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(QTr,i,QTrw);
+        JSONBeginElement("",req);
+        JSONField("rownr",i+1,true,false,req);
+        JSONField("stp",QTrw.stp,true,false,req);
+        JSONField("itemcode",QTrw.ArtCode,true,false,req);
+        JSONField("itemname",QTrw.Spec,true,false,req);
+        JSONField("quant",QTrw.Quant,true,false,req);
+      
+        JSONField("price",QTrw.Price,true,false,req);
+        JSONField("discount",QTrw.vRebate,true,false,req);
+        JSONField("sum",QTrw.Sum,true,false,req);
+        JSONField("vatcode",QTrw.VATCode,true,false,req);
+        GetItemLocation(QTrw.ArtCode,locname);
+        JSONField("location",locname,true,true,req);
+    
+        JSONEndElement(false,req);
+      end;
+      JSONBeginElement("",req);
+      JSONField("rownr",i,true,false,req);
+      JSONField("stp",1001,true,false,req);
+      JSONField("sum1",QTr.Sum1,true,false,req);
+      JSONField("sum3",QTr.Sum3,true,false,req);
+      JSONField("sum4",QTr.Sum4,true,true,req);
+  
+      JSONEndElement(true,req);
+
+      JSONEndArray(true,req);
+      JSONEndElement(true,req);
+    end;
+  end;
+
+  OutputWebText(req);
+  return;
+end;
+
+function Boolean InvoiceSearchMatches(record IVVc IVr,string search)
+begin
+  Integer i,rwcnt;
+  Boolean res;
+  row IVVc IVrw;
+  Date td;
+
+  if (InString(IVr.Addr0,search)>0) then begin
+    res = true;
+    goto LInvoiceSearchMatches;
+  end;
+  if (InString(IVr.VATNr,search)>0) then begin
+    res = true;
+    goto LInvoiceSearchMatches;
+  end;
+  if (InString(IVr.SalesMan,search)>0) then begin
+    res = true;
+    goto LInvoiceSearchMatches;
+  end;
+  if (InString(IVr.Sum4,search)>0) then begin
+    res = true;
+    goto LInvoiceSearchMatches;
+  end;
+  td = DateFromString(search,"YYYY-MM-DD");
+  if (IVr.InvDate==td) then begin
+    res = true;
+    goto LInvoiceSearchMatches;
+  end;
+ 
+  rwcnt = MatRowCnt(IVr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(IVr,i,IVrw);
+    if (nonblank(IVrw.ArtCode) and InString(IVrw.ArtCode,search)>0) then begin
+      res = true;
+      goto LInvoiceSearchMatches;
+    end;
+    if (nonblank(IVrw.Spec) and InString(IVrw.Spec,search)>0) then begin
+      res = true;
+      goto LInvoiceSearchMatches;
+    end;
+  end;
+
+LInvoiceSearchMatches:;
+  InvoiceSearchMatches = res;
+  return;
+end;
+
+function string 255 GetDueDays(record IVVc IVr,var Boolean paidf)
+begin
+  string 255 res;
+  record ARVc ARr;
+  
+  paidf = true;
+  ARr.InvoiceNr = IVr.SerNr;
+  if (ReadFirstMain(ARr,1,true)) then begin
+    if (ARr.RVal>0) then begin
+      res = -DateDiff(CurrentDate,IVr.PayDate);
+      paidf = false;
+    end;
+  end else begin
+    if (IVr.OKFlag==0) then begin
+      paidf = false;
+    end;
+  end;
+
+  GetDueDays = res;
+  return;
+end;
+
+function Boolean InvoicePaymentMatch(record IVVc IVr,Integer payment)
+begin
+  Boolean res,paidf;
+  Integer d;
+
+  if (payment==0) then begin
+    res = true;
+  end else begin
+    d = StringToInt(GetDueDays(IVr,paidf));
+    if (paidf) then begin
+      res = (payment==1);
+    end else begin
+      if (d>0) then begin
+        if (d<6) then begin
+          res = (payment==3);
+        end else begin
+          res = (payment==4);
+        end;
+      end else begin
+        res = (payment==2);
+      end;
+    end;
+  end;
+  InvoicePaymentMatch = res;
+  return;
+end;
+
+procedure GetInvoiceList(Date sd,Date ed,Longint sernr,string search,string user,Integer payment,var array record IVVc arrIVr)
+begin
+  record IVVc IVr;
+  Boolean TrHs,testf;
+  string 255 key;
+  
+  key = "InvDate";
+  if (sernr>0) then begin
+    key = "SerNr";
+    IVr.SerNr = sernr;
+  end;
+  TrHs = true;
+  IVr.InvDate = ed;
+  while (LoopBackKey(key,IVr,1,TrHs)) begin
+    if (sernr>0) then begin
+      if (IVr.SerNr!=sernr) then begin
+        TrHs = false;
+      end;
+    end else begin
+      if (nonblank(sd) and sd>IVr.InvDate) then begin
+        TrHs = false;
+      end;
+    end;
+    if (TrHs) then begin
+      testf = true;
+      if (user!="__ALL" and IVr.SalesMan!=user) then begin
+        testf = false;
+      end;
+      if (UserShouldSeeInvoice(IVr,user)==false) then begin
+        testf = false;
+      end;
+      if (nonblank(search) and InvoiceSearchMatches(IVr,search)==false) then begin
+        testf = false;
+      end;
+      if (testf and InvoicePaymentMatch(IVr,payment)==false) then begin
+        testf = false;
+      end;
+      if (testf) then begin
+        arrIVr[arrIVr.length] = IVr;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+function string 255 GetEmailList(record IVVc IVr)
+begin
+  record MailVc Mailr;
+  record RLinkVc RLr;
+  Integer i,rwcnt,j;
+  row MailVc Mailrw;
+  string 255 res;
+  
+  i = 1;
+  while (ReadRecordLink(IVr,i,Mailr,RLr)) begin
+    if (Mailr.SendFlag==1) then begin
+      rwcnt = MatRowCnt(Mailr);
+      for (j=0;j<rwcnt;j=j+1) begin
+        MatRowGet(Mailr,j,Mailrw);
+        if (Mailrw.RowTyp==kMailRowTypeTo) then begin
+          if (nonblank(res)) then begin
+            res = res & ",";
+          end;
+          res = res & Mailrw.AddrCode & " (" & Mailr.TransDate & ")";
+        end;
+      end;
+    end;
+    i = i + 1;
+  end;
+
+  GetEmailList = res;
+  return;
+end;
+
+procedure GetManagerInvoices()
+begin
+  Date sd,ed;
+  Integer pg,inpage,pos,endpos,i,pgcnt,payment;
+  array record IVVc arrIVr;
+  record IVVc IVr;
+  area req;
+  Longint sernr;
+  string 255 search,user;
+  Boolean paidf;
+
+  sd = DateFromString(WebGetArg("sd"),"YYYY-MM-DD");
+  ed = DateFromString(WebGetArg("ed"),"YYYY-MM-DD");
+  if (blank(WebGetArg("sd"))) then begin
+    sd = "";
+  end;
+  if (blank(WebGetArg("ed"))) then begin
+    ed = "";
+  end;
+  sernr = StringToLongint(WebGetArg("sernr"));
+  payment = StringToInt(WebGetArg("payment"));
+  search = WebGetArg("search");
+  user = "__ALL";
+  if (WebGetArg("usertype")=="user") then begin
+    user = CurrentUser;
+  end;
+  
+  GetInvoiceList(sd,ed,sernr,search,user,payment,arrIVr);
+  
+  pg = StringToInt(WebGetArg("pg"));
+  inpage = 20;
+  pos = pg*20;
+  endpos = pos + 20;
+  if (endpos>arrIVr.length) then begin
+    endpos = arrIVr.length;
+  end;
+  pgcnt = arrIVr.length/20;
+  
+  JSONBeginElement("",req);
+  JSONField("pageCnt",pgcnt,true,false,req);
+  JSONBeginArray("invoices",req);
+  
+  for (i=pos;i<endpos;i=i+1) begin
+    IVr = arrIVr[i];
+    JSONBeginElement("",req);
+    
+    JSONField("sernr",IVr.SerNr,true,false,req);
+    JSONField("okflag",IVr.OKFlag,true,false,req);
+    JSONField("custcode",IVr.CustCode,true,false,req);
+    JSONField("custname",IVr.Addr0,true,false,req);
+    JSONField("invdate",FixDate(IVr.InvDate),true,false,req);
+    JSONField("duedate",FixDate(IVr.PayDate),true,false,req);
+    JSONField("sum",IVr.Sum1,true,false,req);
+    JSONField("vatsum",IVr.Sum3,true,false,req);
+    JSONField("total",IVr.Sum4,true,false,req);
+    JSONField("duedays",GetDueDays(IVr,paidf),true,false,req);
+    JSONField("emailstat",GetEmailList(IVr),true,false,req);
+    JSONField("curncycode",IVr.CurncyCode,true,true,req);
+    
+    JSONEndElement((i==(endpos-1)),req);
+  end;
+  
+  JSONEndArray(true,req);
+  JSONEndElement(true,req);
+  
+
+  OutputWebText(req);
+  return;
+end;
+
+procedure GetManagerInvoiceRows()
+begin
+  Date sd,ed;
+  Integer i,rwcnt;
+  record IVVc IVr;
+  row IVVc IVrw;
+  area req;
+
+  IVr.SerNr = StringToLongint(WebGetArg("sernr"));
+  if (ReadFirstMain(IVr,1,true)) then begin   
+    if (UserShouldSeeInvoice(IVr,CurrentUser)) then begin 
+      JSONBeginElement("",req);
+      JSONBeginArray("rows",req);
+      rwcnt = MatRowCnt(IVr);
+      for (i=0;i<rwcnt;i=i+1) begin
+        MatRowGet(IVr,i,IVrw);
+        JSONBeginElement("",req);
+    
+        JSONField("rownr",i,true,false,req);
+        JSONField("stp",IVrw.stp,true,false,req);
+        JSONField("itemcode",IVrw.ArtCode,true,false,req);
+        JSONField("itemname",IVrw.Spec,true,false,req);
+        JSONField("quant",IVrw.Quant,true,false,req);      
+        JSONField("price",IVrw.Price,true,false,req);
+        JSONField("discount",IVrw.vRebate,true,false,req);
+        JSONField("sum",IVrw.Sum,true,false,req);
+        JSONField("unit",IVrw.UnitCode,true,true,req);
+    
+        JSONEndElement((i==(rwcnt-1)),req);
+      end;
+      JSONEndArray(true,req);
+      JSONEndElement(true,req);
+    end;
+  end;
+
+  OutputWebText(req);
+  return;
+end;
+
+updating procedure GetManagerDoc()
+begin
+  string 255 type,filename,docname;
+  record ORVc ORr;
+  record SHVc SHr;
+  record IVVc IVr;
+  record QTVc QTr;
+  Boolean printf,foundf;
+  Longint id;
+  Longint fsz;
+  area fa;
+  
+  type = WebGetArg("type");
+  id = StringToLongint(WebGetArg("id"));
+  switch (type) begin
+    case "0"://order??
+      ORr.SerNr = id;
+      foundf = ReadFirstMain(ORr,1,true) and UserShouldSeeOrder(ORr,CurrentUser);
+      if (WebGetArg("type2")=="prep") then begin
+        filename = "Prepayment_" & ORr.SerNr & ".pdf";
+        docname = "Or2Form";
+      end else begin
+        filename = "Order_" & ORr.SerNr & ".pdf";
+        docname = "OrdForm";
+      end;
+    case "2"://invoice
+      IVr.SerNr = id;
+      foundf = ReadFirstMain(IVr,1,true) and UserShouldSeeInvoice(IVr,CurrentUser);
+      filename = "Invoice_" & IVr.SerNr & ".pdf";
+      docname = "InvForm";
+    case "3"://Delivery
+      SHr.SerNr = id;
+      foundf = ReadFirstMain(SHr,1,true) and UserShouldSeeDelivery(SHr,CurrentUser);
+      filename = "Delivery_" & SHr.SerNr & ".pdf";
+      docname = "Sh2Form";
+    case "6"://Quotation
+      QTr.SerNr = id;
+      foundf = ReadFirstMain(QTr,1,true) and UserShouldSeeQT(QTr,CurrentUser);
+      filename = "Quotation_" & QTr.SerNr & ".pdf";
+      docname = "QTForm";
+  end;
+  if (foundf) then begin
+    if (nonblank(filename)) then begin
+      SetDocumentFilename("tmp/" & filename);
+      SetMedia(mtPdf);
+      switch (type) begin
+        case "0":
+          PrintDocument(ORr,docname,false);
+        case "3":
+          PrintDocument(SHr,docname,false);
+        case "2":
+          PrintDocument(IVr,docname,false);
+        case "6":
+          PrintDocument(QTr,docname,false);
+      end;
+      
+      SetDocumentFilename("");
+      if (FileExists("tmp/" & filename)) then begin
+        printf = true;
+        WebSetContentType("application/pdf");
+        WebSetContentDisposition("attachment; filename=" & filename);      
+        WebOutFile("tmp/" & filename);
+        Delete_File("tmp/" & filename);
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+
+procedure GetRepSpecFieldList(var string flist,var string lastfield)
+begin
+
+  flist = "Period2Str,f1,f2,ArtMode,sStartDate,sEndDate";
+  lastfield = "sEndDate";
+
+  return;
+end;
+
+procedure GetRepSpecRecordFromWeb(var record RcVc RepSpec,string ignorefields)
+begin
+  string 255 flist,fn,lastfield,tval;
+  Integer i,j,rows;
+  Longint pos;
+
+  GetRepSpecFieldList(flist,lastfield);
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    if (SetInSet(fn,ignorefields)==false) then begin
+      tval = WebGetArg(fn);
+      if (SetInSet(fn,"sStartDate,sEndDate")) then begin
+        tval = DateFromString(tval,"YYYY-MM-DD");
+      end;
+      SetFieldValueByName(RepSpec,fn,tval,-1);
+    end;
+  end;
+
+  return;
+end;
+
+function string 255 GetRepSpecRecordValue(record RcVc RepSpec,string fn)
+begin
+  string 255 res;
+  
+  switch (fn) begin
+    case "sStartDate": res = FixDate(RepSpec.sStartDate);
+    case "sEndDate": res = FixDate(RepSpec.sEndDate);
+    otherwise
+      res = GetFieldValueByName(RepSpec,fn,-1);
+  end;
+  
+  GetRepSpecRecordValue = res;
+  return;
+end;
+
+
+procedure OutputRepSpecRecord(record RcVc RepSpec,var area req)
+begin
+  string 255 fn,flist,lastfield;
+  Longint pos;
+
+  GetRepSpecFieldList(flist,lastfield);
+
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    JSONField(fn,GetRepSpecRecordValue(RepSpec,fn),true,lastfield==fn,req);
+  end; 
+
+  return;
+end;
+
+
+procedure GetOrderFieldList(var string flist,var string rflist,var string lastfield,var string lastrowfield)
+begin
+
+  flist = "SerNr,OKFlag,CustCode,Addr0,OrdDate,PlanotsNosutit,PayDeal,PlanotsSanemt,PlanShip,DespatchDate,Comment,ExportFlag,";
+  flist = flist & "Objects,SalesMan,FactoringSwedbank,Closed,ShipMode,LangCode,ShipAddr0,ShipAddr1,ShipAddr2,ShipAddr3,DelAddr3,CurncyCode,Sum4,Sum1,Sum3,PriceList,ShipDeal";
+  rflist = "stp,ArtCode,Spec,Quant,UnitXval,UnitZval,UnitFactQuant,UnitFactPrice,Coefficient,SerialNr,ShipNote,Price,vRebate,Sum,VATCode,Unit2Code,Location,NevajagRazot,UnitCode";
+
+  lastfield = "CurncyCode";
+  lastrowfield = "UnitCode";
+
+  return;
+end;
+
+function string 255 GetOrderRecordValue(record ORVc ORr,string fn)
+begin
+  string 255 res;
+  
+  switch (fn) begin
+    case "OKFlag": res = ORr.OKFlag;
+    case "Closed": res = ORr.Closed;
+    case "OrdDate": res = FixDate(ORr.OrdDate);
+    case "PlanotsNosutit": res = FixDate(ORr.PlanotsNosutit);
+    case "PlanotsSanemt": res = FixDate(ORr.PlanotsSanemt);
+    case "PlanShip": res = FixDate(ORr.PlanShip);
+    case "DespatchDate": res = FixDate(ORr.DespatchDate);
+    otherwise
+      res = GetFieldValueByName(ORr,fn,-1);
+  end;
+  
+  GetOrderRecordValue = res;
+  return;
+end;
+
+procedure OutputOrderRecord(record ORVc ORr,var area req)
+begin
+  Integer i,rwcnt;
+  row ORVc ORrw;
+  Longint pos;
+  string 255 tstr;
+  string 255 fn,flist,rflist,lastfield,lastrowfield;
+  
+/*
+  JSONField("SerNr",ORr.SerNr,true,false,req);
+  JSONField("OKFlag",ORr.OKFlag,true,false,req);
+  JSONField("CustCode",ORr.CustCode,true,false,req);
+  JSONField("Addr0",ORr.Addr0,true,false,req);
+  JSONField("OrdDate",FixDate(ORr.OrdDate),true,false,req);
+  //JSONField("confirmdate",FixDate(ORr.PlanotsNosutit),true,false,req);//??TODO
+  JSONField("PlanotsNosutit",FixDate(ORr.PlanotsNosutit),true,false,req);
+  JSONField("PayTerm",ORr.PayTerm,true,false,req);
+  JSONField("PlanotsSanemt",FixDate(ORr.PlanotsSanemt),true,false,req);//desired del. date
+  JSONField("PlanShip",FixDate(ORr.PlanShip),true,false,req);
+  JSONField("DespatchDate",FixDate(ORr.DespatchDate),true,false,req);
+  JSONField("Objects",ORr.Objects,true,false,req);
+  JSONField("SalesMan",ORr.SalesMan,true,false,req);
+  JSONField("FactoringSwedbank",ORr.FactoringSwedbank,true,false,req);
+  JSONField("Closed",ORr.Closed,true,false,req);
+  JSONField("ShipMode",ORr.ShipMode,true,false,req);
+  JSONField("LangCode",ORr.Comment,true,false,req);
+  JSONField("DelAddr0",ORr.DelAddr0,true,false,req);
+  JSONField("DelAddr1",ORr.DelAddr1,true,false,req);
+  JSONField("DelAddr2",ORr.DelAddr2,true,false,req);
+  JSONField("DelAddr3",ORr.DelAddr3,true,false,req);
+  JSONField("DelAddr4",ORr.DelAddr4,true,false,req);
+  JSONField("CurncyCode",ORr.CurncyCode,true,false,req);
+  
+    JSONField("rownr",i,true,false,req);
+    JSONField("stp",ORrw.stp,true,false,req);
+    JSONField("ArtCode",ORrw.ArtCode,true,false,req);
+    JSONField("Spec",ORrw.Spec,true,false,req);
+    JSONField("Quant",ORrw.Quant,true,false,req);
+
+    JSONField("UnitXval",ORrw.UnitXval,true,false,req);
+    JSONField("UnitZval",ORrw.UnitZval,true,false,req);
+    JSONField("UnitFactQuant",ORrw.UnitFactQuant,true,false,req);
+    JSONField("Coefficient",ORrw.Coefficient,true,false,req);
+    JSONField("SerialNr",ORrw.SerialNr,true,false,req);
+    JSONField("ShipNote",ORrw.ShipNote,true,false,req);
+    JSONField("Price",ORrw.Price,true,false,req);
+    JSONField("vRebate",ORrw.vRebate,true,false,req);
+    JSONField("Sum",ORrw.Sum,true,false,req);
+    JSONField("UnitCode",ORrw.UnitCode,true,true,req);
+*/
+
+  GetOrderFieldList(flist,rflist,lastfield,lastrowfield);
+
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    JSONField(fn,GetOrderRecordValue(ORr,fn),true,false,req);
+  end; 
+   
+  JSONBeginArray("Rows",req);
+  rwcnt = MatRowCnt(ORr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(ORr,i,ORrw);
+    JSONBeginElement("",req);
+    pos = -1;
+    while (GetNextSubstring(rflist,pos,",",fn)) begin
+      if (fn=="NevajagRazot") then begin
+        tstr = StringSetFromString(-902,GetFieldValueByName(ORr,fn,i));
+      end else begin
+        tstr = GetFieldValueByName(ORr,fn,i);
+      end;
+      JSONField(fn,tstr,true,lastrowfield==fn,req);
+    end;  
+
+    JSONEndElement((i==(rwcnt-1)),req);
+  end;
+  JSONEndArray(true,req);
+
+  return;
+end;
+
+procedure GetOrderRecord(Longint sernr)
+begin
+  record ORVc ORr;
+  row ORVc ORrw;
+  Integer i,rwcnt;
+  area req;
+
+  JSONBeginElement("",req);
+  ORr.SerNr = sernr;
+  if (ReadFirstMain(ORr,1,true)) then begin
+    if (UserShouldSeeOrder(ORr,CurrentUser)) then begin 
+      OutputOrderRecord(ORr,req);
+    end;
+  end else begin
+    RecordNew(ORr);
+    OutputOrderRecord(ORr,req);    
+  end;
+  
+  JSONEndElement(true,req);
+    
+  OutputWebText(req);
+  return;
+end;
+
+
+procedure GetQTFieldList(var string flist,var string rflist,var string lastfield,var string lastrowfield)
+begin
+
+  flist = "SerNr,QTDate,CustCode,Addr0,SalesMan,LangCode,PayDeal,Rejected,Closed,CurncyCode,Sum4,Sum1,Sum3";
+  rflist = "stp,ArtCode,Spec,Quant,Price,Sum,vRebate,VATCode";
+  lastfield = "Sum3";
+  lastrowfield = "VATCode";
+
+  return;
+end;
+
+function string 255 GetQTRecordValue(record QTVc QTr,string fn)
+begin
+  string 255 res;
+  
+  switch (fn) begin
+    case "QTDate": res = FixDate(QTr.QTDate);
+    otherwise
+      res = GetFieldValueByName(QTr,fn,-1);
+  end;
+  
+  GetQTRecordValue = res;
+  return;
+end;
+
+procedure OutputQTRecord(record QTVc QTr,var area req)
+begin
+  Integer i,rwcnt;
+  row QTVc QTrw;
+  Longint pos;
+  string 255 fn,flist,rflist,lastfield,lastrowfield,locname;
+  
+  GetQTFieldList(flist,rflist,lastfield,lastrowfield);
+
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    JSONField(fn,GetQTRecordValue(QTr,fn),true,false,req);
+  end; 
+   
+  JSONBeginArray("Rows",req);
+  rwcnt = MatRowCnt(QTr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(QTr,i,QTrw);
+    JSONBeginElement("",req);
+    pos = -1;
+    GetItemLocation(QTrw.ArtCode,locname);
+    JSONField("location",locname,true,false,req);
+    while (GetNextSubstring(rflist,pos,",",fn)) begin
+      JSONField(fn,GetFieldValueByName(QTr,fn,i),true,lastrowfield==fn,req);
+    end;  
+
+    JSONEndElement((i==(rwcnt-1)),req);
+  end;
+  JSONEndArray(true,req);
+
+  return;
+end;
+
+procedure GetQTRecord(Longint sernr)
+begin
+  record QTVc QTr;
+  row QTVc QTrw;
+  Integer i,rwcnt;
+  area req;
+
+  JSONBeginElement("",req);
+  QTr.SerNr = sernr;
+  if (ReadFirstMain(QTr,1,true)) then begin
+    if (UserShouldSeeOrder(QTr,CurrentUser)) then begin 
+      OutputQTRecord(QTr,req);
+    end;
+  end else begin
+    RecordNew(QTr);
+    OutputQTRecord(QTr,req);    
+  end;
+  
+  JSONEndElement(true,req);
+    
+  OutputWebText(req);
+  return;
+end;
+
+
+procedure GetCustomerFieldList(var string flist,var string lastfield)
+begin
+
+  flist = "Code,Name,RegNr1,VATNr,Mobile,Phone,CountryCode,DelCountry,eMail,Person,PayDeal,CreditLimit,VATCode,OrderComment,WarnText1,";
+  flist = flist & "LangCode,CustType,ExportFlag,FactoringSwedbank,IBANCode,AccOperator,BankAccount,Bank,InvAddr0,InvAddr1,InvAddr2,InvAddr3,InvAddr4,";
+  flist = flist & "DelAddr0,DelAddr1,DelAddr2,DelAddr3,Text,SalesMan,CustCat,OnAccount,VATNrCheckDate,DelAddr4";
+
+  lastfield = "DelAddr4";
+
+  return;
+end;
+
+
+procedure OutputCustomerRecord(record CUVc CUr,var area req)
+begin
+  string 255 fn,flist,lastfield,tstr;
+  Longint pos;
+  Integer j;
+
+/*
+
+  JSONField("Code",CUr.Code,true,false,req);
+  JSONField("Name",CUr.Name,true,false,req);
+  JSONField("RegNr1",CUr.RegNr1,true,false,req);
+  JSONField("VATNr",CUr.VATNr,true,false,req);
+  JSONField("Mobile",CUr.Mobile,true,false,req);
+  JSONField("Phone",CUr.Phone,true,false,req);
+  JSONField("CountryCode",CUr.CountryCode,true,false,req);
+  JSONField("DelCountry",CUr.DelCountry,true,false,req);
+  JSONField("eMail",CUr.eMail,true,false,req);
+  JSONField("Person",CUr.Person,true,false,req);
+  JSONField("PayTerm",CUr.PayTerm,true,false,req);
+  JSONField("CreditLimit",CUr.CreditLimit,true,false,req);
+  JSONField("VATCode",CUr.VATCode,true,false,req);
+  JSONField("OrderComment",CUr.OrderComment,true,false,req);
+  JSONField("WarnText1",CUr.WarnText1,true,false,req);
+  JSONField("LangCode",CUr.LangCode,true,false,req);
+  JSONField("CustType",CUr.CustType,true,false,req);
+  JSONField("ExportFlag",CUr.ExportFlag,true,false,req);
+  
+  JSONField("FactoringSwedbank",CUr.FactoringSwedbank,true,false,req);
+  JSONField("IBANCode",CUr.IBANCode,true,false,req);
+  JSONField("AccOperator",CUr.AccOperator,true,false,req);
+  JSONField("BankAccount",CUr.BankAccount,true,false,req);
+  JSONField("Bank",CUr.Bank,true,false,req);//Bank 2
+  //JSONField("Notes",CUr.Notes,true,false,req);//get notes from record
+  JSONField("InvAddr0",CUr.InvAddr0,true,false,req);
+  JSONField("InvAddr1",CUr.InvAddr1,true,false,req);
+  JSONField("InvAddr2",CUr.InvAddr2,true,false,req);
+  JSONField("InvAddr3",CUr.InvAddr3,true,false,req);
+  JSONField("InvAddr4",CUr.InvAddr4,true,false,req);
+  JSONField("DelAddr0",CUr.DelAddr0,true,false,req);
+  JSONField("DelAddr1",CUr.DelAddr1,true,false,req);
+  JSONField("DelAddr2",CUr.DelAddr2,true,false,req);
+  JSONField("DelAddr3",CUr.DelAddr3,true,false,req);
+  JSONField("DelAddr4",CUr.DelAddr4,true,true,req);
+*/
+
+  GetCustomerFieldList(flist,lastfield);
+
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    switch (fn) begin
+      case "Text":
+        AddTextToArea("\"text\":\"",req);
+        for (j=0;j<SizeTextCnt(CUr);j=j+200) begin
+          tstr = FormatJSONString(StringFromText(CUr,j,200));
+          AddTextToArea(StrReplace(tstr,chr(13),"\\n"),req);
+        end;
+        AddTextToArea("\",",req);
+      case "VATNrCheckDate":
+        tstr = FixDate(GetFieldValueByName(CUr,fn,-1));
+        JSONField(fn,tstr,true,lastfield==fn,req);
+      otherwise
+        JSONField(fn,GetFieldValueByName(CUr,fn,-1),true,lastfield==fn,req);
+    end;
+  end; 
+
+  return;
+end;
+
+procedure GetCustomerRecord(string code)
+begin
+  record CUVc CUr;
+  Integer i,rwcnt;
+  area req;
+
+  JSONBeginElement("",req);
+  CUr.Code = code;
+  if (ReadFirstMain(CUr,1,true)) then begin
+    if (UserShouldSeeContact(CUr,CurrentUser)) then begin 
+      OutputCustomerRecord(CUr,req);
+    end;
+  end else begin
+    RecordNew(CUr);
+    OutputCustomerRecord(CUr,req);
+  end;
+  
+  JSONEndElement(true,req);
+    
+  OutputWebText(req);
+
+
+  return;
+end;
+
+procedure GetRecordData()
+begin
+  string 255 id,type;
+
+  type = WebGetArg("type");
+  id = WebGetArg("id");
+  switch (type) begin
+    case "0": GetOrderRecord(StringToLongint(id));
+    case "1": GetCustomerRecord(id);
+    case "6": GetQTRecord(id);
+  end;
+
+  return;
+end;
+
+procedure PasteItemIntoOR(var record ORVc ORr,integer rownr)
+begin
+  record INVc INr;
+  row ORVc ORrw;
+  record RecVc Recr;
+  record ITVc ITr;
+  longint s;
+  string 255 warning;
+
+  ORVc_PasteArtCode(ORr,rownr,warning,warning,false);
+
+  MatRowGet(ORr,rownr,ORrw);
+  INr.Code = ORrw.ArtCode;
+  if ReadFirstMain(INr,1,true) then begin
+    ORrw.Unit2Code = INr.Unittext2;
+    ORrw.UnitXval = INr.Width;
+    if nonblank(INr.Depth) then begin
+      ORrw.UnitZval = INr.Depth;
+    end;
+    s = INr.DefPosHeight;
+    ORrw.TAX2Prc = s;//locÓjumu skaits
+    ORrw.Krasa = INr.KrasasKods;//2019.09.28
+    ORrw.Unit2Code = INr.Unittext2;
+    //ORrw.Unit3Code = INr.Mervieniba3;
+    ORrw.Unit4Code = "KG";
+    ORrw.Unit5Code = "KG";
+    if nonblank(INr.Recepy) then begin
+      Recr.Code = INr.Recepy;
+      if ReadFirstMain(Recr,1,true) then begin
+          if (Recr.SerialNrType==4) then begin
+            ORrw.SerialNr = ORr.SerNr;
+          end;
+      end;
+    end;
+    if nonblank(INr.Group) and blank(ORrw.Location) then begin
+      ITr.Code = INr.Group;
+      if ReadFirstMain(ITr,1,true) then begin
+        ORrw.Location = ITr.SalesLocation;
+      end;
+    end;
+  end;
+  MatRowPut(ORr,rownr,ORrw);
+
+  return;
+end;
+
+procedure GetOrderRecordFromWeb(var record ORVc ORr)
+begin
+  string 255 flist,rflist,fn,lastfield,lastrowfield,tval;
+  Integer i,j,rows;
+  Longint pos;
+  string 255 warning;
+  row ORVc ORrw;
+
+  GetOrderFieldList(flist,rflist,lastfield,lastrowfield);
+
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    tval = WebGetArg(fn);
+    if (SetInSet(fn,"OrdDate,PlanotsNosutit,PlanotsSanemt,PlanShip,DespatchDate")) then begin
+      tval = DateFromString(tval,"YYYY-MM-DD");
+    end;
+    SetFieldValueByName(ORr,fn,tval,-1);
+    logtext(0,"head fields " & fn & ":" & tval);
+  end;
+  for (i=MatRowCnt(ORr);i>=0;i=i-1) begin
+    MatRowDelete(ORr,i);
+  end;
+  rows = StringToLongint(WebGetArg("RowCnt"));
+  for (i=0;i<rows;i=i+1) begin
+    pos = -1;
+    while (GetNextSubstring(rflist,pos,",",fn)) begin
+      tval = WebGetArg("Rows_" & i & "_" & fn);
+      if (fn=="stp") then begin
+        if (tval=="0" or tval=="") then begin
+          tval = "1";
+        end;
+      end;
+      SetFieldValueByName(ORr,fn,tval,i);  
+      switch (fn) begin
+        case "ArtCode":
+          PasteItemIntoOR(ORr,i);
+      end;
+    end;
+    logtext(0,"row fields " & fn & ":" & tval & ":" & i);
+  end;
+  ORSumup(ORr);
+
+  return;
+end;
+
+procedure PasteExcelRows(var record ORVc ORr,string tstr)
+begin
+  string 255 artcode,coefficient,zval,vRebate;
+  Longint pos,pos2;
+  string 255 tmp;
+  row ORVc ORrw;
+  Integer rwcnt,i;
+  string 255 warning;
+  Boolean chsum;
+  
+  rwcnt = MatRowCnt(ORr);
+  while (GetNextSubstring(tstr,pos,chr(32),tmp)) begin
+    pos2 = -1;
+    GetNextSubstring(tmp,pos2,chr(9),artcode);
+    GetNextSubstring(tmp,pos2,chr(9),zval);
+    GetNextSubstring(tmp,pos2,chr(9),coefficient);
+    GetNextSubstring(tmp,pos2,chr(9),vRebate);
+
+    if (nonblank(artcode)) begin
+      ClearRow(ORr,ORrw,1);
+      ORrw.ArtCode = artcode;
+      MatRowPut(ORr,rwcnt,ORrw);
+      PasteItemIntoOR(ORr,rwcnt);
+      MatRowGet(ORr,rwcnt,ORrw);
+      if (nonblank(zval)) then begin
+        ORrw.UnitZval = StringToLongint(zval);
+        MatRowPut(ORr,rwcnt,ORrw);
+        WebOrdersCalculateDimentions(ORr,rwcnt);
+        MatRowGet(ORr,rwcnt,ORrw);
+      end;  
+      ORrw.Coefficient = StringToLongint(coefficient);
+      MatRowPut(ORr,rwcnt,ORrw);
+      WebOrdersCoefficientAfter(ORr,rwcnt);
+      if (nonblank(vRebate)) then begin
+        MatRowGet(ORr,rwcnt,ORrw);
+        ORrw.vRebate = StringToVal(vRebate,M4Val);
+        MatRowPut(ORr,rwcnt,ORrw);
+        ORVc_PastevRebate(ORr,rwcnt,chsum);
+        if (chsum) then begin
+          ORDchsum(ORr,rwcnt);
+          ORSumup(ORr);
+        end;      
+      end;
+      rwcnt = rwcnt + 1;
+    end;
+  end;
+
+  return;
+end;
+
+global
+updating function Boolean MMRemoveOrderRecord(record ORVc ORr)
+begin
+  Boolean res;
+  record ORVc fakeORr;
+
+  if (ReadFirstMain(ORr,1,true)) then begin
+    if (ORr.OKFlag==0 and ORr.FactoringSwedbank==0) then begin
+      if (ORVcRecordRemoveTest(ORr,fakeORr,1,0)!=0) then begin
+        RecordRemove(ORr);
+        res = true;
+      end;
+    end;
+  end;
+
+  MMRemoveOrderRecord = res;
+  return;
+end;
+
+global
+updating function Boolean MMRemoveQTRecord(record QTVc QTr)
+begin
+  Boolean res;
+  record ORVc fakeQTr;
+
+  if (ReadFirstMain(QTr,1,true)) then begin
+      if (QTVcRecordRemoveTest(QTr,fakeQTr,1,0)!=0) then begin
+        RecordRemove(QTr);
+        res = true;
+      end;
+  end;
+
+  MMRemoveQTRecord = res;
+  return;
+end;
+
+procedure DoOrderWAction()
+begin
+  record ORVc ORr;
+  row ORVc ORrw,newORrw;
+  area req;
+  Integer rownr,cnt,i;
+  Boolean chsum;
+  string 255 warning,errstr,rstr,tstr;
+  Longint pos;
+  record CUVc CUr;
+  
+  GetOrderRecordFromWeb(ORr);
+  rownr = StringToInt(WebGetArg("rw"));
+  switch (WebGetArg("field")) begin
+    case "CopyRecord":
+      //ORr.SerNr = -1;
+      ORVcRecordDuplicate(ORr,ORr,1,1);
+    case "Quant":
+      //WebOrdersCalculateDimentions(ORr,rownr);
+      WebOrdersCalculateDimentions2(ORr,rownr);
+    case "ArtCode":
+      if (ORr.SerNr==-1) then begin
+        MatRowGet(ORr,rownr,ORrw);
+        ORrw.ArtCode = "";
+        MatRowPut(ORr,rownr,ORrw);
+        warning = USetStr(-19287);
+      end else begin
+        PasteItemIntoOR(ORr,rownr);
+      end;
+    case "UnitXval":
+      WebOrdersUnitXZvalAfter(ORr,rownr);
+    case "UnitZval":
+      WebOrdersCalculateDimentions(ORr,rownr);
+    case "UnitYval":
+      WebOrdersCalculateDimentions(ORr,rownr);
+    case "VARList":
+      WebOrdersCalculateDimentions(ORr,rownr);
+    case "Coefficient":
+      WebOrdersCoefficientAfter(ORr,rownr);
+    case "UnitFactQuant":
+      WebOrdersUnitFactQuantAfter(ORr,rownr);
+    case "UnitFactPrice":
+      WebOrdersUnitFactPriceAfter(ORr,rownr);
+    case "OKFlag":
+      if (ORr.OKFlag==0) then begin
+        if (UserCanAction("UnOKOR",false) or UserCanAction("UnOKAll",false)) then begin
+          
+        end else begin
+          ORr.OKFlag = 1;
+        end;
+      end;
+    case "Closed":
+      if (ORr.Closed==1) then begin
+        if (UserCanAction("DisallowORClose",false)) then begin
+          
+        end else begin
+          ORr.Closed = 0;
+        end;
+      end;
+    case "Piemaksa":
+      ORVc_PastePrice(ORr,rownr,chsum);
+      if (chsum) then begin
+        ORDchsum(ORr,rownr);
+        ORSumup(ORr);
+      end;
+    case "Price":
+      ORVc_PastePrice(ORr,rownr,chsum);
+      if (chsum) then begin
+        ORDchsum(ORr,rownr);
+        ORSumup(ORr);
+      end;
+    case "VATCode":
+      ORVc_PasteVATCode(ORr,rownr,chsum);
+      if (chsum) then begin
+        ORDchsum(ORr,rownr);
+      end;    
+      ORSumup(ORr);
+    case "vRebate":
+      ORVc_PastevRebate(ORr,rownr,chsum);
+      if (chsum) then begin
+        ORDchsum(ORr,rownr);
+        ORSumup(ORr);
+      end;
+    case "Sum":
+      ORVc_PasteSum(ORr,rownr,chsum);
+      if (chsum) then begin
+        ORDchsum(ORr,rownr);
+        ORSumup(ORr);
+      end;
+    case "deleterow":
+      MatRowDelete(ORr,rownr);
+      ORSumup(ORr);
+    case "deleterows":
+      tstr = WebGetArg("arg1");
+      while (GetNextSubstring(tstr,pos,",",rstr)) begin
+        rownr = StringToLongint(rstr);
+        MatRowDelete(ORr,rownr);
+      end;
+      ORSumup(ORr);
+    case "addsubtotal":
+      ClearRow(ORr,newORrw,9);
+      MatRowGet(ORr,rownr-1,ORrw);
+      newORrw.Spec = ORrw.Spec;
+      MatRowInsert(ORr,rownr,newORrw);
+    case "copyrow":
+      MatRowGet(ORr,rownr,ORrw);
+      CopyRow(ORr,ORrw,newORrw);
+      cnt = StringToInt(WebGetArg("arg1"));
+      for (i=0;i<cnt;i=i+1) begin
+        MatRowInsert(ORr,rownr,ORrw);
+      end;
+      ORSumup(ORr);
+    case "CustCode":
+      PasteCustInOrder(ORr,ORr.CustCode,"",warning,errstr);
+      CUr.Code = ORr.CustCode;
+      if (ReadFirstMain(CUr,1,true)) then begin
+        ORr.FactoringSwedbank = CUr.FactoringSwedbank;
+      end;
+    case "PasteExcel":
+      PasteExcelRows(ORr,WebGetArg("PasteExcel"))
+    case "DeleteRecord":
+      JSONBeginElement("",req);
+      if (qupdating.MMRemoveOrderRecord(ORr)) then begin
+        JSONField("success","1",true,true,req);
+      end else begin
+        JSONField("success","0",true,true,req);
+      end;
+      JSONEndElement(true,req);
+      goto LDoOrderWAction;
+  end;
+  if (rownr>0) then begin
+    RecalcORSubtotal(ORr);
+    ORSumup(ORr);
+  end;
+  
+  JSONBeginElement("",req);
+  if (nonblank(warning)) then begin
+    JSONField("warningtext",warning,true,false,req);
+  end;
+  OutputOrderRecord(ORr,req);
+  JSONEndElement(true,req);
+
+LDoOrderWAction:;
+  OutputWebText(req);
+
+/*
+     if (ORr.OKFlag==0) then begin
+        rownr = RepSpec.long2;
+        rwcnt = MatRowCnt(ORr);
+        if ((rownr==-1) or (rownr>rwcnt)) then begin
+           goto LDoCopyRowsORDrowsm;
+        end;
+        MatRowGet(ORr,rownr,ORrw)
+        CopyRow(ORr,ORrw,newORrw);
+        for (i=0;i<n;i=i+1) begin
+           MatRowInsert(ORr,rownr,newORrw);
+        end;
+        PutWindowRecord(wn,ORr);
+        GetWindowRecord(wn,ORr);
+        RecalcORSubtotal(ORr);
+        ORSumup(ORr);
+        PutWindowRecord(wn,ORr);
+     end;
+*/
+  return;
+end;
+
+procedure QTVc_PasteSum(var record QTVc QTr,Integer rownr)
+begin
+  record GeneralOptionBlock GenOptr;
+  row QTVc QTrw;
+  val s,t;
+
+  MatRowGet(QTr,rownr,QTrw);
+  if ((QTrw.Quant!=0) and (QTrw.Price!=0)) then begin
+    QTrw.vRebate = blankval;
+    BlockLoad(GenOptr);    
+    CalcSum(QTrw.Quant,QTrw.Price,QTrw.PriceFactor,QTrw.vRebate,t,GenOptr.UseDiscount);
+    RoundRowSum(QTr.CurncyCode,QTr.PayDeal,"QTVc",t); 
+    s = QTrw.Sum;// /QTrw.Quant;not good
+    s = t - s;
+    s = s*100;
+    s = s/t;
+    QTrw.vRebate = Round(s,SetRoundModeD(1));
+    RowCalculateTaxMatrix_QTVc(QTr,rownr,QTrw);
+    if (QTrw.vRebate==0) then begin QTrw.vRebate = blankval; end;
+    MatRowPut(QTr,rownr,QTrw);
+  end;
+  return;
+end;
+
+
+procedure GetQTRecordFromWeb(var record QTVc QTr)
+begin
+  string 255 flist,rflist,fn,lastfield,lastrowfield,tval;
+  Integer i,j,rows;
+  Longint pos;
+  string 255 warning,inwarning;
+  row QTVc QTrw;
+
+  GetQTFieldList(flist,rflist,lastfield,lastrowfield);
+
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    tval = WebGetArg(fn);
+    if (SetInSet(fn,"QTDate")) then begin
+      tval = DateFromString(tval,"YYYY-MM-DD");
+    end;
+    SetFieldValueByName(QTr,fn,tval,-1);
+  end;
+  for (i=MatRowCnt(QTr);i>=0;i=i-1) begin
+    MatRowDelete(QTr,i);
+  end;
+  rows = StringToLongint(WebGetArg("RowCnt"));
+  for (i=0;i<rows;i=i+1) begin
+    pos = -1;
+    while (GetNextSubstring(rflist,pos,",",fn)) begin
+      tval = WebGetArg("Rows_" & i & "_" & fn);
+      if (fn=="stp") then begin
+        if (tval=="0" or tval=="") then begin
+          tval = "1";
+        end;
+      end;
+      SetFieldValueByName(QTr,fn,tval,i);  
+      switch (fn) begin
+        case "ArtCode":
+          QTVc_PasteArtCode(QTr,i,inwarning,warning);
+      end;
+    end;
+  end;
+  QTSumup(QTr);
+
+  return;
+end;
+
+procedure DoQTWAction()
+begin
+  record QTVc QTr;
+  row QTVc QTrw,newQTrw;
+  area req;
+  Integer rownr,cnt,i;
+  Boolean chsum;
+  string 255 warning,errstr,rstr,tstr,inwarning;
+  Longint pos;
+  record CUVc CUr;
+  record ORVc ORr;
+  Integer r;
+  
+  GetQTRecordFromWeb(QTr);
+  rownr = StringToInt(WebGetArg("rw"));
+  switch (WebGetArg("field")) begin
+    case "Quant":
+      QTVc_PasteQuant(QTr,rownr,true,chsum);   
+    case "ArtCode":
+      QTVc_PasteArtCode(QTr,rownr,inwarning,warning);
+    case "Price":
+      QTVc_PastePrice(QTr,rownr,chsum);
+      if (chsum) then begin
+        QTDchsum(QTr,rownr);
+        QTSumup(QTr);
+      end;
+    case "VATCode":
+      QTDchsum(QTr,rownr);
+      QTSumup(QTr);
+    case "vRebate":
+      QTVc_PastevRebate(QTr,rownr,chsum);
+      if (chsum) then begin
+        QTDchsum(QTr,rownr);
+        QTSumup(QTr);
+      end;
+    case "Sum":
+      QTVc_PasteSum(QTr,rownr);
+      QTDchsum(QTr,rownr);
+      QTSumup(QTr);
+
+    case "deleterow":
+      MatRowDelete(QTr,rownr);
+      QTSumup(QTr);
+    case "deleterows":
+      tstr = WebGetArg("arg1");
+      while (GetNextSubstring(tstr,pos,",",rstr)) begin
+        rownr = StringToLongint(rstr);
+        MatRowDelete(QTr,rownr);
+      end;
+      QTSumup(QTr);
+    case "CustCode":
+      PasteCustInQT(QTr,QTr.CustCode,"",warning,true)
+    case "CreateOrder":
+      if (UserCanAction("QTToOrd",true)) then begin
+        if ((QTr.Closed==0) and ((QTr.Rejected==0) or (QTr.Rejected==2)) and (QTr.OrderNr<=0)) then begin
+          r = qupdating.RecordAction_raPasteQTInOrder(ORr,QTr,true);
+        end;
+      end;
+      JSONBeginElement("",req);
+      JSONField("ordernr",ORr.SerNr,true,true,req);
+      JSONEndElement(true,req);
+      goto LDoOrderWAction;
+    case "DeleteRecord":
+      JSONBeginElement("",req);
+      if (qupdating.MMRemoveQTRecord(QTr)) then begin
+        JSONField("success","1",true,true,req);
+      end else begin
+        JSONField("success","0",true,true,req);
+      end;
+      JSONEndElement(true,req);
+      goto LDoOrderWAction;
+    case "CopyRecord":
+      QTVcRecordDuplicate(QTr,QTr,1,1);
+  end;
+  if (rownr>0) then begin
+    QTSumup(QTr);
+  end;
+  
+  JSONBeginElement("",req);
+  if (nonblank(warning)) then begin
+    JSONField("warningtext",warning,true,false,req);
+  end;
+  OutputQTRecord(QTr,req);
+  JSONEndElement(true,req);
+
+LDoOrderWAction:;
+  OutputWebText(req);
+
+  return;
+end;
+
+procedure GetCustomerRecordFromWeb(var record CUVc CUr,string ignorefields)
+begin
+  string 255 flist,fn,lastfield;
+  Integer i,j,rows;
+  Longint pos;
+
+  GetCustomerFieldList(flist,lastfield);
+  while (GetNextSubstring(flist,pos,",",fn)) begin
+    if (SetInSet(fn,ignorefields)==false) then begin
+      switch (fn) begin
+        case "Text":
+          WebGetText("Text",CUr);
+        case "VATNrCheckDate":
+          CUr.VATNrCheckDate = DateFromString(WebGetArg(fn),"YYYY-MM-DD");
+        otherwise
+          SetFieldValueByName(CUr,fn,WebGetArg(fn),-1);
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+
+procedure DoCustomerWAction()
+begin
+  record CUVc CUr;
+  area req;
+  
+  GetCustomerRecordFromWeb(CUr,"");
+  switch (WebGetArg("field")) begin
+    case "CopyRecord":
+      CUr.Code = "";
+  end;
+  JSONBeginElement("",req);
+  OutputCustomerRecord(CUr,req);
+  JSONEndElement(true,req);
+
+  OutputWebText(req);
+
+  return;
+end;
+
+procedure SetRepSpecDates(var record RcVc RepSpec)
+begin
+  record PeriodBlock Pb;
+  row PeriodBlock Pbrw;
+  Integer i,rwcnt;
+  
+  BLockLoad(Pb);
+  rwcnt = MatRowCnt(Pb);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(Pb,i,Pbrw);
+    if (RepSpec.Period2Str==Pbrw.CodeStr) then begin
+      RepSpec.sStartDate = Pbrw.FromDate;    
+      RepSpec.sEndDate = Pbrw.ToDate;    
+    end;
+  end;
+
+  return;
+end;
+
+
+procedure DoAgentPaymentWAction()
+begin
+  record RcVc RepSpec;
+  area req;
+  
+  GetRepSpecRecordFromWeb(RepSpec,"");
+  switch (WebGetArg("field")) begin
+    case "Period2Str": SetRepSpecDates(RepSpec);
+      
+  end;
+  JSONBeginElement("",req);
+  OutputRepSpecRecord(RepSpec,req);
+  JSONEndElement(true,req);
+
+  OutputWebText(req);
+
+  return;
+end;
+procedure DoSLWAction()
+begin
+  record RcVc RepSpec;
+  area req;
+  
+  GetRepSpecRecordFromWeb(RepSpec,"");
+
+  JSONBeginElement("",req);
+  OutputRepSpecRecord(RepSpec,req);
+  JSONEndElement(true,req);
+
+  OutputWebText(req);
+
+  return;
+end;
+
+procedure DoManagerWAction()
+begin
+  string 255 type;
+
+  type = WebGetArg("type");
+  switch (type) begin
+    case "0": DoOrderWAction;
+    case "1": DoCustomerWAction;
+    case "6": DoQTWAction;
+    case "4": DoAgentPaymentWAction;
+    case "5": DoSLWAction;
+  end;
+
+  return;
+end;
+
+procedure GetRecordCheckDetails(var string errstr,var string errfield,var Integer rwnr)
+begin
+  Longint tsz,pos,sz;
+  Integer l,i;
+  area logfile;
+  string 255 tstr;
+
+  tsz = FileSize("hansa.log");
+  pos = tsz-600;
+  if (pos<0) then begin
+    pos = 0;
+  end;
+  sz = tsz-pos;
+  LoadFileToArea("hansa.log",pos,sz,logfile);
+  l = CountLinesInArea(logfile);
+  tstr = GetLineFromArea(logfile,l-2);
+  if (InString(tstr,"RecordCheckError")>0) then begin
+    pos = InString(tstr," field:");
+    for (i=pos+7;i<len(tstr);i=i+1) begin
+      if (mid(tstr,i,1)==" ") then begin
+        i = len(tstr);
+      end else begin
+        errfield = errfield & mid(tstr,i,1);
+      end;
+    end;
+    pos = InString(tstr," text:");
+    for (i=pos+7;i<len(tstr);i=i+1) begin
+      if (mid(tstr,i,1)=="\"") then begin
+        i = len(tstr);
+      end else begin
+        errstr = errstr & mid(tstr,i,1);
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+function Boolean CheckOrderRecord(record ORVc ORr,var string errstr,var string errfield,var Integer rownr,Boolean updatef)
+begin
+  Integer rwcnt,i;
+  row ORVc ORrw;
+  Boolean subtotf;
+  Boolean res;
+  record INVc INr;
+  string 255 erritem;
+
+  res = true;
+  rownr = -1;
+  rwcnt = MatRowCnt(ORr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(ORr,i,ORrw);
+    if (ORrw.stp==1 and nonblank(ORrw.ArtCode)) then begin
+      if (ReadFirstItem(ORrw.ArtCode,INr,false,false)) then begin
+        if (SetInSet("SS",INr.DispGroups)) then begin
+          erritem = INr.Code;
+          rownr = i+1;
+          if (rwcnt>rownr+1) then begin
+            MatRowGet(ORr,rownr+1,ORrw);
+            if (ORrw.stp!=9) then begin
+              subtotf = true;
+              goto LCheckOrderRecord;
+            end;
+          end else begin
+            subtotf = true;
+            goto LCheckOrderRecord;
+          end;
+        end;
+      end;
+    end;
+    if (ORrw.stp==1 and blank(ORrw.ArtCode) and blank(ORrw.Spec) and updatef==true) then begin
+      res = false;
+      errstr = ToolWebNGTranslateText2(88136);
+      errfield = "Spec";
+      rownr = i+1;
+      goto LCheckOrderRecord;
+    end;
+  end;
+
+  if (subtotf) then begin
+    errstr = ToolWebNGTranslateText2(88135) & erritem;
+    errfield = "Spec";
+    res = false;
+    goto LCheckOrderRecord;
+  end;
+
+LCheckOrderRecord:;
+  CheckOrderRecord = res;
+  return;
+end;
+
+updating procedure StoreOrderRecord(Longint sernr)
+begin
+  record ORVc ORr,oldORr,origORr;
+  area req;
+  Boolean updatef,res;
+  string 255 errstr,errfield;
+  Integer rwnr,errrow;
+  
+  if (sernr>0) then begin
+    ORr.SerNr = sernr;
+    if (ReadFirstMain(ORr,1,true)) then begin
+      updatef = true;
+      RecordCopy(oldORr,ORr);
+    end;
+  end else begin
+    RecordNew(ORr);  
+    ORr.SerNr = NextSerNr("ORVc",CurrentDate,-1,false,"");
+  end;
+  RecordCopy(origORr,ORr);
+  GetOrderRecordFromWeb(ORr);
+  ORr.SerNr = origORr.SerNr;
+
+  if (CheckOrderRecord(ORr,errstr,errfield,errrow,updatef)==false) then begin
+    res = false;
+    goto LStoreOrderRecord;
+  end;
+
+  if (!updatef) then begin
+    if (RecordInsert(ORr,true)) then begin
+      RecordCopy(oldORr,ORr);
+    end;
+  end;
+  if (RecordUpdate(oldORr,ORr,true)==0) then begin
+    res = true;
+  end else begin
+    GetRecordCheckDetails(errstr,errfield,rwnr);
+  end;
+  if (!updatef) then begin
+    if (!res) then begin
+      RecordRemove(ORr);
+    end;
+  end;
+LStoreOrderRecord:;
+  
+  JSONBeginElement("",req);
+  if (res) then begin
+    OutputOrderRecord(ORr,req);
+  end else begin
+    JSONField("error",errstr,true,false,req);
+    JSONField("errorfield",errfield,true,false,req);
+    JSONField("errorrow",errrow,true,true,req);
+  end;
+  JSONEndElement(true,req);
+
+  OutputWebText(req);
+  return;
+end;
+
+function Boolean CheckCustomerRecord(record CUVc CUr,var string errstr,var string errfield)
+begin
+  Boolean res,TrHs;
+  record CUVc tCUr;
+
+  res = true;
+
+  if (blank(CUr.Name)) then begin
+    errstr = USetStr(1058);
+    errfield = "Name";
+    res = false;
+    goto LCheckCustomerRecord;
+  end;
+  if (blank(CUr.PayDeal)) then begin
+    errstr = USetStr(1058);
+    errfield = "PayDeal";
+    res = false;
+    goto LCheckCustomerRecord;
+  end;
+  if (blank(CUr.CreditLimit)) then begin
+    errstr = USetStr(1058);
+    errfield = "CreditLimit";
+    res = false;
+    goto LCheckCustomerRecord;
+  end;
+  if (blank(CUr.VATCode)) then begin
+    errstr = USetStr(1058);
+    errfield = "VATCode";
+    res = false;
+    goto LCheckCustomerRecord;
+  end;
+  if (blank(CUr.eMail)) then begin
+    errstr = USetStr(1058);
+    errfield = "eMail";
+    res = false;
+    goto LCheckCustomerRecord;
+  end;
+  if (blank(CUr.Mobile)) then begin
+    errstr = USetStr(1058);
+    errfield = "Mobile";
+    res = false;
+    goto LCheckCustomerRecord;
+  end;
+  if (CUr.CustType==0) then begin
+    if (blank(CUr.RegNr1)) then begin
+      errstr = USetStr(1058);
+      errfield = "RegNr1";
+      res = false;
+      goto LCheckCustomerRecord;
+    end;
+  end;
+  if (nonblank(CUr.RegNr1)) then begin 
+    tCUr.RegNr1 = CUr.RegNr1;
+    TrHs = true;
+    while (LoopKey("RegNr1",tCUr,1,TrHs)) begin
+      if (tCur.RegNr1!=CUr.RegNr1) then begin
+        TrHs = false;
+      end else begin
+        if (tCUr.Code!=CUr.Code) then begin
+          TrHs = false;
+          errstr = USetStr(1709);
+          errfield = "RegNr1";
+          res = false;
+          goto LCheckCustomerRecord;
+        end;
+      end;
+    end;
+  end;
+
+LCheckCustomerRecord:;
+  CheckCustomerRecord = res;
+end;
+
+updating procedure StoreCustomerRecord(string code)
+begin
+  record CUVc CUr,oldCUr,origCUr,CU2r;
+  area req;
+  Boolean updatef;
+  Boolean res;
+  string 255 tstr;
+  string 255 errstr,errfield;
+  Integer rwnr;
+  Longint rcheck;
+
+  if (nonblank(code)) then begin
+    CUr.Code = code;
+    if (ReadFirstMain(CUr,1,true)) then begin
+      updatef = true;
+      RecordCopy(oldCUr,CUr);
+    end;
+  end else begin
+    RecordNew(CUr);  
+    GetNextCustNr(tstr);
+    CUr.Code = tstr;
+  end;
+  RecordCopy(origCUr,CUr);
+  GetCustomerRecordFromWeb(CUr,"Code");
+  CUr.Code = origCUr.Code;
+
+  if (CheckCustomerRecord(CUr,errstr,errfield)==false) then begin
+    res = false;
+    goto LStoreCustomerRecord;
+  end;
+  
+  if (!updatef) then begin
+    if (RecordInsert(CUr,true)) then begin
+      RecordCopy(oldCUr,CUr);
+    end;
+  end;
+  if (RecordUpdate(oldCUr,CUr,true)==0) then begin
+    res = true;
+  end else begin
+    GetRecordCheckDetails(errstr,errfield,rwnr);
+  end;
+  if (!updatef) then begin
+    if (!res) then begin
+      RecordRemove(CUr);
+    end;
+  end;
+
+LStoreCustomerRecord:;
+  JSONBeginElement("",req);
+  if (res) then begin
+    OutputCustomerRecord(CUr,req);
+  end else begin
+    JSONField("error",errstr,true,false,req);
+    JSONField("errorfield",errfield,true,true,req);
+  end;
+  JSONEndElement(true,req);
+
+  OutputWebText(req);
+
+  return;
+end;
+
+
+updating procedure StoreQTRecord(Longint sernr)
+begin
+  record QTVc QTr,oldQTr,origQTr;
+  area req;
+  Boolean updatef,res;
+  string 255 errstr,errfield;
+  Integer rwnr,errrow;
+  
+  if (sernr>0) then begin
+    QTr.SerNr = sernr;
+    if (ReadFirstMain(QTr,1,true)) then begin
+      updatef = true;
+      RecordCopy(oldQTr,QTr);
+    end;
+  end else begin
+    RecordNew(QTr);  
+    QTr.SerNr = NextSerNr("QTVc",CurrentDate,-1,false,"");
+  end;
+  RecordCopy(origQTr,QTr);
+  GetQTRecordFromWeb(QTr);
+  QTr.SerNr = origQTr.SerNr;
+/*
+  if (CheckOrderRecord(QTr,errstr,errfield,errrow,updatef)==false) then begin
+    res = false;
+    goto LStoreOrderRecord;
+  end;
+*/
+  if (!updatef) then begin
+    if (RecordInsert(QTr,true)) then begin
+      RecordCopy(oldQTr,QTr);
+    end;
+  end;
+  if (RecordUpdate(oldQTr,QTr,true)==0) then begin
+    res = true;
+  end else begin
+    GetRecordCheckDetails(errstr,errfield,rwnr);
+  end;
+  if (!updatef) then begin
+    if (!res) then begin
+      RecordRemove(QTr);
+    end;
+  end;
+LStoreOrderRecord:;
+  
+  JSONBeginElement("",req);
+  if (res) then begin
+    OutputQTRecord(QTr,req);
+  end else begin
+    JSONField("error",errstr,true,false,req);
+    JSONField("errorfield",errfield,true,false,req);
+    JSONField("errorrow",errrow,true,true,req);
+  end;
+  JSONEndElement(true,req);
+
+  OutputWebText(req);
+  return;
+end;
+
+updating procedure SetRecordData()
+begin
+  string 255 type,id;
+
+  type = WebGetArg("type");
+  id = WebGetArg("id");
+  switch (type) begin
+    case "0": StoreOrderRecord(StringToLongint(id));
+    case "1": StoreCustomerRecord(id);
+    case "6": StoreQTRecord(StringToLongint(id));
+  end;
+
+  return;
+end;
+
+procedure GetPSCountry(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record CountryVc Cr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(Cr,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = Cr.Code;
+    aComments[num] = Cr.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSBanks(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record BankVc Br;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(Br,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = Br.Code;
+    aComments[num] = Br.Name;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSPayTerms(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record PDVc PDr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(PDr,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = PDr.Code;
+    aComments[num] = PDr.pdComment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSShipModes(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record DMVc DMr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(DMr,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = DMr.Code;
+    aComments[num] = DMr.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSShipDeals(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record ShipDealVc SDr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(SDr,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = SDr.Code;
+    aComments[num] = SDr.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSUsers(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record UserVc Userr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(Userr,1,true)) begin
+    if (Userr.Closed==0) then begin
+      num = aCodes.length;
+      aCodes[num] = Userr.Code;
+      aComments[num] = Userr.Name;
+    end;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSLocations(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record LocationVc Locr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(Locr,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = Locr.Code;
+    aComments[num] = Locr.Name;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSObjects(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record ObjVc Objr;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  while (LoopMain(Objr,1,true)) begin
+    num = aCodes.length;
+    aCodes[num] = Objr.Code;
+    aComments[num] = Objr.Code;//Objr.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSCustomers(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record CUVc CUr;
+  string 255 search;
+
+  search = WebGetArg("term");
+  if (blank(search)) then begin
+    goto LGetPSCustomers;
+  end;
+  while (LoopMain(CUr,1,true)) begin
+    if (InString(CUr.Name,search) or InString(CUr.Code,search)) then begin
+      num = aCodes.length;
+      aCodes[num] = CUr.Code;
+      aComments[num] = CUr.Code & " " & CUr.Name;
+    end;
+  end;
+ 
+ LGetPSCustomers:;
+  return;
+end;
+
+procedure GetPSItems(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record INVc INr;
+  string 255 search;
+
+  search = WebGetArg("term");
+  if (blank(search)) then begin
+    goto LGetPSItems;
+  end;
+  while (LoopMain(INr,1,true)) begin
+    if (InString(INr.Name,search) or InString(INr.Code,search)) then begin
+      num = aCodes.length;
+      aCodes[num] = INr.Code;
+      aComments[num] = INr.Code & " " & INr.Name;
+    end;
+  end;
+ 
+LGetPSItems:;
+  return;
+end;
+
+procedure GetPSVATCodes(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record VATCodeBlock VCb;
+  row VATCodeBlock VCbrw;
+  Integer i,rwcnt;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  BLockLoad(VCb);
+  rwcnt = MatRowCnt(VCb);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(VCb,i,VCbrw);
+    num = aCodes.length;
+    aCodes[num] = VCbrw.VATCode;
+    aComments[num] = VCbrw.VATCode & " " & VCbrw.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSPeriods(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record PeriodBlock Pb;
+  row PeriodBlock Pbrw;
+  Integer i,rwcnt;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  BLockLoad(Pb);
+  rwcnt = MatRowCnt(Pb);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(Pb,i,Pbrw);
+    num = aCodes.length;
+    aCodes[num] = Pbrw.CodeStr;
+    aComments[num] = Pbrw.FromDate & ":" & Pbrw.ToDate  & "   " & Pbrw.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSLangCodes(var array string aCodes,var array string aComments)
+begin
+  Integer num;
+  record LangBlock Lb;
+  row LangBlock Lbrw;
+  Integer i,rwcnt;
+  
+  num = aCodes.length;
+  aCodes[num] = "";
+  aComments[num] = "";
+
+  BLockLoad(Lb);
+  rwcnt = MatRowCnt(Lb);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(Lb,i,Lbrw);
+    num = aCodes.length;
+    aCodes[num] = Lbrw.Code;
+    aComments[num] = Lbrw.Comment;
+  end;
+ 
+  return;
+end;
+
+procedure GetPSCustTypes(var array string aCodes,var array string aComments)
+begin
+
+  aCodes[0] = 0;
+  aComments[0] = ToolWebNGTranslateText2(88073);
+  aCodes[1] = 1;
+  aComments[1] = ToolWebNGTranslateText2(88074);
+  
+  return;
+end;
+
+procedure GetPSExportFlags(var array string aCodes,var array string aComments)
+begin
+
+  aCodes[0] = 0;
+  aComments[0] = ToolWebNGTranslateText2(88075);//domestic
+  aCodes[1] = 1;
+  aComments[1] = ToolWebNGTranslateText2(88076);//inside eu
+  aCodes[2] = 2;
+  aComments[2] = ToolWebNGTranslateText2(88077);//outside eu
+  aCodes[3] = 3;
+  aComments[3] = ToolWebNGTranslateText2(88078);//inside post vat
+  aCodes[4] = 4;
+  aComments[4] = ToolWebNGTranslateText2(88079);//outside post vat
+  
+  return;
+end;
+
+procedure GetPSSL_ArtMode(var array string aCodes,var array string aComments)
+begin
+
+  aCodes[0] = 0;
+  aComments[0] = ToolWebNGTranslateText2(88107);//detailed
+  aCodes[1] = 1;
+  aComments[1] = ToolWebNGTranslateText2(88108);//overview
+  
+  return;
+end;
+
+procedure GetPSProdStat(var array string aCodes,var array string aComments)
+begin
+
+  aCodes[0] = 0;
+  aComments[0] = ToolWebNGTranslateText2(88143);//-
+  aCodes[1] = 1;
+  aComments[1] = ToolWebNGTranslateText2(88144);//overview
+  
+  return;
+end;
+
+procedure GetPSSL_Colors(var array string aCodes,var array string aComments)
+begin
+
+  aCodes[0] = 0;
+  aComments[0] = ToolWebNGTranslateText2(88126);//all
+  aCodes[1] = 1;
+  aComments[1] = ToolWebNGTranslateText2(88127);//paid
+  aCodes[2] = 2;
+  aComments[2] = ToolWebNGTranslateText2(88128);//due
+  aCodes[3] = 3;
+  aComments[3] = ToolWebNGTranslateText2(88129);//5 days until due
+  aCodes[4] = 4;
+  aComments[4] = ToolWebNGTranslateText2(88130);//more than 5 days until due
+  
+  return;
+end;
+
+
+procedure GetPSData()
+begin
+  array string 255 aCodes,aComments;
+  Integer i;
+  area req;
+
+  switch (WebGetArg("ps")) begin
+    case "country": GetPSCountry(aCodes,aComments);
+    case "vatcode": GetPSVATCodes(aCodes,aComments);
+    case "language":GetPSLangCodes(aCodes,aComments);
+    case "bank":GetPSBanks(aCodes,aComments);
+    case "payterm":GetPSPayTerms(aCodes,aComments);
+    case "custtype":GetPSCustTypes(aCodes,aComments);
+    case "exportflag":GetPSExportFlags(aCodes,aComments);
+    case "shipmode":GetPSShipModes(aCodes,aComments);
+    case "shipdeal":GetPSShipDeals(aCodes,aComments);
+    case "users":GetPSUsers(aCodes,aComments);
+    case "objects":GetPSObjects(aCodes,aComments);
+    case "customers":GetPSCustomers(aCodes,aComments);
+    case "items":GetPSItems(aCodes,aComments);
+    case "period":GetPSPeriods(aCodes,aComments);
+    case "sl_artmode":GetPSSL_ArtMode(aCodes,aComments);
+    case "sl_colors":GetPSSL_Colors(aCodes,aComments);
+    case "prodstat":GetPSProdStat(aCodes,aComments);
+    case "locations":GetPSLocations(aCodes,aComments);
+  end;
+  
+  
+  //JSONBeginElement("",req);
+  JSONBeginArray("",req);
+  for (i=0;i<aCodes.length;i=i+1) begin
+    JSONBeginElement("",req);
+    JSONField("value",aCodes[i],true,false,req);
+    JSONField("text",aComments[i],true,true,req);
+
+    JSONEndElement((i==(aCodes.length-1)),req);
+  end;
+  JSONEndArray(true,req);
+  //JSONEndElement(true,req);
+
+  OutputWebText(req);
+  return;
+end;
+
+procedure RunManagersReport()
+begin
+  record RcVc RepSpec,rRepSpec;
+  string 255 fn,fn2;
+  Longint fsz;
+  area farea;
+
+  GetRepSpecRecordFromWeb(rRepSpec,"");
+
+  switch (WebGetArg("type")) begin
+    case "4":
+      ReportDefaults(RepSpec,"IPRegSalesManRClass");
+      RepSpec.repname = "IPRegSalesManRn";
+      RepSpec.Media = mtPdf;
+      RepSpec.sStartDate = rRepSpec.sStartDate;
+      RepSpec.sEndDate = rRepSpec.sEndDate;
+      RepSpec.f1 = rRepSpec.f1;
+    case "5":
+      ReportDefaults(RepSpec,"ARRClass");
+      RepSpec.repname = "ARRn";
+      RepSpec.Media = mtPdf;
+      RepSpec.ArtMode = 0;
+      RepSpec.f1 = rRepSpec.f1;
+      RepSpec.f2 = rRepSpec.f2;
+      RepSpec.ArtMode = rRepSpec.ArtMode;
+
+  end;
+  //fn = "tmp/managers_report" & GetCurTick & ".pdf";
+  fn = "tmp/temp.pdf";
+  //SetDocumentFilename(fn);
+  RunReport(RepSpec,0);
+  //SetDocumentFileName("");
+  
+  if (FileExists(fn)) then begin
+    //fn2 = fn & "_base.txt";
+    //RunShellScript(" base64 -w 0 " & fn & " >> " & fn2);        
+    fsz = FileSize(fn);
+    LoadFileToArea(fn,0,fsz,farea);
+    OutputWebText(farea);
+    Delete_File(fn);
+    //Delete_File(fn2);
+  end;
+
+  return;
+end;
+
+procedure CheckIfItemEditable()
+begin
+  Boolean res;
+  record INVc INr;
+  record WebManagersSetBlock MSb;
+  
+  res = true;
+  INr.Code = WebGetArg("item");
+  if (ReadFirstMain(INr,1,true)) then begin
+    BlockLoad(MSb);
+    if (nonblank(MSb.RestrictItemClass) and SetInSet(MSb.RestrictItemClass,INr.DispGroups)==true) then begin
+      res = false;
+    end;
+    if (INr.NelautMainitDaudzPasut==1) then begin
+      res = false;
+    end;
+  end;
+
+  WebOutString("<res res='" & res & "'></res>");
+
+  return;
+end;
+
+procedure CheckIfUserCanChangeSalesMan()
+begin
+  string 255 res;
+
+  res = "true";
+  if (UserCanAction("AllowSalesmanChangeonContact",true)==false) then begin
+    res = "false";
+  end;
+  WebOutString("{\"Result\":" & res & "}");
+
+  return;
+end;
+
+global webpublic
+procedure WebManagersAction()
+begin
+  string 255 action;
+
+  action = WebGetArg("action");
+
+  if (blank(CurrentUser) and action!="checkloginstatus") then begin
+    ReturnErrorMessage(88000);//login message
+    goto LWebManagersAction;
+  end;
+  
+  switch (action) begin
+    case "getorders":
+      GetManagerOrders;
+    case "getorderrows":
+      GetManagerOrderRows;
+    case "getcustomers":
+      GetManagerContacts;
+    case "getcustomerrows":
+      GetManagerCustomerRows;
+    case "getinvoices":
+      GetManagerInvoices;
+    case "getinvoicerows":
+      GetManagerInvoiceRows;
+    case "getrecorddata":
+      GetRecordData;
+    case "waction":
+      DoManagerWAction;
+    case "getps":
+      GetPSData;
+    case "runreport":
+      RunManagersReport;
+    case "iseditableitem":
+      CheckIfItemEditable;
+    case "checkloginstatus":
+      WebOutString("<res stat='" & (nonblank(CurrentUser)) & "'></res>");
+    case "checkcustomeragentaccess":
+      CheckIfUserCanChangeSalesMan;
+    case "getqt":
+      GetManagerQT;
+    case "getqtrows":
+      GetManagerQTRows;
+  end;
+
+
+LWebManagersAction:;
+  return;
+end;
+
+
+
+global webpublic
+updating procedure WebManagersUpdatingAction()
+begin
+
+  if (blank(CurrentUser)) then begin
+    ReturnErrorMessage(88000);//login message
+    goto LWebManagersUpdatingAction;
+  end;
+  
+  switch (WebGetArg("action")) begin
+    case "downloaddoc":
+      GetManagerDoc;
+    case "setrecorddata":
+      SetRecordData;
+  end;
+
+
+LWebManagersUpdatingAction:;
+  return;
+end;

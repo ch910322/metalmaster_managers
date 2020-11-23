@@ -1,0 +1,41 @@
+/*
+external updating procedure RemoveSWGEInvFileVc(longint);
+
+global
+updating function LongInt IVVcRecordCheck(record IVVc IVp,record IVVc IV2p,LongInt stat,LongInt long4)
+begin
+  LongInt res;
+  boolean unokf;
+
+  if (IVp.OKFlag==0) then begin
+    if (stat==Rs_update) then begin
+      if (IV2p.OKFlag==1) then begin unokf = true; end;
+    end;
+  end;
+  if (unokf) then begin
+    if IVp.OBS_EInvFlag==1 then begin
+      RecordCheckError(1009006,"",-1,"SerNr");
+      res = -1;
+      GoTo LIVVcRecordCheck;
+    end;
+  end;
+
+  res = inner.IVVcRecordCheck(IVp,IV2p,stat,long4);
+
+LIVVcRecordCheck:;
+  IVVcRecordCheck = res;
+  return;
+end;
+
+global updating
+function LongInt IVVcRecordRemove(Var Record IVVc IVr, Record IVVc IV2r, LongInt stat, LongInt check)
+begin
+  LongInt res;
+
+  res = inner.IVVcRecordRemove(IVr,IV2r,stat,check);
+  RemoveSWGEInvFileVc(IVr.SerNr);
+
+  IVVcRecordRemove = res;
+  return;
+end;
+*/
