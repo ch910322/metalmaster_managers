@@ -170,8 +170,6 @@ begin
   BlockBegin(WebManagersSetBlock,-,"");
   RecordField(RestrictItemClass,M4Str,60,DIVc);
   EndBlock;
-
-
 end;
 
 #endif
