@@ -1,0 +1,22 @@
+event startup
+begin
+  SetLangMode(LangLatvian,"LAT",2);
+
+  Setting("Metalmaster Declaration Classifications",MM_DeclClassLClass,modSO);
+  Setting("Metalmaster Declaration Settings",MM_DeclSetTClass,modSO);
+
+  StrSetBegin(31003);
+  StrSetText(CEMarkForm,"CE Mark");
+  StrSetText(PerfDeclForm,"Declaration of Performance");
+  EndStrSet;
+
+  StrSetAdd(20004);
+  StrSetText(0,"Deklarācija 1");
+  StrSetText(1,"Deklarācija 2");
+  StrSetText(2,"Deklarācija 3");
+  StrSetText(3,"Deklarācija 4");
+  EndStrSet;
+
+  return;
+end;
+

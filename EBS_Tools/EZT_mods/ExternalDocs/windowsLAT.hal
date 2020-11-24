@@ -1,0 +1,115 @@
+
+external outer procedure OuterGetExternalDocType(string,var string);
+external outer function Integer OuterShowExternalDocFilters(string,string,real);
+
+event startup
+begin
+  
+  SetLangMode(LangLatvian,"LAT",2);
+
+  Setting("Ārējo dokumentu formu definīcijas",ExternalFormDefLClass,modSY);
+  Setting("Ārējo dokumentu formu iestatījumi",ExternalFormTClass,modSY);
+
+  StrSetBegin(31003);
+  StrSetText(InvForm,"Rēķini");
+  StrSetText(ContractForm,"Līgumi");
+  StrSetText(QTForm,"Piedāvājumi");
+  EndStrSet;
+
+  SetBegin(31004);
+  SetText(0,"-");
+  SetText(kInvoiceTypeNormal,"Rēķini");
+  SetText(kInvoiceTypeCash,"Skaidra nauda");
+  SetText(kInvoiceTypeCredit,"Kredītrēķini");
+  //SetText(kInvoiceTypeInterest,"Interest");
+  //SetText(kInvoiceTypeDebit,"Debit");
+  //SetText(kInvoiceTypeDownpayment,"Downpayment");
+  EndSet;
+
+  return;
+end;
+
+window ExternalFormDefLClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("External Form Definitions",ExternalFormDefLClass,CGmList,-);
+  Sizeable(-1,-1,0,0);
+  SetWRect(64,80,600,298);
+  SpawnClass(ExternalFormDefDClass);
+  UseView(ExternalFormDefVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Dokuments",DocName,false,DocName);
+  RlCol   (140,140,"Komentārs",Comment,false);
+  EndWindow;
+end;
+
+window ExternalFormDefDClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,v2,vs2,hm,h2;
+  Integer wn,cnt;
+  record ExternalFormDefVc FDr;
+  string 255 type;
+
+  WindowBegin("Ārējās dokumentu formas definīcija",ExternalFormDefDClass,CGview,-);
+  SetWRect(20,80,650,339);
+  DynamicWindow;
+  UseView(ExternalFormDefVc);
+  vs=20; h=120; vs2=16; hm=-100; h2 = 360;
+  EditField(h,v=6,-40,"Komentārs",Normal,Comment,false,0);
+  EditFieldTL(h,v+=vs,150,"Dokuments",M4StrSet,Normal,31003,DocName,false,StrSetSClass);
+
+  /* FILTERS GO HERE */
+  wn = CurWindow;
+  if (wn>0) then begin
+    GetWindowRecord(wn,FDr);
+    switch (FDr.DocName) begin
+      case "InvForm": type = "Invoice";
+      case "ContractForm": type = "Contract";
+      otherwise
+        OuterGetExternalDocType(FDr.DocName,type);
+    end;
+  
+    switch (type) begin
+      case "Invoice":
+        ButtonFrame(h,v+=50,280,1,"Atlasīt");
+        
+        EditFieldTL(h+70,v,150,"Rēķina tips",M4Set,Normal,31004,IntVal2,false,SetSClass);
+        v = v + 10;
+      otherwise
+        v = OuterShowExternalDocFilters(FDr.DocName,type,v);
+    end;
+  end;
+
+  MatrixBegin(10,v+=vs+20,-40,-20,-,99);
+  MatCol(1,24,"Valoda",0,LangCode,false,LangSClass);
+  MatCol(1,140,"Veidne",0,TemplateName,false,ExternalFormDefImgSClass);
+  MatCol(1,-200,"Pirmais lauks tabulā",0,FirstField,false,0); 
+  EndMatrix;
+  EndWindow;
+end;
+
+window ExternalFormDefImgSClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Ievietot failu",ExternalFormDefImgSClass,CGother,HBlRecType);
+  SetWRect(240,80,600,348);
+  StringList(9,9,-19,-19);
+  EndWindow;
+end;
+
+window ExternalFormTClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,v2,vs2,hm;
+  WindowBegin("Ārējo dokumentu formu iestatījumi",ExternalFormTClass,CGHbl,HBlRecType);
+  SetBlid(ExternalFormBlock);
+  SetWRect(20,80,440,200);
+  vs = 20; h = 50;
+  Sizeable(-1,-1,0,0);
+  MatrixBegin(10,v=20,-40,-20,-,99);
+  MatColTL(1,24,"Tips",0,M4StrSet,Normal,31003,DocName,false,StrSetSClass);
+  MatCol(1,-80,"Aktīvs",0,Status,false,SetSClass);
+  EndMatrix;
+  EndWindow;
+end;

@@ -25,7 +25,10 @@ SourceFile("halcust/OBS_BankImport",3);
 SourceFile("halcust/PLVAT",3);
 SourceFile("halcust/PLVAT/Exports",3);
 SourceFile("halcust/PLVAT/Reports",3);
-SourceFile("halcust/WebManagers",3);  //OBS                                           
+SourceFile("halcust/WebManagers",3);  //OBS
+
+Exec_File("halcust/EBS_Tools/datadef.hal");                                      
+SourceFile("halcust/EBS_Tools",3);                                      
 
 begin
 

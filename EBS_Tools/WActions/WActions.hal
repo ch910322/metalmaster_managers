@@ -1,0 +1,95 @@
+remote function Boolean ExternalDocumentEnabled(string);
+remote procedure PrintEBSDocument(string,string,record RcVc,string,string,var area);
+
+function Boolean InvoiceShouldBePrinted(record IVVc IVr)
+begin
+  Integer i,rwcnt;
+  Boolean res;
+  row IVVc IVrw;
+  
+  rwcnt = MatRowCnt(IVr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(IVr,i,IVrw);
+    if (IVrw.PrintDecl==1) then begin
+      res = true;
+      i = rwcnt;
+    end;
+  end;
+
+  InvoiceShouldBePrinted = res;
+  return;
+end;
+
+global
+procedure IVDClassPrintCEMark()
+begin
+  Integer wn;
+  record IVVc IVr;
+  area farea;
+  string 255 fname;
+  record RcVc RepSpec;
+
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_Normal) then begin
+    GetWindowRecord(wn,IVr);
+    if (InvoiceShouldBePrinted(IVr)) then begin
+      if (ExternalDocumentEnabled("CEMarkForm")) then begin
+        fname = SaveFileDialog("","","pdf");
+        if (nonblank(fname)) then begin
+          threadremote.PrintEBSDocument("CEMarkForm","",RepSpec,IVr.SerNr,IVr.LangCode,farea);
+          if (GetAreaLength(farea)>0) then begin
+            WriteAreaToFile(farea,fname,0);
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+global
+procedure IVDClassPrintDeclaration()
+begin
+  Integer wn;
+  record IVVc IVr;
+  area farea;
+  string 255 fname;
+  record RcVc RepSpec;
+
+  wn = CurWindow;
+  if (WindowState(wn)==Rs_Normal) then begin
+    GetWindowRecord(wn,IVr);
+    if (InvoiceShouldBePrinted(IVr)) then begin
+      RepSpec.flags[22] = wn;
+      OpenWindow("PrintDeclFormWClass",0,0,"","",RepSpec);
+    end;
+  end;
+
+  return;
+end;
+
+global
+procedure IVDClassPrintDeclarationProceed()
+begin
+  Integer wn;
+  record IVVc IVr;
+  area farea;
+  string 255 fname;
+  record RcVc RepSpec;
+
+  wn = CurWindow;
+  GetWindowRecord(wn,RepSpec);
+  GetWindowRecord(RepSpec.flags[22],IVr);
+  if (ExternalDocumentEnabled("PerfDeclForm")) then begin
+    fname = SaveFileDialog("","","pdf");
+    if (nonblank(fname)) then begin
+      threadremote.PrintEBSDocument("PerfDeclForm","",RepSpec,IVr.SerNr,IVr.LangCode,farea);
+      if (GetAreaLength(farea)>0) then begin
+        WriteAreaToFile(farea,fname,0);
+      end;
+    end;
+  end;
+
+  return;
+end;

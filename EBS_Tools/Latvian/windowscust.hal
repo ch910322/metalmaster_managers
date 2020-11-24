@@ -1,0 +1,111 @@
+window MM_DeclClassLClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Metalmaster Declaration Classifications",MM_DeclClassLClass,CGmlist,-);
+  SetWRect(20,80,660,298);
+  Sizeable(-1,-1,0,0);
+  SpawnClass(MM_DeclClassDClass);
+  UseView(MM_DeclClassVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Item Group",ItemGroup,false,ItemGroup);
+  SearchField("Search");
+  EndWindow;
+end;
+
+window MM_DeclClassDClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,v2,vs2,hm;
+  WindowBegin("Metalmaster Declaration Classification",MM_DeclClassDClass,CGview,-);
+  SetWRect(20,80,600,339);
+  UseView(MM_DeclClassVc);
+  vs=20; h=160; vs2=16; hm=-100;
+  EditField(h,v=6,100,"Item Group",Normal,ItemGroup,false,ITSClass);
+  EditField(h,v+=vs,-40,"Performance Class",Normal,PerfClass,false,0);
+  EditField(h,v+=vs,-40,"Decl Class",Normal,DeclClass,false,0);
+  EditField(h,v+=vs,-40,"Goemtric Inspection",Normal,GoemtricInsp,false,0);
+  EditField(h,v+=vs,-40,"Flammability Class",Normal,FireClass,false,0);
+  EditField(h,v+=vs,-40,"Fire Resistance Class",Normal,FireResClass,false,0);
+  EditField(h,v+=vs,-40,"Corosion Class",Normal,CorosionClass,false,0);
+  EditField(h,v+=vs,-40,"Cadmium",Normal,Cadmium,false,0);
+  EditField(h,v+=vs,-40,"Radioactivity",Normal,Radioactivity,false,0);
+  EditField(h,v+=vs,-40,"Inspection Standard",Normal,InspectionStd,false,0);
+  EditField(h,v+=vs,-40,"Control Process",Normal,ControlProcCode,false,0);
+  EditField(h,v+=vs,-40,"Facility Address",Normal,FacilityAddress,false,0);
+  EndWindow;
+end;
+
+
+
+window MM_DeclSetTClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,vs2,hm,h2,vm;
+  Integer tilenr;
+  vs = 20;
+  WindowBegin("Metalmaster Declaration Settings",MM_DeclSetTClass,CGSbl,SRType);
+  SetBlid(MM_DeclSetBlock);
+  SetWRect(20,80,670,298);
+  Sizeable(-1,-1,0,0);
+  h = 160;
+  
+  tilenr = 1;
+  Tile(0,20,false,"",DeclName1);
+  TileButton(tilenr,"Declaration 1"); tilenr = tilenr + 1;  
+  TileButton(tilenr,"Declaration 2"); tilenr = tilenr + 1;  
+  TileButton(tilenr,"Declaration 3"); tilenr = tilenr + 1;  
+  TileButton(tilenr,"Declaration 4"); tilenr = tilenr + 1;  
+
+  Tile(1,700,false,"1",DeclName1);
+  EditField(h,v=6,-40,"Declaration Name",Normal,DeclName1,false,0);
+  EditField(h,v+=vs,-40,"Dec. Standard",Normal,DeclStd1,false,0);
+  EditField(h,v+=vs,-40,"Certification Comp.",Normal,DeclStd1,false,0);
+  EditField(h,v+=vs,100,"Signer",Normal,DeclStd1,false,UserSClass);
+  EditField(h,v+=vs,-40,"Controlling Process",Normal,ControlProc1,false,0);
+
+  Tile(2,500,false,"2",DeclName2);
+  EditField(h,v=6,-40,"Declaration Name",Normal,DeclName2,false,0);
+  EditField(h,v+=vs,-40,"Dec. Standard",Normal,DeclStd2,false,0);
+  EditField(h,v+=vs,-40,"Certification Comp.",Normal,DeclStd2,false,0);
+  EditField(h,v+=vs,100,"Signer",Normal,DeclStd2,false,UserSClass);
+  EditField(h,v+=vs,-40,"Controlling Process",Normal,ControlProc2,false,0);
+
+  Tile(3,95,false,"3",DeclName3);
+  EditField(h,v=6,-40,"Declaration Name",Normal,DeclName3,false,0);
+  EditField(h,v+=vs,-40,"Dec. Standard",Normal,DeclStd3,false,0);
+  EditField(h,v+=vs,-40,"Certification Comp.",Normal,DeclStd3,false,0);
+  EditField(h,v+=vs,100,"Signer",Normal,DeclStd3,false,UserSClass);
+  EditField(h,v+=vs,-40,"Controlling Process",Normal,ControlProc3,false,0);
+
+  Tile(4,305,false,"4",DeclName4);
+  EditField(h,v=6,-40,"Declaration Name",Normal,DeclName4,false,0);
+  EditField(h,v+=vs,-40,"Dec. Standard",Normal,DeclStd4,false,0);
+  EditField(h,v+=vs,-40,"Certification Comp.",Normal,DeclStd4,false,0);
+  EditField(h,v+=vs,100,"Signer",Normal,DeclStd4,false,UserSClass);
+  EditField(h,v+=vs,-40,"Controlling Process",Normal,ControlProc4,false,0);
+ 
+  EndWindow;
+  return;
+end;
+
+window PrintDeclFormWClass:1
+  wtag("language","LAT"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,h2,h3,h4,h5;
+
+  WindowBegin("Declaration of Performance",PrintDeclFormWClass,CGother,-);
+  UseView(RcVc);
+  SetWRect(20,80,880,621);
+  h = 80; v = 27; h2 = 300; h3 = 480;
+  vs = 20;
+
+  ButtonFrame(h,v=36,100,3,"Type");
+  RadioButton(h,v,0,0,"Declaration 1",flags[10]);
+  RadioButton(h,v+=16,1,0,"Declaration 2",flags[10]);
+  RadioButton(h,v+=16,2,0,"Declaration 3",flags[10]);
+  RadioButton(h,v+=16,3,0,"Declaration 4",flags[10]);
+
+  EndWindow;
+  
+  return;
+end;

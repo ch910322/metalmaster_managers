@@ -1,0 +1,62 @@
+
+begin
+  transaction string 255 gModFolder;
+  
+  gModFolder = "halcust/EBS_Tools/EZT_mods";
+
+  SourceFile("halcust\\EBS_Tools\\EZT_mods", 3);
+  Exec_file("halcust\\EBS_Tools\\EZT_mods\\init.hal");
+
+  SourceFile("halcust\\EBS_Tools\\Tools",3);
+  SourceFile("halcust\\EBS_Tools\\Latvian",3);
+  SourceFile("halcust\\EBS_Tools\\WActions",3);
+
+  RecordBegin(MM_DeclClassVc,-,"");
+  RecordField(ItemGroup,M4Code,30,ITVc);
+  RecordField(PerfClass,M4Str,255,0);
+  RecordField(DeclClass,M4Str,255,0);
+  RecordField(GoemtricInsp,M4Str,255,0);
+  RecordField(FireClass,M4Str,255,0);
+  RecordField(FireResClass,M4Str,255,0);
+  RecordField(CorosionClass,M4Str,255,0);
+  RecordField(Cadmium,M4Str,255,0);
+  RecordField(Radioactivity,M4Str,255,0);
+  RecordField(InspectionStd,M4Str,255,0);
+  RecordField(ControlProcCode,M4Str,255,0);
+  RecordField(FacilityAddress,M4Str,255,0);
+  MainKeyBegin(ItemGroup,0);
+  KeySegment(ItemGroup);
+  EndRecord;
+
+  BlockBegin(MM_DeclSetBlock,0,"");
+  RecordField(DeclName1,M4Str,255,0);
+  RecordField(DeclStd1,M4Str,255,0);
+  RecordField(CertCompany1,M4Str,255,0);
+  RecordField(Signer1,M4Code,20,UserVc);
+  RecordField(ControlProc1,M4Str,255,0);
+  
+  RecordField(DeclName2,M4Str,255,0);
+  RecordField(DeclStd2,M4Str,255,0);
+  RecordField(CertCompany2,M4Str,255,0);
+  RecordField(Signer2,M4Code,20,UserVc);
+  RecordField(ControlProc2,M4Str,255,0);
+  
+  RecordField(DeclName3,M4Str,255,0);
+  RecordField(DeclStd3,M4Str,255,0);
+  RecordField(CertCompany3,M4Str,255,0);
+  RecordField(Signer3,M4Code,20,UserVc);
+  RecordField(ControlProc3,M4Str,255,0);
+
+  RecordField(DeclName4,M4Str,255,0);
+  RecordField(DeclStd4,M4Str,255,0);
+  RecordField(CertCompany4,M4Str,255,0);
+  RecordField(Signer4,M4Code,20,UserVc);
+  RecordField(ControlProc4,M4Str,255,0);
+  EndBlock;
+
+  RecordAddBegin(IVVc,"MMIVVc_CEMark");
+  ArrayField(PrintDecl,M4Set,432,0);
+  EndRecordAdd;
+
+  return;
+end;

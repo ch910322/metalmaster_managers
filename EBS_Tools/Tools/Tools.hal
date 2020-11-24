@@ -1,0 +1,27 @@
+//<halrule>server-only</halrule>
+external procedure ExternalPrintCEMarkForm(record IVVc,var vector string);
+external procedure ExternalPrintPerfDeclForm(record IVVc,var vector string);
+
+global
+procedure OuterPrintEBSDocument(string docname,string id,var Boolean printf,record RcVc RepSpec,var vector string vVals)
+begin
+  record IVVc IVr;
+
+  switch (docname) begin
+    case "CEMarkForm":
+      IVr.SerNr = StringToLongint(id);
+      printf = (ReadFirstMain(IVr,1,true) or id=="-2");
+      if (printf) then begin
+        ExternalPrintCEMarkForm(IVr,vVals);
+      end;
+    case "PerfDeclForm":
+      IVr.SerNr = StringToLongint(id);
+      printf = (ReadFirstMain(IVr,1,true) or id=="-2");
+      if (printf) then begin
+        ExternalPrintPerfDeclForm(IVr,vVals);
+      end;
+
+  end;
+
+  return;
+end;

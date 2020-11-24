@@ -1,0 +1,70 @@
+external procedure PasteFromSysList(Integer ,Integer);
+remote procedure GetExternalFormDefAttachedImages(record ExternalFormDefVc,var array string);
+remote function Boolean ExternalDocumentEnabled(string);
+remote procedure PrintEBSDocument(string,string,record RcVc,string,string,var area);
+
+global
+function Boolean ExternalFormDefImgSClassOnOpenWindow(Integer wn)
+begin
+  Integer i;
+  record ExternalFormDefVc EFr;
+  array string 255 aName;
+
+  GetWindowRecord(MotherWindow(wn),EFr);
+  threadremote.GetExternalFormDefAttachedImages(EFr,aName);
+  for (i=0;i<aName.length;i=i+1) begin
+    SetListString(wn,i,aName[i],false);
+  end;
+
+  ExternalFormDefImgSClassOnOpenWindow = false;
+  return;
+end;
+
+global
+function Boolean ExternalFormDefImgSClassOnOKWindow(Integer wn)
+begin
+  PasteFromSysList(wn,0);
+  ExternalFormDefImgSClassOnOKWindow = false;
+  return;
+end;
+
+global
+function Boolean ExternalFormDefDClassAfterEditField(Integer wn,string fieldname,Integer fn,Integer rownr,Integer changed)
+begin
+  Boolean res;
+
+  switch (fieldname) begin
+    case "DocName":
+      RerunWindowDef(wn);
+  end;
+  ExternalFormDefDClassAfterEditField = res;
+  return;
+end;
+
+
+global
+function Boolean ContractRClassOnOKWindow(Integer wn)
+begin
+  Boolean res;
+  record RcVc RepSpec;
+  string 255 fname,link;
+  area farea;
+
+  res = true;
+  DeselectWindow(wn,true);
+  GetWindowRecord(wn,RepSpec);
+  if (ExternalDocumentEnabled("ContactForm") and nonblank(RepSpec.f1)) then begin
+
+    fname = "tmp/Contract_" & RepSpec.f1 & ".pdf";
+    threadremote.PrintEBSDocument("ContractForm","",RepSpec,RepSpec.f1,"",farea);
+    WriteAreaToFile(farea,fname,0);
+    link = "file://" & ProgramFolder & "/" & fname;
+    OpenWebBrowser(link);
+    CloseWindow(wn);
+  end;
+  
+  ContractRClassOnOKWindow = res;
+  return;
+end;
+
+

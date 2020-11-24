@@ -1,0 +1,130 @@
+//<halrule>server-only</halrule>
+external procedure BuildCredManPayPlanCust(record CredManVc,var record CredManPayPlanVc,record CredManSetBlock,Boolean,Boolean);
+external procedure BuildCredManInfoMatrix(record CredManVc,record CredManPayPlanVc,record CredManSetBlock,var record SMVc);
+external inner function val MulRateToBase2(var string,val,val,val,val,val,val,roundmode);
+external inner function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);
+external inner procedure GetUserName(string,var string);
+external inner procedure GetFullCurncyRateText(Boolean,var string,val,val,val,val,val);
+external inner procedure ValToText(val,Integer,string,string,var string);
+external inner procedure GetShipModeText(string,string,var string);
+external inner procedure GetShipDealText(string,string,var string);
+external function val GetMonthlyPaymentAmount(record CredManVc,Integer);
+external inner function Boolean FindCustomerRelationCred(string,string,var record CUVc);
+external inner procedure GetPayDealText(string,string,var string);
+external inner function val MulRateToBase2(var string,val,val,val,val,val,val,roundmode);
+external inner function val MulRateToBase1(var string,val,val,val,val,val,val,roundmode);
+external inner procedure M4PadString(string,Integer,string,Boolean,var string);
+external function Boolean GetLoanAppContact(string,string,var record CUVc);
+external inner procedure HT2Per(Date, Date , var string);
+external function Boolean FindCEOContact(string,var record CUVc);
+external function Boolean FindCFOContact(string,var record CUVc);
+external inner procedure GetUnitStr(string,string,var string);
+external inner procedure ItemBC39(string,var string);
+external inner procedure GetItemGroup(string,var string);
+external inner procedure ItemBCEAN(string,var string);
+external inner procedure ItemBCEAN13(string,var string);
+external inner procedure GetLangNr(string,var record LangNrVc);
+/* Tools*/
+external inner procedure Ext_PrintValue(var vector string,string,val,Integer,record LangNrVc,record SysFormatBlock,Boolean);
+external procedure Ext_PrintDocumentSigner(var vector string);
+external inner procedure Ext_PrintCurrencyCode(var vector string,string,string);
+external inner procedure Ext_PrintCountryCode(var vector string,string,string);
+external inner procedure Ext_OutAddress(var vector string,string,string,string,string,string,string,string);
+external inner procedure Ext_CommonDocumentFields(var vector string);
+external inner procedure Ext_PrintSignature(var vector string,string);
+external inner procedure Ext_PrintPremiseData(var vector string);
+external inner procedure Ext_PrintValueInclZeroWithSign(var vector string,string,string,val,Integer,record LangNrVc,record SysFormatBlock,Boolean);
+external inner procedure Ext_PrintLoyaltyCard(var vector string,record LangNrVc,string,string,val,val,LongInt,string);
+external inner procedure Ext_PrintValueInclZero(var vector string,string,val,Integer,record LangNrVc,record SysFormatBlock,Boolean);
+external inner procedure Ext_CommonDocumentFields2(var vector string,string);
+external inner procedure Ext_PrintUserDefinedCustomerFields(var vector string,string,string,string,string,string,Date,Date,Date,val,val,val);
+external inner procedure Ext_PrintSiteInformation(var vector string,string,string);
+external inner procedure Ext_PrintNote(var vector string,record NotepadVc);
+external inner procedure Ext_PrintBranchData(var vector string,string);
+external inner procedure Ext_PrintUserDefinedItemFields(var vector string,string,string,string,string,string,Date,Date,Date,val,val,val);
+external inner function roundmode SetRoundModeD(Integer);
+external procedure ExtPrintOwnBankDetails(var vector string,Longint);
+external inner function string 255 CredManCustEmail(record CUVc);
+external inner function val GetMonthlyFees(record CredManVc,Integer);
+external function Boolean BuildCredManInfoMatrixOnSchedule(record CredManVc,record CredManSetBlock,var record SMVc);
+external function string 255 GetCredManNr(Longint);
+external inner function string 255 StrReplace(string,string,string);
+external function val GetCustomerOpenAmount(string,record IVVc);
+external function Integer GetProlongMonths(record CredManVc);
+external function string 255 DateInWords(Date,string);
+external function string 255 GetConditionsText(record CredManVc,Integer);
+
+procedure DisplayValue(var vector string vVals,string fn,string tstr)
+begin
+  string 255 tmp;
+  
+  tmp = tstr;
+  if (blank(tmp)) then begin
+    tmp = "NDP";
+  end;
+  vVals[fn] = tmp;
+
+  return;
+end;
+
+/*real surety agreement*/
+global
+procedure ExternalPrintCEMarkForm(record IVVc IVr,var vector string vVals)
+begin
+  string 255 tstr,strnum;
+  row IVVc IVrw;
+  record INVc INr;
+  record MM_DeclClassVc DCr;
+  Integer i,rwcnt,num;
+
+  Ext_CommonDocumentFields(vVals);
+
+ 
+  
+  if (IVr.OrderNr>0) then begin
+    vVals["F_ORNUMBER"] = IVr.OrderNr;
+  end;
+  vVals["F_KUNDNAMN"] = IVr.Addr0;
+  vVals["F_DELADDR"] = IVr.ShipAddr1;
+  vVals["F_INVDATE"] = IVr.InvDate;
+
+
+  rwcnt = MatRowCnt(IVr);
+  for (i=0;i<rwcnt;i=i+1) begin
+    MatRowGet(IVr,i,IVrw);
+    if (IVrw.PrintDecl==1) then begin//is this needed?
+      if (nonblank(IVrw.ArtCode)) then begin
+        if (ReadFirstMain(INr,1,true)) then begin
+          num = num + 1;
+          M4PadString(i,3,"0",true,strnum);
+          DCr.ItemGroup = INr.Group;
+          ReadFirstmain(DCr,1,true);
+          vVals["ROW_" & strnum & "_F_ITEMCODE"] = IVrw.ArtCode;
+          vVals["ROW_" & strnum & "_F_ITEMNAME"] = IVrw.Spec;
+
+          vVals["ROW_" & strnum & "_F_ENSTD"] = INr.ENstandarts;
+          vVals["ROW_" & strnum & "_F_MATERIALS"] = INr.Materials;
+          DisplayValue(vVals,"ROW_" & strnum & "_F_PERFCLASS",DCr.PerfClass);
+          DisplayValue(vVals,"ROW_" & strnum & "_F_DECLMETHOD",DCr.DeclClass);
+          DisplayValue(vVals,"ROW_" & strnum & "_F_FIRERESCLASS",DCr.FireResClass);
+          DisplayValue(vVals,"ROW_" & strnum & "_F_CADMIUM",DCr.Cadmium);
+          DisplayValue(vVals,"ROW_" & strnum & "_F_RADIOACTIVITY",DCr.Radioactivity);
+          DisplayValue(vVals,"ROW_" & strnum & "_F_INSPSTD",DCr.InspectionStd);
+          DisplayValue(vVals,"ROW_" & strnum & "_F_FACILITYADDR",DCr.FacilityAddress);
+          vVals["ROW_" & strnum & "_F_CONTROLPROCESS"] = DCr.ControlProcCode;
+        end;
+      end;
+    end;
+  end;
+
+  return;
+end;
+
+global
+procedure ExternalPrintPerfDeclForm(record IVVc IVr,var vector string vVals)
+begin
+  
+  ExternalPrintCEMarkForm(IVr,vVals);
+
+  return;
+end;

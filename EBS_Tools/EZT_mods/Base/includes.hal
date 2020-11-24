@@ -1,0 +1,16 @@
+//<halrule>server-only</halrule>
+begin
+  string 255 bd;
+  transaction string 255 gModFolder;
+  bd = left(VersionBuild,4);
+  if (bd=="8131") then begin
+    SourceFile(gModFolder & "/Base/8131/hal.hob",0);
+  end;
+  if (bd=="8533") then begin
+    SourceFile(gModFolder & "/Base/8533/hal.hob",0);
+  end;
+  if (bd=="8534") then begin
+    SourceFile(gModFolder & "/Base/8534/hal.hob",0);
+  end;
+  return;
+end;

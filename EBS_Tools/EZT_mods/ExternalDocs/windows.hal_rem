@@ -1,0 +1,115 @@
+
+external outer procedure OuterGetExternalDocType(string,var string);
+external outer function Integer OuterShowExternalDocFilters(string,string,real);
+
+event startup
+begin
+  
+  SetLangMode(LangEnglish,"ENG",0);
+
+  Setting("External Form Definitions",ExternalFormDefLClass,modSY);
+  Setting("External Form Settings",ExternalFormTClass,modSY);
+
+  StrSetBegin(31003);
+  StrSetText(InvForm,"Invoices");
+  StrSetText(ContractForm,"Contracts");
+  StrSetText(QTForm,"Quotations");
+  EndStrSet;
+
+  SetBegin(31004);
+  SetText(0,"-");
+  SetText(kInvoiceTypeNormal,"Invoice");
+  SetText(kInvoiceTypeCash,"Cash Note");
+  SetText(kInvoiceTypeCredit,"Credit Note");
+  SetText(kInvoiceTypeInterest,"Interest");
+  SetText(kInvoiceTypeDebit,"Debit");
+  SetText(kInvoiceTypeDownpayment,"Downpayment");
+  EndSet;
+
+  return;
+end;
+
+window ExternalFormDefLClass:1
+  wtag("language","ENG"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("External Form Definitions",ExternalFormDefLClass,CGmList,-);
+  Sizeable(-1,-1,0,0);
+  SetWRect(64,80,600,298);
+  SpawnClass(ExternalFormDefDClass);
+  UseView(ExternalFormDefVc);
+  RecordList(4,17,-21,-39);
+  RlColKey(4,4,"Document",DocName,false,DocName);
+  RlCol   (140,140,"Comment",Comment,false);
+  EndWindow;
+end;
+
+window ExternalFormDefDClass:1
+  wtag("language","ENG"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,v2,vs2,hm,h2;
+  Integer wn,cnt;
+  record ExternalFormDefVc FDr;
+  string 255 type;
+
+  WindowBegin("External Form Definitions",ExternalFormDefDClass,CGview,-);
+  SetWRect(20,80,650,339);
+  DynamicWindow;
+  UseView(ExternalFormDefVc);
+  vs=20; h=120; vs2=16; hm=-100; h2 = 360;
+  EditField(h,v=6,-40,"Comment",Normal,Comment,false,0);
+  EditFieldTL(h,v+=vs,150,"Document",M4StrSet,Normal,31003,DocName,false,StrSetSClass);
+
+  /* FILTERS GO HERE */
+  wn = CurWindow;
+  if (wn>0) then begin
+    GetWindowRecord(wn,FDr);
+    switch (FDr.DocName) begin
+      case "InvForm": type = "Invoice";
+      case "ContractForm": type = "Contract";
+      otherwise
+        OuterGetExternalDocType(FDr.DocName,type);
+    end;
+  
+    switch (type) begin
+      case "Invoice":
+        ButtonFrame(h,v+=50,280,1,"Filters");
+        
+        EditFieldTL(h+70,v,150,"Invoice Type",M4Set,Normal,31004,IntVal2,false,SetSClass);
+        v = v + 10;
+      otherwise
+        v = OuterShowExternalDocFilters(FDr.DocName,type,v);
+    end;
+  end;
+
+  MatrixBegin(10,v+=vs+20,-40,-20,-,99);
+  MatCol(1,24,"Language",0,LangCode,false,LangSClass);
+  MatCol(1,140,"Template",0,TemplateName,false,ExternalFormDefImgSClass);
+  MatCol(1,-200,"Table's First Field",0,FirstField,false,0); 
+  EndMatrix;
+  EndWindow;
+end;
+
+window ExternalFormDefImgSClass:1
+  wtag("language","ENG"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  WindowBegin("Paste File",ExternalFormDefImgSClass,CGother,HBlRecType);
+  SetWRect(240,80,600,348);
+  StringList(9,9,-19,-19);
+  EndWindow;
+end;
+
+window ExternalFormTClass:1
+  wtag("language","ENG"), wtag("product","*"), wtag("productcode","*"), wtag("device","computer")
+begin
+  real h,v,vs,v2,vs2,hm;
+  WindowBegin("External Form Settings",ExternalFormTClass,CGHbl,HBlRecType);
+  SetBlid(ExternalFormBlock);
+  SetWRect(20,80,440,200);
+  vs = 20; h = 50;
+  Sizeable(-1,-1,0,0);
+  MatrixBegin(10,v=20,-40,-20,-,99);
+  MatColTL(1,24,"Document",0,M4StrSet,Normal,31003,DocName,false,StrSetSClass);
+  MatCol(1,-80,"Active",0,Status,false,SetSClass);
+  EndMatrix;
+  EndWindow;
+end;

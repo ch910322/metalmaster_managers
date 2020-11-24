@@ -1,0 +1,33 @@
+
+
+global
+procedure OuterGetExternalDocType(string docname,var string type)
+begin
+
+  switch (docname) begin
+    case "CEMarkForm": type = "CEMark";
+    case "PerfDeclForm": type = "PerfDecl";
+  end;
+
+  return;
+end;
+   
+global
+function Integer OuterShowExternalDocFilters(string docname,string type,real tv)
+begin
+  Integer cnt;
+  real vs,h,v;
+  h = 120; vs = 20;
+
+  v = tv;
+  switch (type) begin
+    case "PerfDecl":
+      ButtonFrame(h,v+=50,280,2,"Filtri");
+      
+      EditFieldTL(h+70,v,150,"Tips",M4Set,Normal,20004,IntVal1,false,SetSClass);
+      v = v + 20;
+  end;
+
+  OuterShowExternalDocFilters = v;
+end;
+//comment

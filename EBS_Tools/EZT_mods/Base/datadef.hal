@@ -1,0 +1,16 @@
+begin
+  transaction string 255 gModFolder;
+
+  if (FileExists(gModFolder & "/Base/includes.hal")) then begin
+    Exec_File(gModFolder & "/Base/includes.hal");
+  end;
+  
+  RecordBegin(DummyAttachVc,-,"");
+  RecordField(SerNr,M4Long,0,0);
+  MainKeyBegin(SerNr,0);
+  KeySegment(SerNr);
+  EndRecord;
+
+
+  return;
+end;
